@@ -1,23 +1,1655 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>My First GitHub Page</title>
-  <style>
-    html,body { height:100%; margin:0; }
-    body { display:flex; align-items:center; justify-content:center;
-           font-family: Arial, sans-serif; background:#f7f7f7; }
-    .card { text-align:center; padding:2rem; border-radius:12px;
-           box-shadow:0 6px 18px rgba(0,0,0,0.08); background:white; }
-    button { margin-top:1rem; padding:0.6rem 1rem; border-radius:8px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MTG Coin Flipper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg-gradient: linear-gradient(180deg, 
+                #2d5a27 0%, 
+                #4a7c23 10%,
+                #8fb832 20%,
+                #c4c426 30%,
+                #e8a525 40%,
+                #e07028 50%,
+                #d4527a 65%,
+                #a94d99 80%,
+                #6b4d8a 100%
+            );
+            --bg-power-save: #2a2a2a;
+            --panel-dark: #1a1a1a;
+            --panel-gray: #4a4a4a;
+            --panel-light: #6a6a6a;
+            --text-white: #ffffff;
+            --accent-red: #8b2035;
+            --accent-red-hover: #a62942;
+            --win-green: #22c55e;
+            --loss-red: #ef4444;
+            --toggle-active: #ffffff;
+            --overlay-bg: rgba(0, 0, 0, 0.85);
+            --help-blue: #3b82f6;
+            
+            /* Gold colors */
+            --gold-light: #ffd700;
+            --gold-mid: #daa520;
+            --gold-dark: #b8860b;
+            --gold-shine: #fff8dc;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            transition: background 0.3s ease;
+        }
+
+        body.power-save {
+            background: var(--bg-power-save);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            max-height: 850px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Result Display Panel */
+        .result-panel {
+            background: var(--panel-dark);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 120px;
+            position: relative;
+        }
+
+        .result-display {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            color: var(--text-white);
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+        }
+
+        .result-display.win {
+            color: var(--win-green);
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .result-display.loss {
+            color: var(--loss-red);
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+        }
+
+        .history-bar {
+            background: #0a0a0a;
+            border-radius: 8px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            gap: 4px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .history-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .history-item {
+            flex-shrink: 0;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 4px;
+            padding: 0 4px;
+        }
+
+        .history-item.win {
+            color: var(--win-green);
+        }
+
+        .history-item.loss {
+            color: var(--loss-red);
+        }
+
+        .history-item.fraction {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-white);
+        }
+
+        /* Okaun Panel */
+        .okaun-panel {
+            background: var(--panel-dark);
+            border-radius: 16px;
+            padding: 12px;
+            position: relative;
+        }
+
+        .okaun-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+            color: var(--text-white);
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .okaun-values {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .okaun-input-wrapper {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .okaun-input {
+            width: 100%;
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 12px;
+            padding: 8px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--text-white);
+            text-align: center;
+            outline: none;
+            transition: background 0.2s;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            cursor: text;
+        }
+
+        .okaun-input:focus {
+            background: var(--panel-light);
+        }
+
+        .okaun-divider {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--text-white);
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
+
+        .okaun-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .okaun-btn {
+            flex: 1;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .okaun-btn:hover {
+            background: var(--accent-red-hover);
+            transform: scale(1.02);
+        }
+
+        .okaun-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Krark's Thumb Toggle - Now dark like other buttons */
+        .krark-toggle {
+            background: var(--panel-dark);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .krark-toggle.active {
+            background: var(--toggle-active);
+        }
+
+        .krark-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.2rem, 5vw, 1.5rem);
+            color: var(--text-white);
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .krark-toggle.active .krark-text {
+            color: #000;
+        }
+
+        .krark-counter {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            margin-left: 12px;
+        }
+
+        .krark-toggle.active .krark-counter {
+            display: flex;
+        }
+
+        .krark-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: #000;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .krark-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .krark-arrow {
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 18px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .krark-arrow:hover {
+            background: var(--panel-gray);
+        }
+
+        .krark-num.flash-red {
+            animation: flashRed 0.3s ease;
+        }
+
+        @keyframes flashRed {
+            0%, 100% { color: #000; }
+            50% { color: var(--loss-red); }
+        }
+
+        /* Main Controls Area */
+        .main-controls {
+            display: flex;
+            gap: 8px;
+            flex: 1;
+            min-height: 180px;
+        }
+
+        /* Flip Button - Shiny Gold */
+        .flip-btn-container {
+            flex: 1;
+            display: flex;
+        }
+
+        .flip-btn {
+            width: 100%;
+            background: linear-gradient(145deg, 
+                var(--gold-light) 0%, 
+                var(--gold-mid) 25%, 
+                var(--gold-dark) 50%, 
+                var(--gold-mid) 75%, 
+                var(--gold-light) 100%
+            );
+            border: none;
+            border-radius: 16px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3rem, 15vw, 5rem);
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            letter-spacing: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 15px rgba(218, 165, 32, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.5),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Gold shimmer effect */
+        .flip-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0) 20%,
+                rgba(255, 255, 255, 0.4) 40%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.4) 60%,
+                rgba(255, 255, 255, 0) 80%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .flip-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(218, 165, 32, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Stop shimmer when flipping */
+        .flip-btn.flipping::before,
+        .flip-btn.stop-mode::before {
+            animation: none;
+            opacity: 0;
+        }
+
+        .flip-btn.flipping {
+            animation: pulse 0.3s ease infinite;
+        }
+
+        .flip-btn.stop-mode {
+            background: var(--toggle-active);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Power save mode flip button */
+        body.power-save .flip-btn {
+            background: var(--panel-dark);
+            color: var(--text-white);
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        body.power-save .flip-btn::before {
+            display: none;
+        }
+
+        body.power-save .flip-btn:hover {
+            background: var(--panel-gray);
+            box-shadow: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Right Side Toggles */
+        .right-toggles {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 45%;
+            max-width: 180px;
+        }
+
+        .toggle-btn {
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+            font-weight: 700;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--toggle-active);
+            color: #000;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Coins Toggle with Input */
+        .coins-toggle {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            flex: 1;
+        }
+
+        .coins-num-wrapper {
+            background: var(--panel-gray);
+            border-radius: 12px 0 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            flex-shrink: 0;
+        }
+
+        .coins-num {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-white);
+            text-align: center;
+            outline: none;
+            padding: 8px;
+        }
+
+        .coins-toggle .toggle-btn {
+            border-radius: 0 12px 12px 0;
+            flex: 1;
+        }
+
+        .coins-toggle.active .coins-num-wrapper {
+            background: var(--panel-light);
+        }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .bottom-btn {
+            flex: 1;
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.8rem, 3vw, 0.95rem);
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bottom-btn:hover {
+            background: var(--panel-gray);
+            transform: scale(1.02);
+        }
+
+        .bottom-btn.active {
+            background: var(--toggle-active);
+            color: #000;
+        }
+
+        /* Heads/Tails expanded */
+        .heads-tails-container {
+            flex: 1.5;
+            display: flex;
+            gap: 0;
+        }
+
+        .heads-tails-container .bottom-btn {
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .heads-tails-container.active .bottom-btn {
+            border-radius: 12px 0 0 12px;
+        }
+
+        .ht-selector {
+            display: none;
+            background: var(--panel-gray);
+            border-radius: 0 12px 12px 0;
+            overflow: hidden;
+        }
+
+        .heads-tails-container.active .ht-selector {
+            display: flex;
+        }
+
+        .ht-option {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ht-option.selected {
+            background: var(--toggle-active);
+            color: #000;
+        }
+
+        /* Help Mode Info Bubbles */
+        .help-bubble {
+            display: none;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: var(--help-blue);
+            border-radius: 50%;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+        }
+
+        body.help-mode .help-bubble {
+            display: flex;
+        }
+
+        .help-tooltip {
+            display: none;
+            position: fixed;
+            background: var(--overlay-bg);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-white);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 280px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .help-tooltip.visible {
+            display: block;
+        }
+
+        /* Help Panel (Power Save toggle) */
+        .help-panel {
+            display: none;
+            position: fixed;
+            background: var(--overlay-bg);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-white);
+            z-index: 999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            min-width: 200px;
+        }
+
+        .help-panel.visible {
+            display: block;
+        }
+
+        .help-panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .power-save-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .power-save-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .power-save-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--panel-gray);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .power-save-switch.active {
+            background: var(--win-green);
+        }
+
+        .power-save-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .power-save-switch.active::after {
+            transform: translateX(24px);
+        }
+
+        /* Overlays */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 500;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .overlay.visible {
+            display: flex;
+        }
+
+        .overlay-content {
+            background: var(--overlay-bg);
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            color: var(--text-white);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .overlay-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat-label {
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-weight: 700;
+        }
+
+        .stat-value.win { color: var(--win-green); }
+        .stat-value.loss { color: var(--loss-red); }
+
+        .overlay-description {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        .overlay-btn {
+            width: 100%;
+            margin-top: 20px;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .overlay-btn:hover {
+            background: var(--accent-red-hover);
+        }
+
+        .overlay-btn.secondary {
+            background: var(--panel-gray);
+            margin-top: 10px;
+        }
+
+        /* Position relative for help bubbles */
+        .result-panel,
+        .okaun-panel,
+        .krark-toggle,
+        .flip-btn-container,
+        .toggle-btn,
+        .coins-toggle,
+        .bottom-btn,
+        .heads-tails-container {
+            position: relative;
+        }
+
+        /* Responsive adjustments */
+        @media (max-height: 700px) {
+            .app-container {
+                gap: 6px;
+            }
+            .result-panel {
+                min-height: 90px;
+                padding: 10px;
+            }
+            .okaun-panel {
+                padding: 8px;
+            }
+            .okaun-input {
+                padding: 6px;
+                min-height: 60px;
+            }
+            .main-controls {
+                min-height: 140px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            body {
+                padding: 4px;
+            }
+            .app-container {
+                gap: 4px;
+            }
+            .result-panel {
+                min-height: 70px;
+                padding: 8px;
+            }
+            .history-bar {
+                height: 24px;
+            }
+            .okaun-values {
+                margin-bottom: 4px;
+            }
+            .okaun-btn {
+                padding: 8px 12px;
+            }
+            .main-controls {
+                min-height: 100px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 480px;
+            }
+        }
+
+        /* Animation for flip result */
+        @keyframes resultPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-display.animate {
+            animation: resultPop 0.3s ease;
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Hello — this is a GitHub Pages site</h1>
-    <p>It fills the screen and is easy to update.</p>
-    <button onclick="alert('It works!')">Click me</button>
-  </div>
+    <div class="app-container">
+        <!-- Result Display Panel -->
+        <div class="result-panel">
+            <div class="help-bubble" data-help="result">i</div>
+            <div class="result-display" id="resultDisplay">—</div>
+            <div class="history-bar" id="historyBar"></div>
+        </div>
+
+        <!-- Okaun Panel -->
+        <div class="okaun-panel">
+            <div class="help-bubble" data-help="okaun">i</div>
+            <div class="okaun-title">OKAUN-O-METER</div>
+            <div class="okaun-values">
+                <div class="okaun-input-wrapper">
+                    <div class="okaun-input" id="okaunLeft" contenteditable="true" inputmode="numeric">3</div>
+                </div>
+                <span class="okaun-divider">/</span>
+                <div class="okaun-input-wrapper">
+                    <div class="okaun-input" id="okaunRight" contenteditable="true" inputmode="numeric">3</div>
+                </div>
+            </div>
+            <div class="okaun-buttons">
+                <button class="okaun-btn" id="resetOkaun">Reset Okaun</button>
+                <button class="okaun-btn" id="endTurn">End Turn</button>
+            </div>
+        </div>
+
+        <!-- Krark's Thumb Toggle -->
+        <div class="krark-toggle" id="krarkToggle">
+            <div class="help-bubble" data-help="krark">i</div>
+            <span class="krark-text" id="krarkText">Krark's Thumb?</span>
+            <div class="krark-counter">
+                <span class="krark-num" id="krarkNum">1</span>
+                <div class="krark-arrows">
+                    <button class="krark-arrow" id="krarkUp">▲</button>
+                    <button class="krark-arrow" id="krarkDown">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="main-controls">
+            <div class="flip-btn-container">
+                <button class="flip-btn" id="flipBtn">FLIP</button>
+            </div>
+            <div class="right-toggles">
+                <button class="toggle-btn" id="untilLoss">
+                    <span class="help-bubble" data-help="untilLoss">i</span>
+                    Until Loss?
+                </button>
+                <button class="toggle-btn" id="until2Losses">
+                    <span class="help-bubble" data-help="until2Losses">i</span>
+                    Until 2 Losses?
+                </button>
+                <div class="coins-toggle" id="coinsToggle">
+                    <div class="coins-num-wrapper">
+                        <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
+                    </div>
+                    <button class="toggle-btn" id="coinsBtn">
+                        <span class="help-bubble" data-help="coins">i</span>
+                        Coins?
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bottom-bar">
+            <button class="bottom-btn" id="helpBtn">Help</button>
+            <button class="bottom-btn" id="statsBtn">Stats</button>
+            <div class="heads-tails-container" id="htContainer">
+                <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
+                <div class="ht-selector">
+                    <button class="ht-option" id="htHeads">H</button>
+                    <button class="ht-option selected" id="htTails">T</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Panel (appears near Help button) -->
+    <div class="help-panel" id="helpPanel">
+        <div class="help-panel-title">SETTINGS</div>
+        <div class="power-save-toggle">
+            <span class="power-save-label">Power Saving Mode</span>
+            <div class="power-save-switch" id="powerSaveSwitch"></div>
+        </div>
+    </div>
+
+    <!-- Stats Overlay -->
+    <div class="overlay" id="statsOverlay">
+        <div class="overlay-content">
+            <div class="overlay-title">STATISTICS</div>
+            <div class="stat-row">
+                <span class="stat-label">Total Wins</span>
+                <span class="stat-value win" id="statWins">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total Losses</span>
+                <span class="stat-value loss" id="statLosses">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value" id="statWinRate">0%</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total Flips</span>
+                <span class="stat-value" id="statTotal">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Longest Win Streak</span>
+                <span class="stat-value win" id="statWinStreak">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Longest Loss Streak</span>
+                <span class="stat-value loss" id="statLossStreak">0</span>
+            </div>
+            <p class="overlay-description">
+                Randomization uses JavaScript's Math.random(), which generates cryptographically 
+                pseudo-random numbers via the browser's underlying algorithm. Each flip is 
+                independent with a true 50/50 probability.
+            </p>
+            <button class="overlay-btn" id="resetStats">Reset Stats</button>
+            <button class="overlay-btn secondary" id="closeStats">Close</button>
+        </div>
+    </div>
+
+    <!-- Help Tooltip -->
+    <div class="help-tooltip" id="helpTooltip"></div>
+
+    <script>
+        // State
+        const state = {
+            // Okaun
+            okaunLeftBase: 3,
+            okaunRightBase: 3,
+            okaunLeft: 3,
+            okaunRight: 3,
+            
+            // Toggles
+            krarkActive: false,
+            krarkCount: 1,
+            untilLossActive: false,
+            until2LossesActive: false,
+            coinsActive: false,
+            coinsCount: 5,
+            htActive: false,
+            htMode: 'tails',
+            helpMode: false,
+            powerSaveMode: false,
+            
+            // Flipping state
+            isFlipping: false,
+            stopRequested: false,
+            
+            // History (max 10)
+            history: [],
+            
+            // Stats
+            stats: {
+                wins: 0,
+                losses: 0,
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                currentWinStreak: 0,
+                currentLossStreak: 0
+            }
+        };
+
+        // Help text
+        const helpTexts = {
+            result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
+            okaun: "Tracks Okaun's power/toughness. Numbers double on each win. Set your own base values!",
+            krark: "Krark's Thumb: Flip extra coins and win if ANY land on your winning side. Each thumb doubles the coins flipped.",
+            untilLoss: "Keep flipping automatically until you get a loss.",
+            until2Losses: "Keep flipping automatically until you get 2 losses.",
+            coins: "Flip multiple coins at once. Set the number to flip.",
+            help: "Toggle help mode to see info about each element.",
+            stats: "View your flip statistics for this session.",
+            ht: "Choose whether Heads or Tails counts as your win."
+        };
+
+        // Elements
+        const els = {
+            resultDisplay: document.getElementById('resultDisplay'),
+            historyBar: document.getElementById('historyBar'),
+            okaunLeft: document.getElementById('okaunLeft'),
+            okaunRight: document.getElementById('okaunRight'),
+            resetOkaun: document.getElementById('resetOkaun'),
+            endTurn: document.getElementById('endTurn'),
+            krarkToggle: document.getElementById('krarkToggle'),
+            krarkText: document.getElementById('krarkText'),
+            krarkNum: document.getElementById('krarkNum'),
+            krarkUp: document.getElementById('krarkUp'),
+            krarkDown: document.getElementById('krarkDown'),
+            flipBtn: document.getElementById('flipBtn'),
+            untilLoss: document.getElementById('untilLoss'),
+            until2Losses: document.getElementById('until2Losses'),
+            coinsToggle: document.getElementById('coinsToggle'),
+            coinsBtn: document.getElementById('coinsBtn'),
+            coinsNum: document.getElementById('coinsNum'),
+            helpBtn: document.getElementById('helpBtn'),
+            helpPanel: document.getElementById('helpPanel'),
+            powerSaveSwitch: document.getElementById('powerSaveSwitch'),
+            statsBtn: document.getElementById('statsBtn'),
+            htContainer: document.getElementById('htContainer'),
+            htBtn: document.getElementById('htBtn'),
+            htHeads: document.getElementById('htHeads'),
+            htTails: document.getElementById('htTails'),
+            statsOverlay: document.getElementById('statsOverlay'),
+            helpTooltip: document.getElementById('helpTooltip'),
+            statWins: document.getElementById('statWins'),
+            statLosses: document.getElementById('statLosses'),
+            statWinRate: document.getElementById('statWinRate'),
+            statTotal: document.getElementById('statTotal'),
+            statWinStreak: document.getElementById('statWinStreak'),
+            statLossStreak: document.getElementById('statLossStreak'),
+            resetStats: document.getElementById('resetStats'),
+            closeStats: document.getElementById('closeStats')
+        };
+
+        // Utility functions
+        function flipCoin() {
+            return Math.random() < 0.5;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1e12) {
+                return num.toExponential(2);
+            }
+            return num.toLocaleString();
+        }
+
+        // Calculate optimal font size for Okaun display
+        function calculateOkaunFontSize(element, text) {
+            const container = element;
+            const maxWidth = container.offsetWidth - 16;
+            const maxHeight = container.offsetHeight - 16;
+            const minFontSize = 10;
+            const maxFontSize = 48;
+            
+            // Create temp element for measurement
+            const temp = document.createElement('span');
+            temp.style.fontFamily = "'Bebas Neue', sans-serif";
+            temp.style.visibility = 'hidden';
+            temp.style.position = 'absolute';
+            temp.style.whiteSpace = 'nowrap';
+            temp.textContent = text;
+            document.body.appendChild(temp);
+            
+            let fontSize = maxFontSize;
+            let needsWrap = false;
+            
+            // Try to fit on one line first
+            for (fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 2) {
+                temp.style.fontSize = fontSize + 'px';
+                if (temp.offsetWidth <= maxWidth) {
+                    break;
+                }
+            }
+            
+            // If still doesn't fit at min size, try wrapping
+            if (fontSize < minFontSize || temp.offsetWidth > maxWidth) {
+                needsWrap = true;
+                temp.style.whiteSpace = 'normal';
+                temp.style.wordBreak = 'break-all';
+                temp.style.width = maxWidth + 'px';
+                temp.style.lineHeight = '1.1';
+                
+                // Reset and try with wrapping
+                for (fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 2) {
+                    temp.style.fontSize = fontSize + 'px';
+                    if (temp.offsetHeight <= maxHeight) {
+                        break;
+                    }
+                }
+            }
+            
+            document.body.removeChild(temp);
+            
+            // If still doesn't fit, use scientific notation
+            if (fontSize < minFontSize) {
+                return { fontSize: 14, useScientific: true, wrap: false };
+            }
+            
+            return { fontSize, useScientific: false, wrap: needsWrap };
+        }
+
+        function updateOkaunDisplay() {
+            [
+                { el: els.okaunLeft, val: state.okaunLeft },
+                { el: els.okaunRight, val: state.okaunRight }
+            ].forEach(({ el, val }) => {
+                let displayText = formatNumber(val);
+                
+                // First check if basic format fits
+                const sizing = calculateOkaunFontSize(el, displayText);
+                
+                if (sizing.useScientific || val >= 1e12) {
+                    displayText = val.toExponential(2);
+                    el.style.fontSize = '14px';
+                    el.style.fontFamily = "'Outfit', sans-serif";
+                    el.style.fontWeight = '700';
+                    el.style.wordBreak = 'normal';
+                } else {
+                    el.style.fontSize = sizing.fontSize + 'px';
+                    el.style.fontFamily = "'Bebas Neue', sans-serif";
+                    el.style.fontWeight = 'normal';
+                    el.style.wordBreak = sizing.wrap ? 'break-all' : 'normal';
+                }
+                
+                el.textContent = displayText;
+            });
+        }
+
+        function doubleOkaun() {
+            state.okaunLeft *= 2;
+            state.okaunRight *= 2;
+            updateOkaunDisplay();
+        }
+
+        function addToHistory(result, isKrarkFlip = false, krarkWins = 0, krarkTotal = 0) {
+            const item = document.createElement('div');
+            item.classList.add('history-item');
+            
+            if (isKrarkFlip) {
+                item.classList.add('fraction');
+                item.textContent = `${krarkWins}/${krarkTotal}`;
+                item.classList.add(result ? 'win' : 'loss');
+            } else {
+                item.classList.add(result ? 'win' : 'loss');
+                item.textContent = result ? '✓' : '✗';
+            }
+            
+            state.history.push(item.outerHTML);
+            if (state.history.length > 10) {
+                state.history.shift();
+            }
+            
+            renderHistory();
+        }
+
+        function renderHistory() {
+            els.historyBar.innerHTML = state.history.join('');
+            els.historyBar.scrollLeft = els.historyBar.scrollWidth;
+        }
+
+        function updateStats(isWin) {
+            if (isWin) {
+                state.stats.wins++;
+                state.stats.currentWinStreak++;
+                state.stats.currentLossStreak = 0;
+                if (state.stats.currentWinStreak > state.stats.longestWinStreak) {
+                    state.stats.longestWinStreak = state.stats.currentWinStreak;
+                }
+            } else {
+                state.stats.losses++;
+                state.stats.currentLossStreak++;
+                state.stats.currentWinStreak = 0;
+                if (state.stats.currentLossStreak > state.stats.longestLossStreak) {
+                    state.stats.longestLossStreak = state.stats.currentLossStreak;
+                }
+            }
+        }
+
+        function showResult(text, isWin, animate = true) {
+            els.resultDisplay.textContent = text;
+            els.resultDisplay.classList.remove('win', 'loss', 'animate');
+            
+            if (isWin !== null) {
+                els.resultDisplay.classList.add(isWin ? 'win' : 'loss');
+            }
+            
+            if (animate) {
+                void els.resultDisplay.offsetWidth;
+                els.resultDisplay.classList.add('animate');
+            }
+        }
+
+        function getResultText(isWin) {
+            if (state.htActive) {
+                if (state.htMode === 'heads') {
+                    return isWin ? 'HEADS' : 'TAILS';
+                } else {
+                    return isWin ? 'TAILS' : 'HEADS';
+                }
+            }
+            return isWin ? 'WIN' : 'LOSS';
+        }
+
+        function performSingleFlip() {
+            if (state.krarkActive) {
+                const totalCoins = Math.pow(2, state.krarkCount);
+                let wins = 0;
+                
+                for (let i = 0; i < totalCoins; i++) {
+                    if (flipCoin()) wins++;
+                }
+                
+                const isWin = wins > 0;
+                addToHistory(isWin, true, wins, totalCoins);
+                updateStats(isWin);
+                
+                return isWin;
+            } else {
+                const isWin = flipCoin();
+                addToHistory(isWin);
+                updateStats(isWin);
+                return isWin;
+            }
+        }
+
+        function calculateDelay(totalFlips, baseDelay = 500) {
+            const maxTime = 10000;
+            const totalTime = totalFlips * baseDelay;
+            
+            if (totalTime <= maxTime) {
+                return baseDelay;
+            }
+            
+            return maxTime / totalFlips;
+        }
+
+        async function doFlip() {
+            if (state.isFlipping) {
+                state.stopRequested = true;
+                return;
+            }
+            
+            state.isFlipping = true;
+            state.stopRequested = false;
+            
+            const isUntilLoss = state.untilLossActive;
+            const isUntil2Losses = state.until2LossesActive;
+            const isMultiCoins = state.coinsActive;
+            
+            if (isUntilLoss || isUntil2Losses) {
+                els.flipBtn.textContent = 'STOP?';
+                els.flipBtn.classList.add('stop-mode');
+                
+                let lossCount = 0;
+                const lossTarget = isUntil2Losses ? 2 : 1;
+                let flipCount = 0;
+                let winCount = 0;
+                let delay = 500;
+                const minDelay = 50;
+                const maxFlips = isMultiCoins ? parseInt(state.coinsCount) || 5 : Infinity;
+                
+                while (lossCount < lossTarget && flipCount < maxFlips && !state.stopRequested) {
+                    const isWin = performSingleFlip();
+                    flipCount++;
+                    
+                    if (isWin) {
+                        winCount++;
+                        doubleOkaun();
+                        showResult(getResultText(true), true);
+                    } else {
+                        lossCount++;
+                        showResult(getResultText(false), false);
+                    }
+                    
+                    if (flipCount < maxFlips && lossCount < lossTarget && !state.stopRequested) {
+                        await sleep(delay);
+                        delay = Math.max(minDelay, delay * 0.85);
+                    }
+                }
+                
+                if (isMultiCoins) {
+                    showResult(`${winCount}/${maxFlips} Wins`, winCount > 0);
+                }
+                
+            } else if (isMultiCoins) {
+                const totalCoins = parseInt(state.coinsCount) || 5;
+                const delay = calculateDelay(totalCoins);
+                let winCount = 0;
+                
+                els.flipBtn.classList.add('flipping');
+                
+                for (let i = 0; i < totalCoins; i++) {
+                    const isWin = performSingleFlip();
+                    
+                    if (isWin) {
+                        winCount++;
+                        doubleOkaun();
+                    }
+                    
+                    showResult(`${winCount}/${i + 1} Wins`, winCount > 0);
+                    
+                    if (i < totalCoins - 1) {
+                        await sleep(delay);
+                    }
+                }
+                
+                showResult(`${winCount}/${totalCoins} Wins`, winCount > 0);
+                
+            } else {
+                const isWin = performSingleFlip();
+                
+                if (isWin) {
+                    doubleOkaun();
+                }
+                
+                showResult(getResultText(isWin), isWin);
+            }
+            
+            els.flipBtn.textContent = 'FLIP';
+            els.flipBtn.classList.remove('flipping', 'stop-mode');
+            state.isFlipping = false;
+            state.stopRequested = false;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Parse Okaun input
+        function parseOkaunValue(text) {
+            const cleaned = text.replace(/,/g, '').replace(/\s/g, '').trim();
+            
+            if (cleaned.includes('e') || cleaned.includes('E')) {
+                return parseFloat(cleaned) || 3;
+            }
+            
+            return parseFloat(cleaned) || 3;
+        }
+
+        // Event Listeners
+        
+        // Okaun inputs (now contenteditable divs)
+        els.okaunLeft.addEventListener('blur', () => {
+            const val = parseOkaunValue(els.okaunLeft.textContent);
+            state.okaunLeft = val;
+            state.okaunLeftBase = val;
+            updateOkaunDisplay();
+        });
+        
+        els.okaunRight.addEventListener('blur', () => {
+            const val = parseOkaunValue(els.okaunRight.textContent);
+            state.okaunRight = val;
+            state.okaunRightBase = val;
+            updateOkaunDisplay();
+        });
+        
+        // Prevent line breaks in Okaun inputs
+        [els.okaunLeft, els.okaunRight].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    el.blur();
+                }
+            });
+        });
+        
+        els.resetOkaun.addEventListener('click', () => {
+            state.okaunLeft = 3;
+            state.okaunRight = 3;
+            state.okaunLeftBase = 3;
+            state.okaunRightBase = 3;
+            updateOkaunDisplay();
+        });
+        
+        els.endTurn.addEventListener('click', () => {
+            state.okaunLeft = state.okaunLeftBase;
+            state.okaunRight = state.okaunRightBase;
+            updateOkaunDisplay();
+        });
+        
+        // Krark's Thumb
+        els.krarkToggle.addEventListener('click', (e) => {
+            if (e.target.closest('.krark-arrows')) return;
+            
+            state.krarkActive = !state.krarkActive;
+            els.krarkToggle.classList.toggle('active', state.krarkActive);
+            els.krarkText.textContent = state.krarkActive ? "KRARK'S THUMB!" : "Krark's Thumb?";
+        });
+        
+        els.krarkUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.krarkCount >= 8) {
+                els.krarkNum.classList.add('flash-red');
+                setTimeout(() => els.krarkNum.classList.remove('flash-red'), 300);
+                return;
+            }
+            state.krarkCount++;
+            els.krarkNum.textContent = state.krarkCount;
+        });
+        
+        els.krarkDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.krarkCount > 1) {
+                state.krarkCount--;
+                els.krarkNum.textContent = state.krarkCount;
+            }
+        });
+        
+        // Flip button
+        els.flipBtn.addEventListener('click', doFlip);
+        
+        // Until Loss
+        els.untilLoss.addEventListener('click', () => {
+            state.untilLossActive = !state.untilLossActive;
+            if (state.untilLossActive) {
+                state.until2LossesActive = false;
+                els.until2Losses.classList.remove('active');
+            }
+            els.untilLoss.classList.toggle('active', state.untilLossActive);
+        });
+        
+        // Until 2 Losses
+        els.until2Losses.addEventListener('click', () => {
+            state.until2LossesActive = !state.until2LossesActive;
+            if (state.until2LossesActive) {
+                state.untilLossActive = false;
+                els.untilLoss.classList.remove('active');
+            }
+            els.until2Losses.classList.toggle('active', state.until2LossesActive);
+        });
+        
+        // Coins toggle
+        els.coinsBtn.addEventListener('click', () => {
+            state.coinsActive = !state.coinsActive;
+            els.coinsBtn.classList.toggle('active', state.coinsActive);
+            els.coinsToggle.classList.toggle('active', state.coinsActive);
+        });
+        
+        els.coinsNum.addEventListener('change', () => {
+            const val = parseInt(els.coinsNum.value) || 5;
+            state.coinsCount = Math.max(1, val);
+            els.coinsNum.value = state.coinsCount;
+        });
+        
+        // Help button - toggle help mode AND show panel
+        els.helpBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.helpMode = !state.helpMode;
+            document.body.classList.toggle('help-mode', state.helpMode);
+            els.helpBtn.classList.toggle('active', state.helpMode);
+            els.helpPanel.classList.toggle('visible', state.helpMode);
+            
+            if (state.helpMode) {
+                // Position panel above Help button
+                const rect = els.helpBtn.getBoundingClientRect();
+                els.helpPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+                els.helpPanel.style.left = rect.left + 'px';
+            }
+        });
+        
+        // Power save toggle
+        els.powerSaveSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.powerSaveMode = !state.powerSaveMode;
+            els.powerSaveSwitch.classList.toggle('active', state.powerSaveMode);
+            document.body.classList.toggle('power-save', state.powerSaveMode);
+        });
+        
+        // Help bubbles
+        document.querySelectorAll('.help-bubble').forEach(bubble => {
+            bubble.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const helpKey = bubble.dataset.help;
+                const text = helpTexts[helpKey] || 'No help available.';
+                
+                const rect = bubble.getBoundingClientRect();
+                els.helpTooltip.textContent = text;
+                els.helpTooltip.classList.add('visible');
+                
+                let top = rect.bottom + 8;
+                let left = rect.left - 100;
+                
+                if (left < 10) left = 10;
+                if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+                if (top + 100 > window.innerHeight) top = rect.top - 80;
+                
+                els.helpTooltip.style.top = top + 'px';
+                els.helpTooltip.style.left = left + 'px';
+            });
+        });
+        
+        // Close tooltip and help panel on click elsewhere
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.help-bubble')) {
+                els.helpTooltip.classList.remove('visible');
+            }
+            if (!e.target.closest('#helpBtn') && !e.target.closest('#helpPanel')) {
+                state.helpMode = false;
+                document.body.classList.remove('help-mode');
+                els.helpBtn.classList.remove('active');
+                els.helpPanel.classList.remove('visible');
+            }
+        });
+        
+        // Stats button
+        els.statsBtn.addEventListener('click', () => {
+            updateStatsDisplay();
+            els.statsOverlay.classList.add('visible');
+        });
+        
+        els.closeStats.addEventListener('click', () => {
+            els.statsOverlay.classList.remove('visible');
+        });
+        
+        els.resetStats.addEventListener('click', () => {
+            state.stats = {
+                wins: 0,
+                losses: 0,
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                currentWinStreak: 0,
+                currentLossStreak: 0
+            };
+            updateStatsDisplay();
+        });
+        
+        els.statsOverlay.addEventListener('click', (e) => {
+            if (e.target === els.statsOverlay) {
+                els.statsOverlay.classList.remove('visible');
+            }
+        });
+        
+        function updateStatsDisplay() {
+            const total = state.stats.wins + state.stats.losses;
+            const winRate = total > 0 ? ((state.stats.wins / total) * 100).toFixed(1) : 0;
+            
+            els.statWins.textContent = state.stats.wins;
+            els.statLosses.textContent = state.stats.losses;
+            els.statWinRate.textContent = winRate + '%';
+            els.statTotal.textContent = total;
+            els.statWinStreak.textContent = state.stats.longestWinStreak;
+            els.statLossStreak.textContent = state.stats.longestLossStreak;
+        }
+        
+        // Heads/Tails toggle
+        els.htBtn.addEventListener('click', () => {
+            state.htActive = !state.htActive;
+            els.htContainer.classList.toggle('active', state.htActive);
+            els.htBtn.classList.toggle('active', state.htActive);
+            updateHTButtonText();
+        });
+        
+        els.htHeads.addEventListener('click', () => {
+            state.htMode = 'heads';
+            els.htHeads.classList.add('selected');
+            els.htTails.classList.remove('selected');
+            updateHTButtonText();
+        });
+        
+        els.htTails.addEventListener('click', () => {
+            state.htMode = 'tails';
+            els.htTails.classList.add('selected');
+            els.htHeads.classList.remove('selected');
+            updateHTButtonText();
+        });
+        
+        function updateHTButtonText() {
+            if (state.htActive) {
+                els.htBtn.textContent = state.htMode === 'heads' ? 'Heads Mode!' : 'Tails Mode!';
+            } else {
+                els.htBtn.textContent = 'Heads/Tails Mode?';
+            }
+        }
+        
+        // Prevent zoom on double tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        // Handle window resize for Okaun display
+        window.addEventListener('resize', () => {
+            updateOkaunDisplay();
+        });
+        
+        // Initialize
+        updateOkaunDisplay();
+    </script>
 </body>
 </html>
