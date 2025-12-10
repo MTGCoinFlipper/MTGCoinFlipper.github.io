@@ -87,6 +87,12 @@
             flex-direction: column;
             min-height: 120px;
             position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .result-panel.expanded {
+            flex: 1;
+            max-height: 280px;
         }
 
         .result-display {
@@ -154,20 +160,122 @@
             color: var(--text-white);
         }
 
+        .history-item.latest {
+            background: linear-gradient(145deg, 
+                var(--gold-light) 0%, 
+                var(--gold-mid) 25%, 
+                var(--gold-dark) 50%, 
+                var(--gold-mid) 75%, 
+                var(--gold-light) 100%
+            );
+            color: #1a1a1a !important;
+            font-weight: 800;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(218, 165, 32, 0.4);
+        }
+
+        .history-item.latest::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -100%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0) 20%,
+                rgba(255, 255, 255, 0.4) 40%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0.4) 60%,
+                rgba(255, 255, 255, 0) 80%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            animation: shimmer 3s infinite;
+        }
+
+        .history-item.latest.sparkle {
+            animation: sparkleIn 0.4s ease-out;
+        }
+
+        @keyframes sparkleIn {
+            0% { 
+                transform: scale(0.5); 
+                opacity: 0;
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            }
+            50% { 
+                transform: scale(1.3);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 1);
+            }
+            100% { 
+                transform: scale(1); 
+                opacity: 1;
+                box-shadow: 0 2px 8px rgba(218, 165, 32, 0.4);
+            }
+        }
+
         .okaun-panel {
             background: var(--panel-dark);
             border-radius: 16px;
             padding: 12px;
             position: relative;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-        .okaun-panel.inactive {
-            opacity: 0.4;
+        .okaun-panel.collapsed {
+            padding: 0;
+            background: transparent;
         }
 
-        .okaun-panel.inactive .okaun-btn.okaun-toggle-btn {
+        .okaun-content {
+            max-height: 500px;
             opacity: 1;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .okaun-panel.collapsed .okaun-content {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .okaun-panel.collapsed .okaun-toggle-btn {
+            width: 100%;
+            border-radius: 12px;
+            margin: 0;
+        }
+
+        .okaun-panel:not(.collapsed) > .okaun-toggle-btn {
+            display: none;
+        }
+
+        .okaun-collapse-btn {
+            flex: 1;
+            background: #8cdb51;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .okaun-collapse-btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+
+        .okaun-collapse-btn:active {
+            transform: scale(0.98);
         }
 
         .okaun-header {
@@ -261,11 +369,6 @@
             background: var(--panel-light);
         }
 
-        .okaun-panel.inactive .okaun-input {
-            cursor: default;
-            pointer-events: none;
-        }
-
         .okaun-divider {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 3rem;
@@ -304,7 +407,8 @@
         }
 
         .okaun-btn.okaun-toggle-btn {
-            background: var(--okaun-red);
+            background: #cc2936;
+            transition: all 0.3s ease;
         }
 
         .okaun-btn.okaun-toggle-btn:hover {
@@ -312,7 +416,12 @@
         }
 
         .okaun-btn.okaun-toggle-btn.active {
-            background: var(--okaun-green);
+            background: #8cdb51;
+        }
+
+        .okaun-panel.collapsed .okaun-btn.okaun-toggle-btn {
+            padding: 14px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
         }
 
         .krark-toggle {
@@ -405,6 +514,95 @@
             gap: 8px;
             flex: 1;
             min-height: 180px;
+            transition: all 0.3s ease;
+        }
+
+        .main-controls.with-tax {
+            min-height: 140px;
+        }
+
+        .tax-counters {
+            display: none;
+            gap: 8px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .tax-counters.visible {
+            display: flex;
+            max-height: 60px;
+            opacity: 1;
+        }
+
+        .tax-counter {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            padding: 8px 12px;
+            min-height: 52px;
+            transition: all 0.3s ease;
+        }
+
+        .tax-counter.zndrsplt {
+            background: #459ab5;
+        }
+
+        .tax-counter.okaun-tax {
+            background: #8cdb51;
+        }
+
+        .tax-counter-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: var(--text-white);
+            letter-spacing: 1px;
+        }
+
+        .tax-counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tax-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: #000;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .tax-num.flash-red {
+            animation: flashRed 0.3s ease;
+        }
+
+        .tax-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .tax-arrow {
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 18px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .tax-arrow:hover {
+            background: var(--panel-gray);
         }
 
         .flip-btn-container {
@@ -699,6 +897,50 @@
             display: flex;
         }
 
+        body.help-mode .app-container button:not(.help-bubble):not(#helpBtn),
+        body.help-mode .app-container .okaun-input,
+        body.help-mode .app-container .coins-num,
+        body.help-mode .app-container .toggle-btn,
+        body.help-mode .app-container .okaun-btn,
+        body.help-mode .app-container .flip-btn,
+        body.help-mode .app-container .bottom-btn:not(#helpBtn),
+        body.help-mode .app-container .krark-toggle,
+        body.help-mode .app-container .okaun-panel,
+        body.help-mode .app-container .ht-option,
+        body.help-mode .app-container .krark-arrow,
+        body.help-mode .app-container .tax-arrow,
+        body.help-mode .app-container .tax-counter {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        body.help-mode #helpBtn {
+            animation: helpPulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        @keyframes helpPulse {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+            }
+            50% { 
+                box-shadow: 0 0 25px rgba(59, 130, 246, 1), 0 0 35px rgba(59, 130, 246, 0.4);
+            }
+        }
+
+        body.help-mode .settings-panel {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        body.help-mode .settings-panel button,
+        body.help-mode .settings-panel .settings-switch,
+        body.help-mode .settings-panel select,
+        body.help-mode .settings-panel input {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
         .help-tooltip {
             display: none;
             position: fixed;
@@ -841,6 +1083,71 @@
             font-size: 0.85rem;
             color: var(--text-white);
             opacity: 0.8;
+        }
+
+        .settings-arrow-input {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .settings-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .settings-arrow {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 4px;
+            width: 20px;
+            height: 14px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            transition: all 0.2s;
+        }
+
+        .settings-arrow:hover {
+            background: var(--panel-light);
+        }
+
+        .settings-tax-toggles {
+            display: flex;
+            gap: 8px;
+        }
+
+        .settings-tax-btn {
+            background: #7a8a7a;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-tax-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .settings-tax-btn.active {
+            background: #459ab5;
+        }
+
+        .settings-tax-btn.okaun {
+            background: #aab99e;
+        }
+
+        .settings-tax-btn.okaun.active {
+            background: #8cdb51;
         }
 
         /* Okaun Words Overlay */
@@ -1091,50 +1398,55 @@
         </div>
 
         <!-- Okaun Panel -->
-        <div class="okaun-panel inactive" id="okaunPanel">
+        <div class="okaun-panel collapsed" id="okaunPanel">
             <div class="help-bubble top-left" data-help="okaun">i</div>
-            <div class="okaun-header">
-                <div class="okaun-title">OKAUN-O-METER</div>
-                <div class="okaun-icons">
-                    <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
-                        <div class="help-bubble icon-bubble" data-help="speaker">i</div>
-                        <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                        </svg>
-                        <svg id="speakerMuteIcon" style="display:none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-                        </svg>
+            <button class="okaun-btn okaun-toggle-btn" id="okaunToggle">
+                <div class="help-bubble top-right" data-help="okaunToggle">i</div>
+                Okaun?
+            </button>
+            <div class="okaun-content" id="okaunContent">
+                <div class="okaun-header">
+                    <div class="okaun-title">OKAUN-O-METER</div>
+                    <div class="okaun-icons">
+                        <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
+                            <div class="help-bubble icon-bubble" data-help="speaker">i</div>
+                            <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                            </svg>
+                            <svg id="speakerMuteIcon" style="display:none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                            </svg>
+                        </button>
+                        <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
+                            <div class="help-bubble icon-bubble" data-help="eye">i</div>
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="okaun-values">
+                    <div class="okaun-input-wrapper">
+                        <div class="okaun-input" id="okaunLeft" contenteditable="true" inputmode="numeric">3</div>
+                    </div>
+                    <span class="okaun-divider">/</span>
+                    <div class="okaun-input-wrapper">
+                        <div class="okaun-input" id="okaunRight" contenteditable="true" inputmode="numeric">3</div>
+                    </div>
+                </div>
+                <div class="okaun-buttons">
+                    <button class="okaun-btn" id="resetOkaun">
+                        <div class="help-bubble top-right" data-help="resetOkaun">i</div>
+                        Reset Okaun
                     </button>
-                    <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
-                        <div class="help-bubble icon-bubble" data-help="eye">i</div>
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-                        </svg>
+                    <button class="okaun-btn" id="endTurn">
+                        <div class="help-bubble top-right" data-help="endTurn">i</div>
+                        End Turn
+                    </button>
+                    <button class="okaun-collapse-btn" id="okaunCollapse">
+                        OKAUN!
                     </button>
                 </div>
-            </div>
-            <div class="okaun-values">
-                <div class="okaun-input-wrapper">
-                    <div class="okaun-input" id="okaunLeft" contenteditable="true" inputmode="numeric">3</div>
-                </div>
-                <span class="okaun-divider">/</span>
-                <div class="okaun-input-wrapper">
-                    <div class="okaun-input" id="okaunRight" contenteditable="true" inputmode="numeric">3</div>
-                </div>
-            </div>
-            <div class="okaun-buttons">
-                <button class="okaun-btn" id="resetOkaun">
-                    <div class="help-bubble top-right" data-help="resetOkaun">i</div>
-                    Reset Okaun
-                </button>
-                <button class="okaun-btn" id="endTurn">
-                    <div class="help-bubble top-right" data-help="endTurn">i</div>
-                    End Turn
-                </button>
-                <button class="okaun-btn okaun-toggle-btn" id="okaunToggle">
-                    <div class="help-bubble top-right" data-help="okaunToggle">i</div>
-                    Okaun?
-                </button>
             </div>
         </div>
 
@@ -1177,6 +1489,30 @@
             </div>
         </div>
 
+        <!-- Tax Counters -->
+        <div class="tax-counters" id="taxCounters">
+            <div class="tax-counter zndrsplt" id="zndrspltCounter" style="display: none;">
+                <span class="tax-counter-label">Zndrsplt Tax</span>
+                <div class="tax-counter-controls">
+                    <span class="tax-num" id="zndrspltNum">+0</span>
+                    <div class="tax-arrows">
+                        <button class="tax-arrow" id="zndrspltUp">▲</button>
+                        <button class="tax-arrow" id="zndrspltDown">▼</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tax-counter okaun-tax" id="okaunTaxCounter" style="display: none;">
+                <span class="tax-counter-label">Okaun Tax</span>
+                <div class="tax-counter-controls">
+                    <span class="tax-num" id="okaunTaxNum">+0</span>
+                    <div class="tax-arrows">
+                        <button class="tax-arrow" id="okaunTaxUp">▲</button>
+                        <button class="tax-arrow" id="okaunTaxDown">▼</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bottom Bar -->
         <div class="bottom-bar">
             <button class="bottom-btn" id="helpBtn">Help</button>
@@ -1215,9 +1551,32 @@
             <span class="settings-label">Values</span>
             <div class="settings-plusx-container">
                 <span class="settings-plusx-label">+</span>
-                <input type="number" class="settings-plusx-input" id="plusXPower" value="1" min="0">
+                <div class="settings-arrow-input">
+                    <input type="number" class="settings-plusx-input" id="plusXPower" value="1" min="0">
+                    <div class="settings-arrows">
+                        <button class="settings-arrow" id="plusXPowerUp">▲</button>
+                        <button class="settings-arrow" id="plusXPowerDown">▼</button>
+                    </div>
+                </div>
                 <span class="settings-plusx-label">/+</span>
-                <input type="number" class="settings-plusx-input" id="plusXToughness" value="1" min="0">
+                <div class="settings-arrow-input">
+                    <input type="number" class="settings-plusx-input" id="plusXToughness" value="1" min="0">
+                    <div class="settings-arrows">
+                        <button class="settings-arrow" id="plusXToughnessUp">▲</button>
+                        <button class="settings-arrow" id="plusXToughnessDown">▼</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-row">
+            <span class="settings-label">Track Tax?</span>
+            <div class="settings-switch" id="trackTaxSwitch"></div>
+        </div>
+        <div class="settings-row" id="trackTaxOptionsRow" style="display: none;">
+            <span class="settings-label">Track</span>
+            <div class="settings-tax-toggles">
+                <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
+                <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
             </div>
         </div>
     </div>
@@ -1459,6 +1818,12 @@
             plusXToughness: 1n,
             plusXWarningShown: false,
             
+            trackTaxActive: false,
+            trackZndrsplt: false,
+            trackOkaun: false,
+            zndrspltTax: 0,
+            okaunTax: 0,
+            
             isFlipping: false,
             stopRequested: false,
             isSpeaking: false,
@@ -1486,13 +1851,13 @@
             result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
             okaun: "Tracks Okaun's stats, which double with each win.",
             krark: "Flip extra coins and win if ANY land on your winning side. Each thumb doubles the coins flipped.",
-            untilLoss: "Keep flipping automatically until you get a loss.",
-            until2Losses: "Keep flipping automatically until you get 2 losses.",
-            coins: "How many coins you would like to flip before stopping. Can be combined with \"Until Loss\" or \"Until 2 Losses\".",
+            untilLoss: "Makes the Flip button flip coins until a loss occurs.",
+            until2Losses: "Makes the Flip button flip coins until 2 losses occur.",
+            coins: "Sets how many coins to flip. Can combine with 'Until Loss' or 'Until 2 Losses'.",
             speaker: "Read Okaun's current power and toughness aloud using text-to-speech.",
             eye: "View Okaun's full stats in written words.",
             resetOkaun: "Reset Okaun's power and toughness back to 3/3.",
-            endTurn: "Reset Okaun to the last manually-entered values (your 'base' stats).",
+            endTurn: "Reset Okaun to the last manually-entered values (your 'base' stats). Also clears the result display.",
             okaunToggle: "Toggle Okaun tracking on/off. When off, stats won't double on wins.",
             ht: "Toggle Heads/Tails mode. Choose whether Heads or Tails counts as your win."
         };
@@ -1501,11 +1866,14 @@
             resultDisplay: document.getElementById('resultDisplay'),
             historyBar: document.getElementById('historyBar'),
             okaunPanel: document.getElementById('okaunPanel'),
+            okaunContent: document.getElementById('okaunContent'),
             okaunLeft: document.getElementById('okaunLeft'),
             okaunRight: document.getElementById('okaunRight'),
             resetOkaun: document.getElementById('resetOkaun'),
             endTurn: document.getElementById('endTurn'),
             okaunToggle: document.getElementById('okaunToggle'),
+            okaunCollapse: document.getElementById('okaunCollapse'),
+            resultPanel: document.querySelector('.result-panel'),
             speakerBtn: document.getElementById('speakerBtn'),
             speakerIcon: document.getElementById('speakerIcon'),
             speakerMuteIcon: document.getElementById('speakerMuteIcon'),
@@ -1535,6 +1903,24 @@
             plusXToughness: document.getElementById('plusXToughness'),
             plusXWarningOverlay: document.getElementById('plusXWarningOverlay'),
             plusXWarningOk: document.getElementById('plusXWarningOk'),
+            plusXPowerUp: document.getElementById('plusXPowerUp'),
+            plusXPowerDown: document.getElementById('plusXPowerDown'),
+            plusXToughnessUp: document.getElementById('plusXToughnessUp'),
+            plusXToughnessDown: document.getElementById('plusXToughnessDown'),
+            trackTaxSwitch: document.getElementById('trackTaxSwitch'),
+            trackTaxOptionsRow: document.getElementById('trackTaxOptionsRow'),
+            trackZndrspltBtn: document.getElementById('trackZndrspltBtn'),
+            trackOkaunBtn: document.getElementById('trackOkaunBtn'),
+            taxCounters: document.getElementById('taxCounters'),
+            zndrspltCounter: document.getElementById('zndrspltCounter'),
+            okaunTaxCounter: document.getElementById('okaunTaxCounter'),
+            zndrspltNum: document.getElementById('zndrspltNum'),
+            okaunTaxNum: document.getElementById('okaunTaxNum'),
+            zndrspltUp: document.getElementById('zndrspltUp'),
+            zndrspltDown: document.getElementById('zndrspltDown'),
+            okaunTaxUp: document.getElementById('okaunTaxUp'),
+            okaunTaxDown: document.getElementById('okaunTaxDown'),
+            mainControls: document.querySelector('.main-controls'),
             statsBtn: document.getElementById('statsBtn'),
             htContainer: document.getElementById('htContainer'),
             htBtn: document.getElementById('htBtn'),
@@ -1847,12 +2233,26 @@
                 item.textContent = result ? '✓' : '✗';
             }
             
+            // Remove latest class from previous items in history array
+            state.history = state.history.map(h => h.replace(/\s*latest\s*sparkle?/g, '').replace('class="history-item ', 'class="history-item '));
+            
+            // Mark this as the latest item with sparkle
+            item.classList.add('latest', 'sparkle');
+            
             state.history.push(item.outerHTML);
             if (state.history.length > 10) {
                 state.history.shift();
             }
             
             renderHistory();
+            
+            // Remove sparkle class after animation completes
+            setTimeout(() => {
+                const latestEl = els.historyBar.querySelector('.history-item.latest');
+                if (latestEl) {
+                    latestEl.classList.remove('sparkle');
+                }
+            }, 400);
         }
 
         function renderHistory() {
@@ -1979,9 +2379,8 @@
                     }
                 }
                 
-                if (isMultiCoins) {
-                    showResult(`${winCount}/${maxFlips} Wins`, winCount > 0);
-                }
+                // Always show final summary for until loss/until 2 losses modes
+                showResult(`${winCount}/${flipCount} WINS`, winCount > 0);
                 
             } else if (isMultiCoins) {
                 const totalCoins = parseInt(state.coinsCount) || 5;
@@ -2051,14 +2450,26 @@
         }
 
         function updateToggleButtonText() {
-            // Until Loss
-            els.untilLoss.textContent = state.untilLossActive ? 'Until Loss!' : 'Until Loss?';
+            // Until Loss - preserve help bubble
+            const untilLossText = state.untilLossActive ? 'Until Loss!' : 'Until Loss?';
+            const untilLossBubble = els.untilLoss.querySelector('.help-bubble');
+            els.untilLoss.textContent = '';
+            if (untilLossBubble) els.untilLoss.appendChild(untilLossBubble);
+            els.untilLoss.appendChild(document.createTextNode(untilLossText));
             
-            // Until 2 Losses
-            els.until2Losses.textContent = state.until2LossesActive ? 'Until 2 Losses!' : 'Until 2 Losses?';
+            // Until 2 Losses - preserve help bubble
+            const until2LossesText = state.until2LossesActive ? 'Until 2 Losses!' : 'Until 2 Losses?';
+            const until2LossesBubble = els.until2Losses.querySelector('.help-bubble');
+            els.until2Losses.textContent = '';
+            if (until2LossesBubble) els.until2Losses.appendChild(until2LossesBubble);
+            els.until2Losses.appendChild(document.createTextNode(until2LossesText));
             
-            // Coins
-            els.coinsBtn.textContent = state.coinsActive ? 'Coins!' : 'Coins?';
+            // Coins - preserve help bubble
+            const coinsText = state.coinsActive ? 'Coins!' : 'Coins?';
+            const coinsBubble = els.coinsBtn.querySelector('.help-bubble');
+            els.coinsBtn.textContent = '';
+            if (coinsBubble) els.coinsBtn.appendChild(coinsBubble);
+            els.coinsBtn.appendChild(document.createTextNode(coinsText));
         }
 
         // Event Listeners
@@ -2107,13 +2518,22 @@
             state.okaunLeft = state.okaunLeftBase;
             state.okaunRight = state.okaunRightBase;
             updateOkaunDisplay();
+            // Reset results display to blank
+            showResult('—', null, false);
         });
         
+        function toggleOkaun(expand) {
+            state.okaunActive = expand;
+            els.okaunPanel.classList.toggle('collapsed', !expand);
+            els.resultPanel.classList.toggle('expanded', !expand);
+        }
+
         els.okaunToggle.addEventListener('click', () => {
-            state.okaunActive = !state.okaunActive;
-            els.okaunToggle.classList.toggle('active', state.okaunActive);
-            els.okaunToggle.textContent = state.okaunActive ? 'OKAUN!' : 'Okaun?';
-            els.okaunPanel.classList.toggle('inactive', !state.okaunActive);
+            toggleOkaun(true);
+        });
+
+        els.okaunCollapse.addEventListener('click', () => {
+            toggleOkaun(false);
         });
         
         els.speakerBtn.addEventListener('click', (e) => {
@@ -2214,6 +2634,9 @@
                 const rect = els.helpBtn.getBoundingClientRect();
                 els.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
                 els.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
+            } else {
+                // Exiting help mode - re-enable interactions
+                els.settingsPanel.classList.remove('visible');
             }
         });
         
@@ -2269,6 +2692,111 @@
             state.plusXToughness = BigInt(Math.max(0, val));
             els.plusXToughness.value = val >= 0 ? val : 0;
         });
+
+        // +X/+X arrow buttons
+        els.plusXPowerUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = parseInt(els.plusXPower.value) || 0;
+            els.plusXPower.value = val + 1;
+            state.plusXPower = BigInt(val + 1);
+        });
+
+        els.plusXPowerDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = parseInt(els.plusXPower.value) || 0;
+            if (val > 0) {
+                els.plusXPower.value = val - 1;
+                state.plusXPower = BigInt(val - 1);
+            }
+        });
+
+        els.plusXToughnessUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = parseInt(els.plusXToughness.value) || 0;
+            els.plusXToughness.value = val + 1;
+            state.plusXToughness = BigInt(val + 1);
+        });
+
+        els.plusXToughnessDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const val = parseInt(els.plusXToughness.value) || 0;
+            if (val > 0) {
+                els.plusXToughness.value = val - 1;
+                state.plusXToughness = BigInt(val - 1);
+            }
+        });
+
+        // Track Tax toggle
+        els.trackTaxSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackTaxActive = !state.trackTaxActive;
+            els.trackTaxSwitch.classList.toggle('active', state.trackTaxActive);
+            els.trackTaxOptionsRow.style.display = state.trackTaxActive ? 'flex' : 'none';
+            if (!state.trackTaxActive) {
+                state.trackZndrsplt = false;
+                state.trackOkaun = false;
+                els.trackZndrspltBtn.classList.remove('active');
+                els.trackOkaunBtn.classList.remove('active');
+                updateTaxCountersVisibility();
+            }
+        });
+
+        els.trackZndrspltBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackZndrsplt = !state.trackZndrsplt;
+            els.trackZndrspltBtn.classList.toggle('active', state.trackZndrsplt);
+            updateTaxCountersVisibility();
+        });
+
+        els.trackOkaunBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackOkaun = !state.trackOkaun;
+            els.trackOkaunBtn.classList.toggle('active', state.trackOkaun);
+            updateTaxCountersVisibility();
+        });
+
+        function updateTaxCountersVisibility() {
+            const showAny = state.trackZndrsplt || state.trackOkaun;
+            els.taxCounters.classList.toggle('visible', showAny);
+            els.mainControls.classList.toggle('with-tax', showAny);
+            els.zndrspltCounter.style.display = state.trackZndrsplt ? 'flex' : 'none';
+            els.okaunTaxCounter.style.display = state.trackOkaun ? 'flex' : 'none';
+        }
+
+        // Tax counter arrows
+        els.zndrspltUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.zndrspltTax += 2;
+            els.zndrspltNum.textContent = '+' + state.zndrspltTax;
+        });
+
+        els.zndrspltDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.zndrspltTax > 0) {
+                state.zndrspltTax -= 2;
+                els.zndrspltNum.textContent = '+' + state.zndrspltTax;
+            } else {
+                els.zndrspltNum.classList.add('flash-red');
+                setTimeout(() => els.zndrspltNum.classList.remove('flash-red'), 300);
+            }
+        });
+
+        els.okaunTaxUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.okaunTax += 2;
+            els.okaunTaxNum.textContent = '+' + state.okaunTax;
+        });
+
+        els.okaunTaxDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.okaunTax > 0) {
+                state.okaunTax -= 2;
+                els.okaunTaxNum.textContent = '+' + state.okaunTax;
+            } else {
+                els.okaunTaxNum.classList.add('flash-red');
+                setTimeout(() => els.okaunTaxNum.classList.remove('flash-red'), 300);
+            }
+        });
         
         document.querySelectorAll('.help-bubble').forEach(bubble => {
             bubble.addEventListener('click', (e) => {
@@ -2301,16 +2829,13 @@
         });
         
         document.addEventListener('click', (e) => {
+            // Close tooltips when clicking outside help bubbles
             if (!e.target.closest('.help-bubble')) {
                 els.helpTooltip.classList.remove('visible');
                 state.currentTooltip = null;
             }
-            if (!e.target.closest('#helpBtn') && !e.target.closest('#settingsPanel')) {
-                state.helpMode = false;
-                document.body.classList.remove('help-mode');
-                els.helpBtn.classList.remove('active');
-                els.settingsPanel.classList.remove('visible');
-            }
+            // Help mode can only be exited by clicking the Help button
+            // Settings panel stays visible and clickable in help mode
         });
         
         els.statsBtn.addEventListener('click', () => {
@@ -2374,6 +2899,7 @@
         });
         
         function updateHTButtonText() {
+            // HT button doesn't have a help bubble inside it, but htContainer does
             if (state.htActive) {
                 els.htBtn.textContent = state.htMode === 'heads' ? 'Heads Mode!' : 'Tails Mode!';
             } else {
