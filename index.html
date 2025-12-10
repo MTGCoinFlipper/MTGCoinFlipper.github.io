@@ -1238,6 +1238,7 @@
 
         function convertHundreds(num) {
             let result = '';
+            num = parseInt(num);
             if (num >= 100) {
                 result += ones[Math.floor(num / 100)] + ' hundred';
                 num %= 100;
@@ -1253,79 +1254,183 @@
             return result;
         }
 
+        // Convert number to words - handles BigInt and arbitrarily large numbers
         function numberToWords(num) {
+            // Handle BigInt
+            if (typeof num === 'bigint') {
+                if (num === 0n) return 'zero';
+                if (num < 0n) return 'negative ' + numberToWords(-num);
+                // Convert BigInt to string directly (preserves all digits)
+                return numberToWordsFromString(num.toString());
+            }
+            
+            // Handle regular numbers
             if (num === 0) return 'zero';
             if (num < 0) return 'negative ' + numberToWords(-num);
             
-            if (num >= Number.MAX_SAFE_INTEGER) {
-                return largeNumberToWords(num);
-            }
-            
-            let result = '';
-            let groupIndex = 0;
-            
-            while (num > 0) {
-                const chunk = num % 1000;
-                if (chunk > 0) {
-                    const chunkWords = convertHundreds(chunk);
-                    if (groupIndex > 0) {
-                        if (groupIndex < largeNumbers.length) {
-                            result = chunkWords + ' ' + largeNumbers[groupIndex] + (result ? ' ' + result : '');
-                        } else {
-                            const power = groupIndex * 3;
-                            result = chunkWords + ' times ten to the ' + numberToWords(power) + (result ? ' plus ' + result : '');
-                        }
-                    } else {
-                        result = chunkWords + (result ? ' ' + result : '');
-                    }
-                }
-                num = Math.floor(num / 1000);
-                groupIndex++;
-            }
-            
-            return result.trim();
-        }
-
-        function largeNumberToWords(num) {
-            const str = num.toExponential();
-            const match = str.match(/^([\d.]+)e\+?(\d+)$/);
-            if (match) {
-                const mantissa = parseFloat(match[1]);
-                const exponent = parseInt(match[2]);
-                
-                const groupIndex = Math.floor(exponent / 3);
-                const remainder = exponent % 3;
-                
-                if (groupIndex < largeNumbers.length) {
-                    const scaledMantissa = mantissa * Math.pow(10, remainder);
-                    const intPart = Math.floor(scaledMantissa);
-                    const words = numberToWords(intPart);
-                    return words + ' ' + largeNumbers[groupIndex];
+            // Convert to string to preserve all digits
+            let numStr = '';
+            if (typeof num === 'number') {
+                if (num >= 1e21) {
+                    numStr = bigNumberToString(num);
                 } else {
-                    return numberToWords(Math.floor(mantissa)) + ' times ten to the power of ' + numberToWords(exponent);
+                    numStr = Math.floor(num).toString();
+                }
+            } else {
+                numStr = num.toString();
+            }
+            
+            return numberToWordsFromString(numStr);
+        }
+        
+        // Convert number string to words
+        function numberToWordsFromString(numStr) {
+            // Remove any non-digit characters
+            numStr = numStr.replace(/[^0-9]/g, '');
+            
+            if (numStr === '' || numStr === '0') return 'zero';
+            
+            // Remove leading zeros
+            numStr = numStr.replace(/^0+/, '') || '0';
+            
+            // Pad to multiple of 3
+            while (numStr.length % 3 !== 0) {
+                numStr = '0' + numStr;
+            }
+            
+            // Split into groups of 3
+            const groups = [];
+            for (let i = 0; i < numStr.length; i += 3) {
+                groups.push(numStr.substring(i, i + 3));
+            }
+            
+            const numGroups = groups.length;
+            const parts = [];
+            
+            for (let i = 0; i < numGroups; i++) {
+                const groupValue = parseInt(groups[i]);
+                if (groupValue === 0) continue;
+                
+                const groupIndex = numGroups - 1 - i;
+                const groupWords = convertHundreds(groupValue);
+                
+                if (groupIndex > 0) {
+                    if (groupIndex < largeNumbers.length) {
+                        parts.push(groupWords + ' ' + largeNumbers[groupIndex]);
+                    } else {
+                        // For numbers beyond our named list
+                        const power = groupIndex * 3;
+                        parts.push(groupWords + ' times ten to the ' + numberToWords(power));
+                    }
+                } else {
+                    parts.push(groupWords);
                 }
             }
-            return num.toString();
+            
+            return parts.join(' ') || 'zero';
         }
 
-        // Voice configurations (including funny ones)
-        const voiceConfigs = {
-            'default': { pitch: 1, rate: 1 },
-            'chipmunk': { pitch: 2, rate: 1.5 },
-            'deep': { pitch: 0.3, rate: 0.8 },
-            'robot': { pitch: 0.5, rate: 0.6 },
-            'whisper': { pitch: 1.2, rate: 0.5 },
-            'excited': { pitch: 1.4, rate: 1.8 },
-            'dramatic': { pitch: 0.7, rate: 0.4 },
-            'auctioneer': { pitch: 1.1, rate: 2 }
-        };
+        // Helper to convert very large numbers to full digit strings
+        function bigNumberToString(num) {
+            if (num < 1e21) {
+                return Math.floor(num).toString();
+            }
+            
+            // Get the exponent and mantissa
+            const str = num.toExponential();
+            const match = str.match(/^(\d)\.?(\d*)e\+(\d+)$/);
+            
+            if (!match) return Math.floor(num).toString();
+            
+            const firstDigit = match[1];
+            const decimals = match[2] || '';
+            const exponent = parseInt(match[3]);
+            
+            // Build the full number string
+            let result = firstDigit + decimals;
+            const zerosNeeded = exponent - decimals.length;
+            
+            if (zerosNeeded > 0) {
+                result += '0'.repeat(zerosNeeded);
+            } else if (zerosNeeded < 0) {
+                // Truncate if we have more decimals than the exponent allows
+                result = result.substring(0, exponent + 1);
+            }
+            
+            return result;
+        }
+
+        // Initialize voices with StreamElements options
+        function initVoices() {
+            // Clear and rebuild voice select
+            els.voiceSelect.innerHTML = '';
+            
+            // Group voices by language
+            const voiceGroups = {};
+            streamElementsVoices.forEach(voice => {
+                const lang = voice.lang.split('-')[0];
+                const langNames = {
+                    'en': 'English',
+                    'ar': 'Arabic',
+                    'zh': 'Chinese',
+                    'da': 'Danish',
+                    'nl': 'Dutch',
+                    'fr': 'French',
+                    'de': 'German',
+                    'it': 'Italian',
+                    'ja': 'Japanese',
+                    'ko': 'Korean',
+                    'nb': 'Norwegian',
+                    'pl': 'Polish',
+                    'pt': 'Portuguese',
+                    'ro': 'Romanian',
+                    'ru': 'Russian',
+                    'es': 'Spanish',
+                    'sv': 'Swedish',
+                    'tr': 'Turkish',
+                    'cy': 'Welsh'
+                };
+                const groupName = langNames[lang] || lang;
+                if (!voiceGroups[groupName]) {
+                    voiceGroups[groupName] = [];
+                }
+                voiceGroups[groupName].push(voice);
+            });
+            
+            // Add English voices first (most likely to be used)
+            if (voiceGroups['English']) {
+                const engGroup = document.createElement('optgroup');
+                engGroup.label = '🇬🇧 English';
+                voiceGroups['English'].forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.value;
+                    option.textContent = voice.label;
+                    engGroup.appendChild(option);
+                });
+                els.voiceSelect.appendChild(engGroup);
+                delete voiceGroups['English'];
+            }
+            
+            // Add other languages alphabetically
+            Object.keys(voiceGroups).sort().forEach(groupName => {
+                const group = document.createElement('optgroup');
+                group.label = groupName;
+                voiceGroups[groupName].forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.value;
+                    option.textContent = voice.label;
+                    group.appendChild(option);
+                });
+                els.voiceSelect.appendChild(group);
+            });
+        }
 
         // State
         const state = {
-            okaunLeftBase: 3,
-            okaunRightBase: 3,
-            okaunLeft: 3,
-            okaunRight: 3,
+            okaunLeftBase: 3n,
+            okaunRightBase: 3n,
+            okaunLeft: 3n,
+            okaunRight: 3n,
             
             krarkActive: false,
             krarkCount: 1,
@@ -1341,10 +1446,11 @@
             isFlipping: false,
             stopRequested: false,
             isSpeaking: false,
+            currentAudio: null,
             
             overlayShowingPower: true,
             
-            selectedVoice: 'default',
+            selectedVoice: 'brian',
             availableVoices: [],
             
             history: [],
@@ -1360,6 +1466,63 @@
             
             currentTooltip: null
         };
+        
+        // StreamElements TTS voices
+        const streamElementsVoices = [
+            { value: 'brian', label: 'Brian (British Male)', lang: 'en-GB' },
+            { value: 'amy', label: 'Amy (British Female)', lang: 'en-GB' },
+            { value: 'emma', label: 'Emma (British Female)', lang: 'en-GB' },
+            { value: 'geraint', label: 'Geraint (Welsh Male)', lang: 'en-GB-WLS' },
+            { value: 'ivy', label: 'Ivy (US Child)', lang: 'en-US' },
+            { value: 'joanna', label: 'Joanna (US Female)', lang: 'en-US' },
+            { value: 'joey', label: 'Joey (US Male)', lang: 'en-US' },
+            { value: 'justin', label: 'Justin (US Child)', lang: 'en-US' },
+            { value: 'kendra', label: 'Kendra (US Female)', lang: 'en-US' },
+            { value: 'kimberly', label: 'Kimberly (US Female)', lang: 'en-US' },
+            { value: 'matthew', label: 'Matthew (US Male)', lang: 'en-US' },
+            { value: 'salli', label: 'Salli (US Female)', lang: 'en-US' },
+            { value: 'nicole', label: 'Nicole (Australian Female)', lang: 'en-AU' },
+            { value: 'russell', label: 'Russell (Australian Male)', lang: 'en-AU' },
+            { value: 'raveena', label: 'Raveena (Indian Female)', lang: 'en-IN' },
+            { value: 'zeina', label: 'Zeina (Arabic Female)', lang: 'ar' },
+            { value: 'zhiyu', label: 'Zhiyu (Chinese Female)', lang: 'zh-CN' },
+            { value: 'mads', label: 'Mads (Danish Male)', lang: 'da-DK' },
+            { value: 'naja', label: 'Naja (Danish Female)', lang: 'da-DK' },
+            { value: 'ruben', label: 'Ruben (Dutch Male)', lang: 'nl-NL' },
+            { value: 'lotte', label: 'Lotte (Dutch Female)', lang: 'nl-NL' },
+            { value: 'mathieu', label: 'Mathieu (French Male)', lang: 'fr-FR' },
+            { value: 'celine', label: 'Céline (French Female)', lang: 'fr-FR' },
+            { value: 'chantal', label: 'Chantal (Canadian French)', lang: 'fr-CA' },
+            { value: 'hans', label: 'Hans (German Male)', lang: 'de-DE' },
+            { value: 'marlene', label: 'Marlene (German Female)', lang: 'de-DE' },
+            { value: 'vicki', label: 'Vicki (German Female)', lang: 'de-DE' },
+            { value: 'giorgio', label: 'Giorgio (Italian Male)', lang: 'it-IT' },
+            { value: 'carla', label: 'Carla (Italian Female)', lang: 'it-IT' },
+            { value: 'takumi', label: 'Takumi (Japanese Male)', lang: 'ja-JP' },
+            { value: 'mizuki', label: 'Mizuki (Japanese Female)', lang: 'ja-JP' },
+            { value: 'seoyeon', label: 'Seoyeon (Korean Female)', lang: 'ko-KR' },
+            { value: 'liv', label: 'Liv (Norwegian Female)', lang: 'nb-NO' },
+            { value: 'ewa', label: 'Ewa (Polish Female)', lang: 'pl-PL' },
+            { value: 'maja', label: 'Maja (Polish Female)', lang: 'pl-PL' },
+            { value: 'jacek', label: 'Jacek (Polish Male)', lang: 'pl-PL' },
+            { value: 'jan', label: 'Jan (Polish Male)', lang: 'pl-PL' },
+            { value: 'ricardo', label: 'Ricardo (Portuguese Male)', lang: 'pt-BR' },
+            { value: 'vitoria', label: 'Vitória (Portuguese Female)', lang: 'pt-BR' },
+            { value: 'cristiano', label: 'Cristiano (Euro Portuguese)', lang: 'pt-PT' },
+            { value: 'ines', label: 'Inês (Euro Portuguese)', lang: 'pt-PT' },
+            { value: 'carmen', label: 'Carmen (Romanian Female)', lang: 'ro-RO' },
+            { value: 'maxim', label: 'Maxim (Russian Male)', lang: 'ru-RU' },
+            { value: 'tatyana', label: 'Tatyana (Russian Female)', lang: 'ru-RU' },
+            { value: 'enrique', label: 'Enrique (Spanish Male)', lang: 'es-ES' },
+            { value: 'conchita', label: 'Conchita (Spanish Female)', lang: 'es-ES' },
+            { value: 'lucia', label: 'Lucia (Spanish Female)', lang: 'es-ES' },
+            { value: 'mia', label: 'Mia (Mexican Female)', lang: 'es-MX' },
+            { value: 'penelope', label: 'Penelope (US Spanish Female)', lang: 'es-US' },
+            { value: 'miguel', label: 'Miguel (US Spanish Male)', lang: 'es-US' },
+            { value: 'astrid', label: 'Astrid (Swedish Female)', lang: 'sv-SE' },
+            { value: 'filiz', label: 'Filiz (Turkish Female)', lang: 'tr-TR' },
+            { value: 'gwyneth', label: 'Gwyneth (Welsh Female)', lang: 'cy-GB' }
+        ];
 
         const helpTexts = {
             result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
@@ -1422,56 +1585,6 @@
             closeStats: document.getElementById('closeStats')
         };
 
-        // Initialize voices
-        function initVoices() {
-            const voices = window.speechSynthesis.getVoices();
-            state.availableVoices = voices;
-            
-            // Clear and rebuild voice select
-            els.voiceSelect.innerHTML = '';
-            
-            // Add funny/custom options first
-            const funnyOptions = [
-                { value: 'default', label: '🎤 Default' },
-                { value: 'chipmunk', label: '🐿️ Chipmunk' },
-                { value: 'deep', label: '🎸 Deep Voice' },
-                { value: 'robot', label: '🤖 Robot' },
-                { value: 'whisper', label: '🤫 Whisper' },
-                { value: 'excited', label: '🎉 Excited' },
-                { value: 'dramatic', label: '🎭 Dramatic' },
-                { value: 'auctioneer', label: '💰 Auctioneer' }
-            ];
-            
-            const funnyGroup = document.createElement('optgroup');
-            funnyGroup.label = 'Fun Voices';
-            funnyOptions.forEach(opt => {
-                const option = document.createElement('option');
-                option.value = opt.value;
-                option.textContent = opt.label;
-                funnyGroup.appendChild(option);
-            });
-            els.voiceSelect.appendChild(funnyGroup);
-            
-            // Add system voices
-            if (voices.length > 0) {
-                const systemGroup = document.createElement('optgroup');
-                systemGroup.label = 'System Voices';
-                voices.forEach((voice, index) => {
-                    const option = document.createElement('option');
-                    option.value = 'system_' + index;
-                    option.textContent = voice.name.substring(0, 25) + (voice.name.length > 25 ? '...' : '');
-                    systemGroup.appendChild(option);
-                });
-                els.voiceSelect.appendChild(systemGroup);
-            }
-        }
-
-        // Initialize voices when available
-        if (window.speechSynthesis) {
-            initVoices();
-            window.speechSynthesis.onvoiceschanged = initVoices;
-        }
-
         function flipCoin() {
             return Math.random() < 0.5;
         }
@@ -1518,13 +1631,31 @@
             return { fontSize: 14, wrap: false, useScientific: true };
         }
 
+        // Format BigInt for display
+        function formatBigIntDisplay(val) {
+            const str = val.toString();
+            if (str.length > 15) {
+                // Use scientific notation for very large numbers
+                const exp = str.length - 1;
+                const mantissa = str[0] + '.' + str.substring(1, 3);
+                return mantissa + 'e+' + exp;
+            }
+            // Add commas for readability
+            return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+        
         function updateOkaunDisplay() {
             [
                 { el: els.okaunLeft, val: state.okaunLeft },
                 { el: els.okaunRight, val: state.okaunRight }
             ].forEach(({ el, val }) => {
-                if (val >= 1e12) {
-                    el.textContent = val.toExponential(2);
+                const strVal = val.toString();
+                
+                // Use scientific notation for very large numbers
+                if (strVal.length > 12) {
+                    const exp = strVal.length - 1;
+                    const mantissa = strVal[0] + '.' + strVal.substring(1, 3);
+                    el.textContent = mantissa + 'e+' + exp;
                     el.style.fontSize = '14px';
                     el.style.fontFamily = "'Outfit', sans-serif";
                     el.style.fontWeight = '700';
@@ -1533,11 +1664,14 @@
                     return;
                 }
                 
-                const displayText = val.toLocaleString();
+                // Add commas for readability
+                const displayText = strVal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                 const sizing = fitTextInContainer(el, displayText);
                 
                 if (sizing.useScientific) {
-                    el.textContent = val.toExponential(2);
+                    const exp = strVal.length - 1;
+                    const mantissa = strVal[0] + '.' + strVal.substring(1, 3);
+                    el.textContent = mantissa + 'e+' + exp;
                     el.style.fontSize = '14px';
                     el.style.fontFamily = "'Outfit', sans-serif";
                     el.style.fontWeight = '700';
@@ -1563,13 +1697,54 @@
         }
 
         function doubleOkaun() {
-            state.okaunLeft *= 2;
-            state.okaunRight *= 2;
+            state.okaunLeft = state.okaunLeft * 2n;
+            state.okaunRight = state.okaunRight * 2n;
             updateOkaunDisplay();
         }
 
-        function speakOkaun() {
+        // Check if StreamElements is available (cache the result)
+        let streamElementsAvailable = null;
+        
+        async function checkStreamElements() {
+            if (streamElementsAvailable !== null) return streamElementsAvailable;
+            
+            try {
+                const testUrl = 'https://api.streamelements.com/kappa/v2/speech?voice=brian&text=test';
+                const audio = new Audio();
+                
+                return new Promise((resolve) => {
+                    const timeout = setTimeout(() => {
+                        resolve(false);
+                    }, 3000);
+                    
+                    audio.oncanplaythrough = () => {
+                        clearTimeout(timeout);
+                        streamElementsAvailable = true;
+                        resolve(true);
+                    };
+                    
+                    audio.onerror = () => {
+                        clearTimeout(timeout);
+                        streamElementsAvailable = false;
+                        resolve(false);
+                    };
+                    
+                    audio.src = testUrl;
+                    audio.load();
+                });
+            } catch {
+                streamElementsAvailable = false;
+                return false;
+            }
+        }
+        
+        async function speakOkaun() {
+            // If currently speaking, stop
             if (state.isSpeaking) {
+                if (state.currentAudio) {
+                    state.currentAudio.pause();
+                    state.currentAudio = null;
+                }
                 window.speechSynthesis.cancel();
                 state.isSpeaking = false;
                 updateSpeakerIcon();
@@ -1583,28 +1758,82 @@
                 text = "Okaun's power is " + numberToWords(state.okaunLeft) + ". Okaun's toughness is " + numberToWords(state.okaunRight);
             }
             
-            const utterance = new SpeechSynthesisUtterance(text);
+            // Check if StreamElements is available and text isn't too long
+            const useStreamElements = text.length <= 500 && await checkStreamElements();
             
-            // Apply voice settings
-            const selectedValue = state.selectedVoice;
-            
-            if (selectedValue.startsWith('system_')) {
-                const voiceIndex = parseInt(selectedValue.replace('system_', ''));
-                if (state.availableVoices[voiceIndex]) {
-                    utterance.voice = state.availableVoices[voiceIndex];
-                }
-                utterance.pitch = 1;
-                utterance.rate = 1;
-            } else {
-                const config = voiceConfigs[selectedValue] || voiceConfigs.default;
-                utterance.pitch = config.pitch;
-                utterance.rate = config.rate;
+            if (!useStreamElements) {
+                speakOkaunFallback(text);
+                return;
             }
             
-            utterance.onstart = () => {
-                state.isSpeaking = true;
+            // StreamElements TTS API
+            const voice = state.selectedVoice;
+            const encodedText = encodeURIComponent(text);
+            const url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodedText}`;
+            
+            state.isSpeaking = true;
+            updateSpeakerIcon();
+            
+            const audio = new Audio();
+            state.currentAudio = audio;
+            
+            // Track if we've already handled the error
+            let errorHandled = false;
+            
+            const handleError = () => {
+                if (errorHandled) return;
+                errorHandled = true;
+                state.currentAudio = null;
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                // Mark StreamElements as unavailable and use fallback
+                streamElementsAvailable = false;
+                speakOkaunFallback(text);
+            };
+            
+            audio.onended = () => {
+                state.isSpeaking = false;
+                state.currentAudio = null;
                 updateSpeakerIcon();
             };
+            
+            audio.onerror = handleError;
+            
+            // Wait for audio to be ready before playing
+            audio.oncanplaythrough = () => {
+                if (!errorHandled) {
+                    audio.play().catch(handleError);
+                }
+            };
+            
+            // Set a timeout in case loading takes too long
+            setTimeout(() => {
+                if (!errorHandled && audio.readyState < 3) {
+                    handleError();
+                }
+            }, 5000);
+            
+            audio.src = url;
+            audio.load();
+        }
+        
+        // Fallback TTS using Web Speech API
+        function speakOkaunFallback(text) {
+            if (!window.speechSynthesis) {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                return;
+            }
+            
+            // Cancel any existing speech
+            window.speechSynthesis.cancel();
+            
+            state.isSpeaking = true;
+            updateSpeakerIcon();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.pitch = 1;
+            utterance.rate = 1;
             
             utterance.onend = () => {
                 state.isSpeaking = false;
@@ -1927,11 +2156,27 @@
         function parseOkaunValue(text) {
             const cleaned = text.replace(/,/g, '').replace(/\s/g, '').trim();
             
+            // Handle scientific notation
             if (cleaned.includes('e') || cleaned.includes('E')) {
-                return parseFloat(cleaned) || 3;
+                const num = parseFloat(cleaned);
+                if (isNaN(num) || num < 0) return 3n;
+                // Convert to BigInt (loses precision for very large numbers but better than nothing)
+                try {
+                    return BigInt(Math.floor(num));
+                } catch {
+                    return 3n;
+                }
             }
             
-            return parseFloat(cleaned) || 3;
+            // Remove any non-digit characters for BigInt
+            const digitsOnly = cleaned.replace(/[^0-9]/g, '');
+            if (!digitsOnly || digitsOnly === '0') return 3n;
+            
+            try {
+                return BigInt(digitsOnly);
+            } catch {
+                return 3n;
+            }
         }
 
         // Event Listeners
@@ -1960,10 +2205,10 @@
         });
         
         els.resetOkaun.addEventListener('click', () => {
-            state.okaunLeft = 3;
-            state.okaunRight = 3;
-            state.okaunLeftBase = 3;
-            state.okaunRightBase = 3;
+            state.okaunLeft = 3n;
+            state.okaunRight = 3n;
+            state.okaunLeftBase = 3n;
+            state.okaunRightBase = 3n;
             updateOkaunDisplay();
         });
         
@@ -2209,7 +2454,9 @@
             }
         });
         
+        // Initialize
         updateOkaunDisplay();
+        initVoices();
     </script>
 </body>
 </html>
