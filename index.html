@@ -973,7 +973,6 @@
         body.help-mode .settings-panel .settings-switch,
         body.help-mode .settings-panel select,
         body.help-mode .settings-panel input,
-        body.help-mode .settings-panel .settings-arrow,
         body.help-mode .settings-panel .settings-tax-btn {
             opacity: 1;
             pointer-events: auto;
@@ -1121,37 +1120,6 @@
             font-size: 0.85rem;
             color: var(--text-white);
             opacity: 0.8;
-        }
-
-        .settings-arrow-input {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .settings-arrows {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .settings-arrow {
-            background: var(--panel-gray);
-            border: none;
-            border-radius: 4px;
-            width: 20px;
-            height: 14px;
-            color: var(--text-white);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            transition: all 0.2s;
-        }
-
-        .settings-arrow:hover {
-            background: var(--panel-light);
         }
 
         .settings-tax-toggles {
@@ -1597,21 +1565,9 @@
             <span class="settings-label">Values</span>
             <div class="settings-plusx-container">
                 <span class="settings-plusx-label">+</span>
-                <div class="settings-arrow-input">
-                    <input type="number" class="settings-plusx-input" id="plusXPower" value="1" min="0">
-                    <div class="settings-arrows">
-                        <button class="settings-arrow" id="plusXPowerUp">▲</button>
-                        <button class="settings-arrow" id="plusXPowerDown">▼</button>
-                    </div>
-                </div>
+                <input type="number" class="settings-plusx-input" id="plusXPower" value="1" min="0">
                 <span class="settings-plusx-label">/+</span>
-                <div class="settings-arrow-input">
-                    <input type="number" class="settings-plusx-input" id="plusXToughness" value="1" min="0">
-                    <div class="settings-arrows">
-                        <button class="settings-arrow" id="plusXToughnessUp">▲</button>
-                        <button class="settings-arrow" id="plusXToughnessDown">▼</button>
-                    </div>
-                </div>
+                <input type="number" class="settings-plusx-input" id="plusXToughness" value="1" min="0">
             </div>
         </div>
         <div class="settings-row">
@@ -1677,7 +1633,7 @@
     </div>
 
     <!-- Plus X Warning Overlay -->
-    <div class="overlay" id="plusXWarningOverlay">
+    <div class="overlay" id="plusXWarningOverlay" style="z-index: 1500;">
         <div class="overlay-content">
             <div class="overlay-title">+X/+X ON WIN</div>
             <p class="overlay-description" style="margin-top: 0;">
@@ -1953,10 +1909,6 @@
             plusXToughness: document.getElementById('plusXToughness'),
             plusXWarningOverlay: document.getElementById('plusXWarningOverlay'),
             plusXWarningOk: document.getElementById('plusXWarningOk'),
-            plusXPowerUp: document.getElementById('plusXPowerUp'),
-            plusXPowerDown: document.getElementById('plusXPowerDown'),
-            plusXToughnessUp: document.getElementById('plusXToughnessUp'),
-            plusXToughnessDown: document.getElementById('plusXToughnessDown'),
             trackTaxSwitch: document.getElementById('trackTaxSwitch'),
             trackTaxOptionsRow: document.getElementById('trackTaxOptionsRow'),
             trackZndrspltBtn: document.getElementById('trackZndrspltBtn'),
@@ -2774,39 +2726,6 @@
             const val = parseInt(els.plusXToughness.value) || 0;
             state.plusXToughness = BigInt(Math.max(0, val));
             els.plusXToughness.value = val >= 0 ? val : 0;
-        });
-
-        // +X/+X arrow buttons
-        els.plusXPowerUp.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const val = parseInt(els.plusXPower.value) || 0;
-            els.plusXPower.value = val + 1;
-            state.plusXPower = BigInt(val + 1);
-        });
-
-        els.plusXPowerDown.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const val = parseInt(els.plusXPower.value) || 0;
-            if (val > 0) {
-                els.plusXPower.value = val - 1;
-                state.plusXPower = BigInt(val - 1);
-            }
-        });
-
-        els.plusXToughnessUp.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const val = parseInt(els.plusXToughness.value) || 0;
-            els.plusXToughness.value = val + 1;
-            state.plusXToughness = BigInt(val + 1);
-        });
-
-        els.plusXToughnessDown.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const val = parseInt(els.plusXToughness.value) || 0;
-            if (val > 0) {
-                els.plusXToughness.value = val - 1;
-                state.plusXToughness = BigInt(val - 1);
-            }
         });
 
         // Track Tax toggle
