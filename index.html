@@ -570,21 +570,43 @@
             opacity: 0.8;
         }
 
-        .okaun-plusx-input {
-            width: 50px;
-            background: var(--panel-gray);
-            border: none;
-            border-radius: 6px;
-            padding: 8px;
-            color: var(--text-white);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            text-align: center;
-            outline: none;
+        .okaun-plusx-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .okaun-plusx-input:focus {
-            background: var(--panel-light);
+        .okaun-plusx-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-white);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .okaun-plusx-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .okaun-plusx-arrow {
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 18px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .okaun-plusx-arrow:hover {
+            background: var(--panel-gray);
         }
 
         /* Okaun Carousel Navigation */
@@ -642,11 +664,14 @@
 
         .okaun-number-indicator {
             display: none;
+            position: absolute;
+            left: 0;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
             color: var(--text-white);
             opacity: 0.5;
-            margin-right: 8px;
+            letter-spacing: 3px;
+            text-align: left;
         }
 
         .okaun-number-indicator.visible {
@@ -1239,24 +1264,31 @@
             position: absolute;
             top: 8px;
             right: 8px;
-            width: 24px;
-            height: 24px;
-            background: var(--accent-red);
+            background: transparent;
             border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 14px;
-            font-weight: 700;
+            color: var(--accent-red);
+            font-size: 24px;
+            font-weight: 900;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
             line-height: 1;
+            padding: 0;
+            margin: 0;
+            width: auto;
+            height: auto;
+        }
+
+        .close-btn::before {
+            content: '×';
+            display: block;
+            line-height: 1;
         }
 
         .close-btn:hover {
-            background: var(--accent-red-hover);
+            color: var(--accent-red-hover);
             transform: scale(1.1);
         }
 
@@ -1776,7 +1808,7 @@
 
     <!-- Settings Panel -->
     <div class="settings-panel" id="settingsPanel">
-        <button class="close-btn" id="settingsClose">✕</button>
+        <button class="close-btn" id="settingsClose"></button>
         <div class="settings-panel-title">SETTINGS</div>
         <div class="settings-row">
             <span class="settings-label">Dark Mode</span>
@@ -1804,7 +1836,7 @@
     <!-- Okaun Options Modal -->
     <div class="okaun-options-modal" id="okaunOptionsModal">
         <div class="okaun-options-content">
-            <button class="close-btn" id="okaunOptionsClose">✕</button>
+            <button class="close-btn" id="okaunOptionsClose"></button>
             <div class="okaun-options-title">OKAUN OPTIONS</div>
             <div class="okaun-options-row">
                 <span class="okaun-options-label">Number of Okauns</span>
@@ -1822,9 +1854,21 @@
             </div>
             <div class="okaun-plusx-inputs" id="okaunPlusXInputs">
                 <span class="okaun-plusx-label">+</span>
-                <input type="number" class="okaun-plusx-input" id="okaunPlusXPower" value="1" min="0">
+                <div class="okaun-plusx-counter">
+                    <span class="okaun-plusx-num" id="okaunPlusXPowerNum">1</span>
+                    <div class="okaun-plusx-arrows">
+                        <button class="okaun-plusx-arrow" id="okaunPlusXPowerUp">▲</button>
+                        <button class="okaun-plusx-arrow" id="okaunPlusXPowerDown">▼</button>
+                    </div>
+                </div>
                 <span class="okaun-plusx-label">/+</span>
-                <input type="number" class="okaun-plusx-input" id="okaunPlusXToughness" value="1" min="0">
+                <div class="okaun-plusx-counter">
+                    <span class="okaun-plusx-num" id="okaunPlusXToughnessNum">1</span>
+                    <div class="okaun-plusx-arrows">
+                        <button class="okaun-plusx-arrow" id="okaunPlusXToughnessUp">▲</button>
+                        <button class="okaun-plusx-arrow" id="okaunPlusXToughnessDown">▼</button>
+                    </div>
+                </div>
             </div>
             <div class="okaun-options-btn-row">
                 <button class="okaun-options-action" id="resetThisOkaun">Reset This Okaun</button>
@@ -2123,8 +2167,12 @@
             okaunCountDown: document.getElementById('okaunCountDown'),
             okaunPlusXSwitch: document.getElementById('okaunPlusXSwitch'),
             okaunPlusXInputs: document.getElementById('okaunPlusXInputs'),
-            okaunPlusXPower: document.getElementById('okaunPlusXPower'),
-            okaunPlusXToughness: document.getElementById('okaunPlusXToughness'),
+            okaunPlusXPowerNum: document.getElementById('okaunPlusXPowerNum'),
+            okaunPlusXToughnessNum: document.getElementById('okaunPlusXToughnessNum'),
+            okaunPlusXPowerUp: document.getElementById('okaunPlusXPowerUp'),
+            okaunPlusXPowerDown: document.getElementById('okaunPlusXPowerDown'),
+            okaunPlusXToughnessUp: document.getElementById('okaunPlusXToughnessUp'),
+            okaunPlusXToughnessDown: document.getElementById('okaunPlusXToughnessDown'),
             resetThisOkaun: document.getElementById('resetThisOkaun'),
             resetAllOkauns: document.getElementById('resetAllOkauns'),
             resetAllConfirm: document.getElementById('resetAllConfirm'),
@@ -2910,8 +2958,8 @@
             const okaun = getCurrentOkaun();
             els.okaunPlusXSwitch.classList.toggle('active', okaun.plusXActive);
             els.okaunPlusXInputs.classList.toggle('visible', okaun.plusXActive);
-            els.okaunPlusXPower.value = okaun.plusXPower.toString();
-            els.okaunPlusXToughness.value = okaun.plusXToughness.toString();
+            els.okaunPlusXPowerNum.textContent = okaun.plusXPower.toString();
+            els.okaunPlusXToughnessNum.textContent = okaun.plusXToughness.toString();
             els.okaunCountNum.textContent = '×' + state.okauns.length;
         }
 
@@ -2996,18 +3044,41 @@
             els.okaunPlusXInputs.classList.toggle('visible', okaun.plusXActive);
         });
 
-        els.okaunPlusXPower.addEventListener('change', () => {
+        // +X/+X arrow buttons
+        els.okaunPlusXPowerUp.addEventListener('click', (e) => {
+            e.stopPropagation();
             const okaun = getCurrentOkaun();
-            const val = parseInt(els.okaunPlusXPower.value) || 0;
-            okaun.plusXPower = BigInt(Math.max(0, val));
-            els.okaunPlusXPower.value = Math.max(0, val);
+            const val = parseInt(els.okaunPlusXPowerNum.textContent) || 0;
+            okaun.plusXPower = BigInt(val + 1);
+            els.okaunPlusXPowerNum.textContent = (val + 1).toString();
         });
 
-        els.okaunPlusXToughness.addEventListener('change', () => {
+        els.okaunPlusXPowerDown.addEventListener('click', (e) => {
+            e.stopPropagation();
             const okaun = getCurrentOkaun();
-            const val = parseInt(els.okaunPlusXToughness.value) || 0;
-            okaun.plusXToughness = BigInt(Math.max(0, val));
-            els.okaunPlusXToughness.value = Math.max(0, val);
+            const val = parseInt(els.okaunPlusXPowerNum.textContent) || 0;
+            if (val > 0) {
+                okaun.plusXPower = BigInt(val - 1);
+                els.okaunPlusXPowerNum.textContent = (val - 1).toString();
+            }
+        });
+
+        els.okaunPlusXToughnessUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const okaun = getCurrentOkaun();
+            const val = parseInt(els.okaunPlusXToughnessNum.textContent) || 0;
+            okaun.plusXToughness = BigInt(val + 1);
+            els.okaunPlusXToughnessNum.textContent = (val + 1).toString();
+        });
+
+        els.okaunPlusXToughnessDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const okaun = getCurrentOkaun();
+            const val = parseInt(els.okaunPlusXToughnessNum.textContent) || 0;
+            if (val > 0) {
+                okaun.plusXToughness = BigInt(val - 1);
+                els.okaunPlusXToughnessNum.textContent = (val - 1).toString();
+            }
         });
 
         // Reset this Okaun
