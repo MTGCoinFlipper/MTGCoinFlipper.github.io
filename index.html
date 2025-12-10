@@ -40,7 +40,6 @@
             --overlay-bg: rgba(0, 0, 0, 0.85);
             --help-blue: #3b82f6;
             
-            /* Gold colors */
             --gold-light: #ffd700;
             --gold-mid: #daa520;
             --gold-dark: #b8860b;
@@ -78,7 +77,6 @@
             gap: 8px;
         }
 
-        /* Result Display Panel */
         .result-panel {
             background: var(--panel-dark);
             border-radius: 16px;
@@ -117,8 +115,9 @@
             height: 32px;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 0 8px;
-            gap: 4px;
+            gap: 8px;
             overflow-x: auto;
             overflow-y: hidden;
         }
@@ -153,11 +152,18 @@
             color: var(--text-white);
         }
 
-        /* Okaun Panel */
         .okaun-panel {
             background: var(--panel-dark);
             border-radius: 16px;
             padding: 12px;
+            position: relative;
+        }
+
+        .okaun-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
             position: relative;
         }
 
@@ -167,7 +173,41 @@
             color: var(--text-white);
             text-align: center;
             letter-spacing: 3px;
-            margin-bottom: 8px;
+        }
+
+        .okaun-icons {
+            position: absolute;
+            right: 0;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .okaun-icon-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            position: relative;
+        }
+
+        .okaun-icon-btn:hover {
+            opacity: 1;
+        }
+
+        .okaun-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-white);
+        }
+
+        .okaun-icon-btn.speaking svg {
+            fill: var(--win-green);
         }
 
         .okaun-values {
@@ -182,28 +222,28 @@
         .okaun-input-wrapper {
             flex: 1;
             min-width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .okaun-input {
             width: 100%;
+            height: 70px;
             background: var(--panel-gray);
             border: none;
             border-radius: 12px;
             padding: 8px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
             color: var(--text-white);
             text-align: center;
             outline: none;
             transition: background 0.2s;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 1.1;
             cursor: text;
+            overflow: hidden;
         }
 
         .okaun-input:focus {
@@ -235,6 +275,7 @@
             color: var(--text-white);
             cursor: pointer;
             transition: all 0.2s;
+            position: relative;
         }
 
         .okaun-btn:hover {
@@ -246,11 +287,11 @@
             transform: scale(0.98);
         }
 
-        /* Krark's Thumb Toggle - Now dark like other buttons */
         .krark-toggle {
             background: var(--panel-dark);
             border-radius: 12px;
             padding: 12px 16px;
+            min-height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -270,6 +311,7 @@
             color: var(--text-white);
             letter-spacing: 1px;
             transition: all 0.3s;
+            text-align: center;
         }
 
         .krark-toggle.active .krark-text {
@@ -280,7 +322,8 @@
             display: none;
             align-items: center;
             gap: 8px;
-            margin-left: 12px;
+            position: absolute;
+            right: 12px;
         }
 
         .krark-toggle.active .krark-counter {
@@ -329,7 +372,6 @@
             50% { color: var(--loss-red); }
         }
 
-        /* Main Controls Area */
         .main-controls {
             display: flex;
             gap: 8px;
@@ -337,7 +379,6 @@
             min-height: 180px;
         }
 
-        /* Flip Button - Shiny Gold */
         .flip-btn-container {
             flex: 1;
             display: flex;
@@ -369,7 +410,6 @@
                 inset 0 -2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Gold shimmer effect */
         .flip-btn::before {
             content: '';
             position: absolute;
@@ -408,7 +448,6 @@
             transform: scale(0.98);
         }
 
-        /* Stop shimmer when flipping */
         .flip-btn.flipping::before,
         .flip-btn.stop-mode::before {
             animation: none;
@@ -425,7 +464,6 @@
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
         }
 
-        /* Power save mode flip button */
         body.power-save .flip-btn {
             background: var(--panel-dark);
             color: var(--text-white);
@@ -447,7 +485,6 @@
             50% { transform: scale(1.02); }
         }
 
-        /* Right Side Toggles */
         .right-toggles {
             display: flex;
             flex-direction: column;
@@ -483,7 +520,6 @@
             transform: scale(1.02);
         }
 
-        /* Coins Toggle with Input */
         .coins-toggle {
             display: flex;
             align-items: stretch;
@@ -522,7 +558,6 @@
             background: var(--panel-light);
         }
 
-        /* Bottom Bar */
         .bottom-bar {
             display: flex;
             gap: 8px;
@@ -552,11 +587,11 @@
             color: #000;
         }
 
-        /* Heads/Tails expanded */
         .heads-tails-container {
             flex: 1.5;
             display: flex;
             gap: 0;
+            position: relative;
         }
 
         .heads-tails-container .bottom-btn {
@@ -596,24 +631,40 @@
             color: #000;
         }
 
-        /* Help Mode Info Bubbles */
+        /* Help bubbles */
         .help-bubble {
             display: none;
             position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             background: var(--help-blue);
             border-radius: 50%;
             color: white;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 100;
             box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
+        }
+
+        .help-bubble.top-right {
+            top: 4px;
+            right: 4px;
+        }
+
+        .help-bubble.top-left {
+            top: 4px;
+            left: 4px;
+        }
+
+        .help-bubble.icon-bubble {
+            top: -4px;
+            right: -4px;
+            width: 14px;
+            height: 14px;
+            font-size: 9px;
         }
 
         body.help-mode .help-bubble {
@@ -638,8 +689,8 @@
             display: block;
         }
 
-        /* Help Panel (Power Save toggle) */
-        .help-panel {
+        /* Settings Panel */
+        .settings-panel {
             display: none;
             position: fixed;
             background: var(--overlay-bg);
@@ -648,35 +699,41 @@
             color: var(--text-white);
             z-index: 999;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            min-width: 200px;
+            min-width: 250px;
+            max-width: 300px;
         }
 
-        .help-panel.visible {
+        .settings-panel.visible {
             display: block;
         }
 
-        .help-panel-title {
+        .settings-panel-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
             text-align: center;
         }
 
-        .power-save-toggle {
+        .settings-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            padding: 8px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .power-save-label {
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
             font-size: 0.9rem;
             font-weight: 600;
         }
 
-        .power-save-switch {
+        .settings-switch {
             position: relative;
             width: 50px;
             height: 26px;
@@ -684,13 +741,14 @@
             border-radius: 13px;
             cursor: pointer;
             transition: background 0.3s;
+            flex-shrink: 0;
         }
 
-        .power-save-switch.active {
+        .settings-switch.active {
             background: var(--win-green);
         }
 
-        .power-save-switch::after {
+        .settings-switch::after {
             content: '';
             position: absolute;
             top: 3px;
@@ -702,11 +760,109 @@
             transition: transform 0.3s;
         }
 
-        .power-save-switch.active::after {
+        .settings-switch.active::after {
             transform: translateX(24px);
         }
 
-        /* Overlays */
+        .settings-select {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-white);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            max-width: 150px;
+            outline: none;
+        }
+
+        .settings-select:focus {
+            background: var(--panel-light);
+        }
+
+        .settings-select option {
+            background: var(--panel-dark);
+            color: var(--text-white);
+        }
+
+        /* Okaun Words Overlay */
+        .okaun-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-bg);
+            z-index: 600;
+            flex-direction: column;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .okaun-overlay.visible {
+            display: flex;
+        }
+
+        .okaun-overlay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-shrink: 0;
+        }
+
+        .okaun-overlay-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-white);
+            opacity: 0.7;
+        }
+
+        .okaun-overlay-toggle {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .okaun-overlay-toggle.visible {
+            display: block;
+        }
+
+        .okaun-overlay-toggle:hover {
+            background: var(--panel-light);
+        }
+
+        .okaun-overlay-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .okaun-overlay-text {
+            width: 100%;
+            text-align: center;
+            color: var(--text-white);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 10px;
+        }
+
         .overlay {
             display: none;
             position: fixed;
@@ -795,7 +951,6 @@
             margin-top: 10px;
         }
 
-        /* Position relative for help bubbles */
         .result-panel,
         .okaun-panel,
         .krark-toggle,
@@ -807,7 +962,6 @@
             position: relative;
         }
 
-        /* Responsive adjustments */
         @media (max-height: 700px) {
             .app-container {
                 gap: 6px;
@@ -820,8 +974,8 @@
                 padding: 8px;
             }
             .okaun-input {
+                height: 60px;
                 padding: 6px;
-                min-height: 60px;
             }
             .main-controls {
                 min-height: 140px;
@@ -859,7 +1013,6 @@
             }
         }
 
-        /* Animation for flip result */
         @keyframes resultPop {
             0% { transform: scale(0.8); opacity: 0; }
             50% { transform: scale(1.1); }
@@ -875,15 +1028,34 @@
     <div class="app-container">
         <!-- Result Display Panel -->
         <div class="result-panel">
-            <div class="help-bubble" data-help="result">i</div>
+            <div class="help-bubble top-right" data-help="result">i</div>
             <div class="result-display" id="resultDisplay">—</div>
             <div class="history-bar" id="historyBar"></div>
         </div>
 
         <!-- Okaun Panel -->
         <div class="okaun-panel">
-            <div class="help-bubble" data-help="okaun">i</div>
-            <div class="okaun-title">OKAUN-O-METER</div>
+            <div class="help-bubble top-left" data-help="okaun">i</div>
+            <div class="okaun-header">
+                <div class="okaun-title">OKAUN-O-METER</div>
+                <div class="okaun-icons">
+                    <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
+                        <div class="help-bubble icon-bubble" data-help="speaker">i</div>
+                        <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                        <svg id="speakerMuteIcon" style="display:none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                        </svg>
+                    </button>
+                    <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
+                        <div class="help-bubble icon-bubble" data-help="eye">i</div>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             <div class="okaun-values">
                 <div class="okaun-input-wrapper">
                     <div class="okaun-input" id="okaunLeft" contenteditable="true" inputmode="numeric">3</div>
@@ -894,14 +1066,20 @@
                 </div>
             </div>
             <div class="okaun-buttons">
-                <button class="okaun-btn" id="resetOkaun">Reset Okaun</button>
-                <button class="okaun-btn" id="endTurn">End Turn</button>
+                <button class="okaun-btn" id="resetOkaun">
+                    <div class="help-bubble top-right" data-help="resetOkaun">i</div>
+                    Reset Okaun
+                </button>
+                <button class="okaun-btn" id="endTurn">
+                    <div class="help-bubble top-right" data-help="endTurn">i</div>
+                    End Turn
+                </button>
             </div>
         </div>
 
         <!-- Krark's Thumb Toggle -->
         <div class="krark-toggle" id="krarkToggle">
-            <div class="help-bubble" data-help="krark">i</div>
+            <div class="help-bubble top-right" data-help="krark">i</div>
             <span class="krark-text" id="krarkText">Krark's Thumb?</span>
             <div class="krark-counter">
                 <span class="krark-num" id="krarkNum">1</span>
@@ -919,11 +1097,11 @@
             </div>
             <div class="right-toggles">
                 <button class="toggle-btn" id="untilLoss">
-                    <span class="help-bubble" data-help="untilLoss">i</span>
+                    <span class="help-bubble top-right" data-help="untilLoss">i</span>
                     Until Loss?
                 </button>
                 <button class="toggle-btn" id="until2Losses">
-                    <span class="help-bubble" data-help="until2Losses">i</span>
+                    <span class="help-bubble top-right" data-help="until2Losses">i</span>
                     Until 2 Losses?
                 </button>
                 <div class="coins-toggle" id="coinsToggle">
@@ -931,7 +1109,7 @@
                         <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
                     </div>
                     <button class="toggle-btn" id="coinsBtn">
-                        <span class="help-bubble" data-help="coins">i</span>
+                        <span class="help-bubble top-right" data-help="coins">i</span>
                         Coins?
                     </button>
                 </div>
@@ -943,6 +1121,7 @@
             <button class="bottom-btn" id="helpBtn">Help</button>
             <button class="bottom-btn" id="statsBtn">Stats</button>
             <div class="heads-tails-container" id="htContainer">
+                <div class="help-bubble top-right" data-help="ht">i</div>
                 <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
                 <div class="ht-selector">
                     <button class="ht-option" id="htHeads">H</button>
@@ -952,12 +1131,29 @@
         </div>
     </div>
 
-    <!-- Help Panel (appears near Help button) -->
-    <div class="help-panel" id="helpPanel">
-        <div class="help-panel-title">SETTINGS</div>
-        <div class="power-save-toggle">
-            <span class="power-save-label">Power Saving Mode</span>
-            <div class="power-save-switch" id="powerSaveSwitch"></div>
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-panel-title">SETTINGS</div>
+        <div class="settings-row">
+            <span class="settings-label">Dark Mode</span>
+            <div class="settings-switch" id="darkModeSwitch"></div>
+        </div>
+        <div class="settings-row">
+            <span class="settings-label">Voice</span>
+            <select class="settings-select" id="voiceSelect">
+                <option value="default">Default</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Okaun Words Overlay -->
+    <div class="okaun-overlay" id="okaunOverlay">
+        <div class="okaun-overlay-header">
+            <div class="okaun-overlay-label" id="okaunOverlayLabel">Okaun's Power and Toughness are:</div>
+            <button class="okaun-overlay-toggle" id="okaunOverlayToggle">Toughness</button>
+        </div>
+        <div class="okaun-overlay-content">
+            <div class="okaun-overlay-text" id="okaunOverlayText"></div>
         </div>
     </div>
 
@@ -1003,15 +1199,134 @@
     <div class="help-tooltip" id="helpTooltip"></div>
 
     <script>
+        // Number to words converter
+        const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                      'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                      'seventeen', 'eighteen', 'nineteen'];
+        const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        
+        const largeNumbers = [
+            '', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion',
+            'sextillion', 'septillion', 'octillion', 'nonillion', 'decillion', 'undecillion',
+            'duodecillion', 'tredecillion', 'quattuordecillion', 'quindecillion', 'sexdecillion',
+            'septendecillion', 'octodecillion', 'novemdecillion', 'vigintillion', 'unvigintillion',
+            'duovigintillion', 'trevigintillion', 'quattuorvigintillion', 'quinvigintillion',
+            'sexvigintillion', 'septenvigintillion', 'octovigintillion', 'novemvigintillion',
+            'trigintillion', 'untrigintillion', 'duotrigintillion', 'tretrigintillion',
+            'quattuortrigintillion', 'quintrigintillion', 'sextrigintillion', 'septentrigintillion',
+            'octotrigintillion', 'novemtrigintillion', 'quadragintillion', 'unquadragintillion',
+            'duoquadragintillion', 'trequadragintillion', 'quattuorquadragintillion',
+            'quinquadragintillion', 'sexquadragintillion', 'septenquadragintillion',
+            'octoquadragintillion', 'novemquadragintillion', 'quinquagintillion',
+            'unquinquagintillion', 'duoquinquagintillion', 'trequinquagintillion',
+            'quattuorquinquagintillion', 'quinquinquagintillion', 'sexquinquagintillion',
+            'septenquinquagintillion', 'octoquinquagintillion', 'novemquinquagintillion',
+            'sexagintillion', 'unsexagintillion', 'duosexagintillion', 'tresexagintillion',
+            'quattuorsexagintillion', 'quinsexagintillion', 'sexsexagintillion',
+            'septensexagintillion', 'octosexagintillion', 'novemsexagintillion',
+            'septuagintillion', 'unseptuagintillion', 'duoseptuagintillion', 'treseptuagintillion',
+            'quattuorseptuagintillion', 'quinseptuagintillion', 'sexseptuagintillion',
+            'septenseptuagintillion', 'octoseptuagintillion', 'novemseptuagintillion',
+            'octogintillion', 'unoctogintillion', 'duooctogintillion', 'treoctogintillion',
+            'quattuoroctogintillion', 'quinoctogintillion', 'sexoctogintillion',
+            'septenoctogintillion', 'octooctogintillion', 'novemoctogintillion',
+            'nonagintillion', 'unnonagintillion', 'duononagintillion', 'trenonagintillion',
+            'quattuornonagintillion', 'quinnonagintillion', 'sexnonagintillion',
+            'septennonagintillion', 'octononagintillion', 'novemnonagintillion',
+            'centillion'
+        ];
+
+        function convertHundreds(num) {
+            let result = '';
+            if (num >= 100) {
+                result += ones[Math.floor(num / 100)] + ' hundred';
+                num %= 100;
+                if (num > 0) result += ' ';
+            }
+            if (num >= 20) {
+                result += tens[Math.floor(num / 10)];
+                num %= 10;
+                if (num > 0) result += '-' + ones[num];
+            } else if (num > 0) {
+                result += ones[num];
+            }
+            return result;
+        }
+
+        function numberToWords(num) {
+            if (num === 0) return 'zero';
+            if (num < 0) return 'negative ' + numberToWords(-num);
+            
+            if (num >= Number.MAX_SAFE_INTEGER) {
+                return largeNumberToWords(num);
+            }
+            
+            let result = '';
+            let groupIndex = 0;
+            
+            while (num > 0) {
+                const chunk = num % 1000;
+                if (chunk > 0) {
+                    const chunkWords = convertHundreds(chunk);
+                    if (groupIndex > 0) {
+                        if (groupIndex < largeNumbers.length) {
+                            result = chunkWords + ' ' + largeNumbers[groupIndex] + (result ? ' ' + result : '');
+                        } else {
+                            const power = groupIndex * 3;
+                            result = chunkWords + ' times ten to the ' + numberToWords(power) + (result ? ' plus ' + result : '');
+                        }
+                    } else {
+                        result = chunkWords + (result ? ' ' + result : '');
+                    }
+                }
+                num = Math.floor(num / 1000);
+                groupIndex++;
+            }
+            
+            return result.trim();
+        }
+
+        function largeNumberToWords(num) {
+            const str = num.toExponential();
+            const match = str.match(/^([\d.]+)e\+?(\d+)$/);
+            if (match) {
+                const mantissa = parseFloat(match[1]);
+                const exponent = parseInt(match[2]);
+                
+                const groupIndex = Math.floor(exponent / 3);
+                const remainder = exponent % 3;
+                
+                if (groupIndex < largeNumbers.length) {
+                    const scaledMantissa = mantissa * Math.pow(10, remainder);
+                    const intPart = Math.floor(scaledMantissa);
+                    const words = numberToWords(intPart);
+                    return words + ' ' + largeNumbers[groupIndex];
+                } else {
+                    return numberToWords(Math.floor(mantissa)) + ' times ten to the power of ' + numberToWords(exponent);
+                }
+            }
+            return num.toString();
+        }
+
+        // Voice configurations (including funny ones)
+        const voiceConfigs = {
+            'default': { pitch: 1, rate: 1 },
+            'chipmunk': { pitch: 2, rate: 1.5 },
+            'deep': { pitch: 0.3, rate: 0.8 },
+            'robot': { pitch: 0.5, rate: 0.6 },
+            'whisper': { pitch: 1.2, rate: 0.5 },
+            'excited': { pitch: 1.4, rate: 1.8 },
+            'dramatic': { pitch: 0.7, rate: 0.4 },
+            'auctioneer': { pitch: 1.1, rate: 2 }
+        };
+
         // State
         const state = {
-            // Okaun
             okaunLeftBase: 3,
             okaunRightBase: 3,
             okaunLeft: 3,
             okaunRight: 3,
             
-            // Toggles
             krarkActive: false,
             krarkCount: 1,
             untilLossActive: false,
@@ -1023,14 +1338,17 @@
             helpMode: false,
             powerSaveMode: false,
             
-            // Flipping state
             isFlipping: false,
             stopRequested: false,
+            isSpeaking: false,
             
-            // History (max 10)
+            overlayShowingPower: true,
+            
+            selectedVoice: 'default',
+            availableVoices: [],
+            
             history: [],
             
-            // Stats
             stats: {
                 wins: 0,
                 losses: 0,
@@ -1038,10 +1356,11 @@
                 longestLossStreak: 0,
                 currentWinStreak: 0,
                 currentLossStreak: 0
-            }
+            },
+            
+            currentTooltip: null
         };
 
-        // Help text
         const helpTexts = {
             result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
             okaun: "Tracks Okaun's power/toughness. Numbers double on each win. Set your own base values!",
@@ -1049,12 +1368,13 @@
             untilLoss: "Keep flipping automatically until you get a loss.",
             until2Losses: "Keep flipping automatically until you get 2 losses.",
             coins: "Flip multiple coins at once. Set the number to flip.",
-            help: "Toggle help mode to see info about each element.",
-            stats: "View your flip statistics for this session.",
-            ht: "Choose whether Heads or Tails counts as your win."
+            speaker: "Read Okaun's current power and toughness aloud using text-to-speech.",
+            eye: "View Okaun's full power/toughness written out in words (useful for very large numbers!).",
+            resetOkaun: "Reset Okaun's power and toughness back to 3/3.",
+            endTurn: "Reset Okaun to the last manually-entered values (your 'base' stats).",
+            ht: "Toggle Heads/Tails mode. Choose whether Heads or Tails counts as your win."
         };
 
-        // Elements
         const els = {
             resultDisplay: document.getElementById('resultDisplay'),
             historyBar: document.getElementById('historyBar'),
@@ -1062,6 +1382,14 @@
             okaunRight: document.getElementById('okaunRight'),
             resetOkaun: document.getElementById('resetOkaun'),
             endTurn: document.getElementById('endTurn'),
+            speakerBtn: document.getElementById('speakerBtn'),
+            speakerIcon: document.getElementById('speakerIcon'),
+            speakerMuteIcon: document.getElementById('speakerMuteIcon'),
+            eyeBtn: document.getElementById('eyeBtn'),
+            okaunOverlay: document.getElementById('okaunOverlay'),
+            okaunOverlayLabel: document.getElementById('okaunOverlayLabel'),
+            okaunOverlayToggle: document.getElementById('okaunOverlayToggle'),
+            okaunOverlayText: document.getElementById('okaunOverlayText'),
             krarkToggle: document.getElementById('krarkToggle'),
             krarkText: document.getElementById('krarkText'),
             krarkNum: document.getElementById('krarkNum'),
@@ -1074,8 +1402,9 @@
             coinsBtn: document.getElementById('coinsBtn'),
             coinsNum: document.getElementById('coinsNum'),
             helpBtn: document.getElementById('helpBtn'),
-            helpPanel: document.getElementById('helpPanel'),
-            powerSaveSwitch: document.getElementById('powerSaveSwitch'),
+            settingsPanel: document.getElementById('settingsPanel'),
+            darkModeSwitch: document.getElementById('darkModeSwitch'),
+            voiceSelect: document.getElementById('voiceSelect'),
             statsBtn: document.getElementById('statsBtn'),
             htContainer: document.getElementById('htContainer'),
             htBtn: document.getElementById('htBtn'),
@@ -1093,7 +1422,56 @@
             closeStats: document.getElementById('closeStats')
         };
 
-        // Utility functions
+        // Initialize voices
+        function initVoices() {
+            const voices = window.speechSynthesis.getVoices();
+            state.availableVoices = voices;
+            
+            // Clear and rebuild voice select
+            els.voiceSelect.innerHTML = '';
+            
+            // Add funny/custom options first
+            const funnyOptions = [
+                { value: 'default', label: '🎤 Default' },
+                { value: 'chipmunk', label: '🐿️ Chipmunk' },
+                { value: 'deep', label: '🎸 Deep Voice' },
+                { value: 'robot', label: '🤖 Robot' },
+                { value: 'whisper', label: '🤫 Whisper' },
+                { value: 'excited', label: '🎉 Excited' },
+                { value: 'dramatic', label: '🎭 Dramatic' },
+                { value: 'auctioneer', label: '💰 Auctioneer' }
+            ];
+            
+            const funnyGroup = document.createElement('optgroup');
+            funnyGroup.label = 'Fun Voices';
+            funnyOptions.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.value;
+                option.textContent = opt.label;
+                funnyGroup.appendChild(option);
+            });
+            els.voiceSelect.appendChild(funnyGroup);
+            
+            // Add system voices
+            if (voices.length > 0) {
+                const systemGroup = document.createElement('optgroup');
+                systemGroup.label = 'System Voices';
+                voices.forEach((voice, index) => {
+                    const option = document.createElement('option');
+                    option.value = 'system_' + index;
+                    option.textContent = voice.name.substring(0, 25) + (voice.name.length > 25 ? '...' : '');
+                    systemGroup.appendChild(option);
+                });
+                els.voiceSelect.appendChild(systemGroup);
+            }
+        }
+
+        // Initialize voices when available
+        if (window.speechSynthesis) {
+            initVoices();
+            window.speechSynthesis.onvoiceschanged = initVoices;
+        }
+
         function flipCoin() {
             return Math.random() < 0.5;
         }
@@ -1105,59 +1483,39 @@
             return num.toLocaleString();
         }
 
-        // Calculate optimal font size for Okaun display
-        function calculateOkaunFontSize(element, text) {
-            const container = element;
+        function fitTextInContainer(element, text) {
+            const container = element.parentElement;
             const maxWidth = container.offsetWidth - 16;
-            const maxHeight = container.offsetHeight - 16;
+            const maxHeight = 70 - 16;
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
             const minFontSize = 10;
             const maxFontSize = 48;
             
-            // Create temp element for measurement
-            const temp = document.createElement('span');
-            temp.style.fontFamily = "'Bebas Neue', sans-serif";
-            temp.style.visibility = 'hidden';
-            temp.style.position = 'absolute';
-            temp.style.whiteSpace = 'nowrap';
-            temp.textContent = text;
-            document.body.appendChild(temp);
-            
-            let fontSize = maxFontSize;
-            let needsWrap = false;
-            
-            // Try to fit on one line first
-            for (fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 2) {
-                temp.style.fontSize = fontSize + 'px';
-                if (temp.offsetWidth <= maxWidth) {
-                    break;
+            for (let size = maxFontSize; size >= minFontSize; size -= 2) {
+                ctx.font = `${size}px "Bebas Neue"`;
+                const metrics = ctx.measureText(text);
+                if (metrics.width <= maxWidth) {
+                    return { fontSize: size, wrap: false, useScientific: false };
                 }
             }
             
-            // If still doesn't fit at min size, try wrapping
-            if (fontSize < minFontSize || temp.offsetWidth > maxWidth) {
-                needsWrap = true;
-                temp.style.whiteSpace = 'normal';
-                temp.style.wordBreak = 'break-all';
-                temp.style.width = maxWidth + 'px';
-                temp.style.lineHeight = '1.1';
+            for (let size = maxFontSize; size >= minFontSize; size -= 2) {
+                ctx.font = `${size}px "Bebas Neue"`;
+                const charWidth = ctx.measureText('0').width;
+                const charsPerLine = Math.floor(maxWidth / charWidth);
+                const lines = Math.ceil(text.length / charsPerLine);
+                const lineHeight = size * 1.1;
+                const totalHeight = lines * lineHeight;
                 
-                // Reset and try with wrapping
-                for (fontSize = maxFontSize; fontSize >= minFontSize; fontSize -= 2) {
-                    temp.style.fontSize = fontSize + 'px';
-                    if (temp.offsetHeight <= maxHeight) {
-                        break;
-                    }
+                if (totalHeight <= maxHeight && charsPerLine >= 3) {
+                    return { fontSize: size, wrap: true, useScientific: false };
                 }
             }
             
-            document.body.removeChild(temp);
-            
-            // If still doesn't fit, use scientific notation
-            if (fontSize < minFontSize) {
-                return { fontSize: 14, useScientific: true, wrap: false };
-            }
-            
-            return { fontSize, useScientific: false, wrap: needsWrap };
+            return { fontSize: 14, wrap: false, useScientific: true };
         }
 
         function updateOkaunDisplay() {
@@ -1165,25 +1523,42 @@
                 { el: els.okaunLeft, val: state.okaunLeft },
                 { el: els.okaunRight, val: state.okaunRight }
             ].forEach(({ el, val }) => {
-                let displayText = formatNumber(val);
-                
-                // First check if basic format fits
-                const sizing = calculateOkaunFontSize(el, displayText);
-                
-                if (sizing.useScientific || val >= 1e12) {
-                    displayText = val.toExponential(2);
+                if (val >= 1e12) {
+                    el.textContent = val.toExponential(2);
                     el.style.fontSize = '14px';
                     el.style.fontFamily = "'Outfit', sans-serif";
                     el.style.fontWeight = '700';
                     el.style.wordBreak = 'normal';
+                    el.style.whiteSpace = 'nowrap';
+                    return;
+                }
+                
+                const displayText = val.toLocaleString();
+                const sizing = fitTextInContainer(el, displayText);
+                
+                if (sizing.useScientific) {
+                    el.textContent = val.toExponential(2);
+                    el.style.fontSize = '14px';
+                    el.style.fontFamily = "'Outfit', sans-serif";
+                    el.style.fontWeight = '700';
+                    el.style.wordBreak = 'normal';
+                    el.style.whiteSpace = 'nowrap';
                 } else {
+                    el.textContent = displayText;
                     el.style.fontSize = sizing.fontSize + 'px';
                     el.style.fontFamily = "'Bebas Neue', sans-serif";
                     el.style.fontWeight = 'normal';
-                    el.style.wordBreak = sizing.wrap ? 'break-all' : 'normal';
+                    
+                    if (sizing.wrap) {
+                        el.style.wordBreak = 'break-all';
+                        el.style.whiteSpace = 'normal';
+                        el.style.lineHeight = '1.1';
+                    } else {
+                        el.style.wordBreak = 'normal';
+                        el.style.whiteSpace = 'nowrap';
+                        el.style.lineHeight = 'normal';
+                    }
                 }
-                
-                el.textContent = displayText;
             });
         }
 
@@ -1191,6 +1566,169 @@
             state.okaunLeft *= 2;
             state.okaunRight *= 2;
             updateOkaunDisplay();
+        }
+
+        function speakOkaun() {
+            if (state.isSpeaking) {
+                window.speechSynthesis.cancel();
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                return;
+            }
+            
+            let text;
+            if (state.okaunLeft === state.okaunRight) {
+                text = "Okaun's power and toughness are " + numberToWords(state.okaunLeft);
+            } else {
+                text = "Okaun's power is " + numberToWords(state.okaunLeft) + ". Okaun's toughness is " + numberToWords(state.okaunRight);
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Apply voice settings
+            const selectedValue = state.selectedVoice;
+            
+            if (selectedValue.startsWith('system_')) {
+                const voiceIndex = parseInt(selectedValue.replace('system_', ''));
+                if (state.availableVoices[voiceIndex]) {
+                    utterance.voice = state.availableVoices[voiceIndex];
+                }
+                utterance.pitch = 1;
+                utterance.rate = 1;
+            } else {
+                const config = voiceConfigs[selectedValue] || voiceConfigs.default;
+                utterance.pitch = config.pitch;
+                utterance.rate = config.rate;
+            }
+            
+            utterance.onstart = () => {
+                state.isSpeaking = true;
+                updateSpeakerIcon();
+            };
+            
+            utterance.onend = () => {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+            };
+            
+            utterance.onerror = () => {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function updateSpeakerIcon() {
+            if (state.isSpeaking) {
+                els.speakerIcon.style.display = 'none';
+                els.speakerMuteIcon.style.display = 'block';
+                els.speakerBtn.classList.add('speaking');
+            } else {
+                els.speakerIcon.style.display = 'block';
+                els.speakerMuteIcon.style.display = 'none';
+                els.speakerBtn.classList.remove('speaking');
+            }
+        }
+
+        function showOkaunWords() {
+            state.overlayShowingPower = true;
+            els.okaunOverlay.classList.add('visible');
+            
+            // Wait for overlay to be visible and laid out
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    updateOkaunOverlay();
+                });
+            });
+        }
+
+        function updateOkaunOverlay() {
+            const sameValues = state.okaunLeft === state.okaunRight;
+            
+            if (sameValues) {
+                els.okaunOverlayLabel.textContent = "Okaun's Power and Toughness are:";
+                els.okaunOverlayText.textContent = numberToWords(state.okaunLeft);
+                els.okaunOverlayToggle.classList.remove('visible');
+            } else {
+                if (state.overlayShowingPower) {
+                    els.okaunOverlayLabel.textContent = "Okaun's Power is:";
+                    els.okaunOverlayText.textContent = numberToWords(state.okaunLeft);
+                    els.okaunOverlayToggle.textContent = 'Toughness';
+                } else {
+                    els.okaunOverlayLabel.textContent = "Okaun's Toughness is:";
+                    els.okaunOverlayText.textContent = numberToWords(state.okaunRight);
+                    els.okaunOverlayToggle.textContent = 'Power';
+                }
+                els.okaunOverlayToggle.classList.add('visible');
+            }
+            
+            // Fit text after a small delay to ensure layout is complete
+            setTimeout(() => {
+                fitTextToOverlay();
+            }, 50);
+        }
+
+        function fitTextToOverlay() {
+            const container = els.okaunOverlay.querySelector('.okaun-overlay-content');
+            const textEl = els.okaunOverlayText;
+            const text = textEl.textContent;
+            
+            const maxWidth = container.offsetWidth - 40;
+            const maxHeight = container.offsetHeight - 40;
+            
+            // Use canvas for accurate text measurement
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Binary search for optimal font size
+            let min = 20;
+            let max = 500;
+            let bestSize = min;
+            
+            while (min <= max) {
+                const mid = Math.floor((min + max) / 2);
+                ctx.font = `700 ${mid}px "Outfit", sans-serif`;
+                
+                // Measure text - handle line breaks
+                const lines = text.split('\n');
+                let totalWidth = 0;
+                lines.forEach(line => {
+                    const metrics = ctx.measureText(line);
+                    totalWidth = Math.max(totalWidth, metrics.width);
+                });
+                
+                // Estimate height based on font size and number of lines
+                const lineHeight = mid * 1.2;
+                const totalHeight = lineHeight * lines.length;
+                
+                // Check if text fits with word wrapping
+                const wordsPerLine = Math.floor(maxWidth / (ctx.measureText('a').width));
+                const words = text.split(/\s+/);
+                let estimatedLines = 1;
+                let currentLineWidth = 0;
+                
+                words.forEach(word => {
+                    const wordWidth = ctx.measureText(word + ' ').width;
+                    if (currentLineWidth + wordWidth > maxWidth) {
+                        estimatedLines++;
+                        currentLineWidth = wordWidth;
+                    } else {
+                        currentLineWidth += wordWidth;
+                    }
+                });
+                
+                const estimatedHeight = estimatedLines * lineHeight;
+                
+                if (estimatedHeight <= maxHeight && currentLineWidth <= maxWidth) {
+                    bestSize = mid;
+                    min = mid + 1;
+                } else {
+                    max = mid - 1;
+                }
+            }
+            
+            textEl.style.fontSize = bestSize + 'px';
         }
 
         function addToHistory(result, isKrarkFlip = false, krarkWins = 0, krarkTotal = 0) {
@@ -1216,7 +1754,6 @@
 
         function renderHistory() {
             els.historyBar.innerHTML = state.history.join('');
-            els.historyBar.scrollLeft = els.historyBar.scrollWidth;
         }
 
         function updateStats(isWin) {
@@ -1387,7 +1924,6 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        // Parse Okaun input
         function parseOkaunValue(text) {
             const cleaned = text.replace(/,/g, '').replace(/\s/g, '').trim();
             
@@ -1400,7 +1936,6 @@
 
         // Event Listeners
         
-        // Okaun inputs (now contenteditable divs)
         els.okaunLeft.addEventListener('blur', () => {
             const val = parseOkaunValue(els.okaunLeft.textContent);
             state.okaunLeft = val;
@@ -1415,7 +1950,6 @@
             updateOkaunDisplay();
         });
         
-        // Prevent line breaks in Okaun inputs
         [els.okaunLeft, els.okaunRight].forEach(el => {
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
@@ -1439,7 +1973,28 @@
             updateOkaunDisplay();
         });
         
-        // Krark's Thumb
+        els.speakerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            speakOkaun();
+        });
+        
+        els.eyeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showOkaunWords();
+        });
+        
+        els.okaunOverlayToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.overlayShowingPower = !state.overlayShowingPower;
+            updateOkaunOverlay();
+        });
+        
+        els.okaunOverlay.addEventListener('click', (e) => {
+            if (e.target !== els.okaunOverlayToggle) {
+                els.okaunOverlay.classList.remove('visible');
+            }
+        });
+        
         els.krarkToggle.addEventListener('click', (e) => {
             if (e.target.closest('.krark-arrows')) return;
             
@@ -1467,10 +2022,8 @@
             }
         });
         
-        // Flip button
         els.flipBtn.addEventListener('click', doFlip);
         
-        // Until Loss
         els.untilLoss.addEventListener('click', () => {
             state.untilLossActive = !state.untilLossActive;
             if (state.untilLossActive) {
@@ -1480,7 +2033,6 @@
             els.untilLoss.classList.toggle('active', state.untilLossActive);
         });
         
-        // Until 2 Losses
         els.until2Losses.addEventListener('click', () => {
             state.until2LossesActive = !state.until2LossesActive;
             if (state.until2LossesActive) {
@@ -1490,7 +2042,6 @@
             els.until2Losses.classList.toggle('active', state.until2LossesActive);
         });
         
-        // Coins toggle
         els.coinsBtn.addEventListener('click', () => {
             state.coinsActive = !state.coinsActive;
             els.coinsBtn.classList.toggle('active', state.coinsActive);
@@ -1503,40 +2054,51 @@
             els.coinsNum.value = state.coinsCount;
         });
         
-        // Help button - toggle help mode AND show panel
         els.helpBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             state.helpMode = !state.helpMode;
             document.body.classList.toggle('help-mode', state.helpMode);
             els.helpBtn.classList.toggle('active', state.helpMode);
-            els.helpPanel.classList.toggle('visible', state.helpMode);
+            els.settingsPanel.classList.toggle('visible', state.helpMode);
+            
+            els.helpTooltip.classList.remove('visible');
+            state.currentTooltip = null;
             
             if (state.helpMode) {
-                // Position panel above Help button
                 const rect = els.helpBtn.getBoundingClientRect();
-                els.helpPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
-                els.helpPanel.style.left = rect.left + 'px';
+                els.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+                els.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
             }
         });
         
-        // Power save toggle
-        els.powerSaveSwitch.addEventListener('click', (e) => {
+        els.darkModeSwitch.addEventListener('click', (e) => {
             e.stopPropagation();
             state.powerSaveMode = !state.powerSaveMode;
-            els.powerSaveSwitch.classList.toggle('active', state.powerSaveMode);
+            els.darkModeSwitch.classList.toggle('active', state.powerSaveMode);
             document.body.classList.toggle('power-save', state.powerSaveMode);
         });
         
-        // Help bubbles
+        els.voiceSelect.addEventListener('change', (e) => {
+            state.selectedVoice = e.target.value;
+        });
+        
         document.querySelectorAll('.help-bubble').forEach(bubble => {
             bubble.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const helpKey = bubble.dataset.help;
-                const text = helpTexts[helpKey] || 'No help available.';
                 
+                if (state.currentTooltip === helpKey && els.helpTooltip.classList.contains('visible')) {
+                    els.helpTooltip.classList.remove('visible');
+                    state.currentTooltip = null;
+                    return;
+                }
+                
+                const text = helpTexts[helpKey] || 'No help available.';
                 const rect = bubble.getBoundingClientRect();
+                
                 els.helpTooltip.textContent = text;
                 els.helpTooltip.classList.add('visible');
+                state.currentTooltip = helpKey;
                 
                 let top = rect.bottom + 8;
                 let left = rect.left - 100;
@@ -1550,20 +2112,19 @@
             });
         });
         
-        // Close tooltip and help panel on click elsewhere
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.help-bubble')) {
                 els.helpTooltip.classList.remove('visible');
+                state.currentTooltip = null;
             }
-            if (!e.target.closest('#helpBtn') && !e.target.closest('#helpPanel')) {
+            if (!e.target.closest('#helpBtn') && !e.target.closest('#settingsPanel')) {
                 state.helpMode = false;
                 document.body.classList.remove('help-mode');
                 els.helpBtn.classList.remove('active');
-                els.helpPanel.classList.remove('visible');
+                els.settingsPanel.classList.remove('visible');
             }
         });
         
-        // Stats button
         els.statsBtn.addEventListener('click', () => {
             updateStatsDisplay();
             els.statsOverlay.classList.add('visible');
@@ -1603,7 +2164,6 @@
             els.statLossStreak.textContent = state.stats.longestLossStreak;
         }
         
-        // Heads/Tails toggle
         els.htBtn.addEventListener('click', () => {
             state.htActive = !state.htActive;
             els.htContainer.classList.toggle('active', state.htActive);
@@ -1633,7 +2193,6 @@
             }
         }
         
-        // Prevent zoom on double tap for mobile
         let lastTouchEnd = 0;
         document.addEventListener('touchend', (e) => {
             const now = Date.now();
@@ -1643,12 +2202,13 @@
             lastTouchEnd = now;
         }, false);
         
-        // Handle window resize for Okaun display
         window.addEventListener('resize', () => {
             updateOkaunDisplay();
+            if (els.okaunOverlay.classList.contains('visible')) {
+                fitTextToOverlay();
+            }
         });
         
-        // Initialize
         updateOkaunDisplay();
     </script>
 </body>
