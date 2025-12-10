@@ -32,10 +32,8 @@
             --panel-gray: #4a4a4a;
             --panel-light: #6a6a6a;
             --text-white: #ffffff;
-            --accent-red: #cc0000;
-            --accent-red-hover: #ff0000;
-            --okaun-red: rgba(255, 0, 51, 1);
-            --okaun-green: rgb(85, 134, 37);
+            --accent-red: #8b2035;
+            --accent-red-hover: #a62942;
             --win-green: #22c55e;
             --loss-red: #ef4444;
             --toggle-active: #ffffff;
@@ -159,15 +157,6 @@
             border-radius: 16px;
             padding: 12px;
             position: relative;
-            transition: opacity 0.3s ease;
-        }
-
-        .okaun-panel.inactive {
-            opacity: 0.4;
-        }
-
-        .okaun-panel.inactive .okaun-btn.okaun-toggle-btn {
-            opacity: 1;
         }
 
         .okaun-header {
@@ -261,11 +250,6 @@
             background: var(--panel-light);
         }
 
-        .okaun-panel.inactive .okaun-input {
-            cursor: default;
-            pointer-events: none;
-        }
-
         .okaun-divider {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 3rem;
@@ -284,9 +268,9 @@
             background: var(--accent-red);
             border: none;
             border-radius: 20px;
-            padding: 10px 8px;
+            padding: 10px 16px;
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+            font-size: clamp(0.85rem, 3vw, 1rem);
             font-weight: 600;
             color: var(--text-white);
             cursor: pointer;
@@ -301,18 +285,6 @@
 
         .okaun-btn:active {
             transform: scale(0.98);
-        }
-
-        .okaun-btn.okaun-toggle-btn {
-            background: var(--okaun-red);
-        }
-
-        .okaun-btn.okaun-toggle-btn:hover {
-            filter: brightness(1.1);
-        }
-
-        .okaun-btn.okaun-toggle-btn.active {
-            background: var(--okaun-green);
         }
 
         .krark-toggle {
@@ -553,7 +525,6 @@
             align-items: stretch;
             gap: 0;
             flex: 1;
-            position: relative;
         }
 
         .coins-num-wrapper {
@@ -728,8 +699,8 @@
             color: var(--text-white);
             z-index: 999;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            min-width: 280px;
-            max-width: 320px;
+            min-width: 250px;
+            max-width: 300px;
         }
 
         .settings-panel.visible {
@@ -813,60 +784,6 @@
         .settings-select option {
             background: var(--panel-dark);
             color: var(--text-white);
-        }
-
-        .settings-plusx-container {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .settings-plusx-input {
-            width: 40px;
-            background: var(--panel-gray);
-            border: none;
-            border-radius: 6px;
-            padding: 6px;
-            color: var(--text-white);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
-            text-align: center;
-            outline: none;
-        }
-
-        .settings-plusx-input:focus {
-            background: var(--panel-light);
-        }
-
-        .settings-plusx-label {
-            font-size: 0.85rem;
-            color: var(--text-white);
-            opacity: 0.8;
-        }
-
-        .plusx-arrows {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .plusx-arrow {
-            background: var(--panel-dark);
-            border: none;
-            border-radius: 4px;
-            width: 24px;
-            height: 18px;
-            color: var(--text-white);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            transition: all 0.2s;
-        }
-
-        .plusx-arrow:hover {
-            background: var(--panel-gray);
         }
 
         /* Okaun Words Overlay */
@@ -1025,4 +942,1521 @@
             transition: all 0.2s;
         }
 
-        .overlay-btn:
+        .overlay-btn:hover {
+            background: var(--accent-red-hover);
+        }
+
+        .overlay-btn.secondary {
+            background: var(--panel-gray);
+            margin-top: 10px;
+        }
+
+        .result-panel,
+        .okaun-panel,
+        .krark-toggle,
+        .flip-btn-container,
+        .toggle-btn,
+        .coins-toggle,
+        .bottom-btn,
+        .heads-tails-container {
+            position: relative;
+        }
+
+        @media (max-height: 700px) {
+            .app-container {
+                gap: 6px;
+            }
+            .result-panel {
+                min-height: 90px;
+                padding: 10px;
+            }
+            .okaun-panel {
+                padding: 8px;
+            }
+            .okaun-input {
+                height: 60px;
+                padding: 6px;
+            }
+            .main-controls {
+                min-height: 140px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            body {
+                padding: 4px;
+            }
+            .app-container {
+                gap: 4px;
+            }
+            .result-panel {
+                min-height: 70px;
+                padding: 8px;
+            }
+            .history-bar {
+                height: 24px;
+            }
+            .okaun-values {
+                margin-bottom: 4px;
+            }
+            .okaun-btn {
+                padding: 8px 12px;
+            }
+            .main-controls {
+                min-height: 100px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 480px;
+            }
+        }
+
+        @keyframes resultPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-display.animate {
+            animation: resultPop 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Result Display Panel -->
+        <div class="result-panel">
+            <div class="help-bubble top-right" data-help="result">i</div>
+            <div class="result-display" id="resultDisplay">—</div>
+            <div class="history-bar" id="historyBar"></div>
+        </div>
+
+        <!-- Okaun Panel -->
+        <div class="okaun-panel">
+            <div class="help-bubble top-left" data-help="okaun">i</div>
+            <div class="okaun-header">
+                <div class="okaun-title">OKAUN-O-METER</div>
+                <div class="okaun-icons">
+                    <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
+                        <div class="help-bubble icon-bubble" data-help="speaker">i</div>
+                        <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                        <svg id="speakerMuteIcon" style="display:none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                        </svg>
+                    </button>
+                    <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
+                        <div class="help-bubble icon-bubble" data-help="eye">i</div>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="okaun-values">
+                <div class="okaun-input-wrapper">
+                    <div class="okaun-input" id="okaunLeft" contenteditable="true" inputmode="numeric">3</div>
+                </div>
+                <span class="okaun-divider">/</span>
+                <div class="okaun-input-wrapper">
+                    <div class="okaun-input" id="okaunRight" contenteditable="true" inputmode="numeric">3</div>
+                </div>
+            </div>
+            <div class="okaun-buttons">
+                <button class="okaun-btn" id="resetOkaun">
+                    <div class="help-bubble top-right" data-help="resetOkaun">i</div>
+                    Reset Okaun
+                </button>
+                <button class="okaun-btn" id="endTurn">
+                    <div class="help-bubble top-right" data-help="endTurn">i</div>
+                    End Turn
+                </button>
+            </div>
+        </div>
+
+        <!-- Krark's Thumb Toggle -->
+        <div class="krark-toggle" id="krarkToggle">
+            <div class="help-bubble top-right" data-help="krark">i</div>
+            <span class="krark-text" id="krarkText">Krark's Thumb?</span>
+            <div class="krark-counter">
+                <span class="krark-num" id="krarkNum">1</span>
+                <div class="krark-arrows">
+                    <button class="krark-arrow" id="krarkUp">▲</button>
+                    <button class="krark-arrow" id="krarkDown">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="main-controls">
+            <div class="flip-btn-container">
+                <button class="flip-btn" id="flipBtn">FLIP</button>
+            </div>
+            <div class="right-toggles">
+                <button class="toggle-btn" id="untilLoss">
+                    <span class="help-bubble top-right" data-help="untilLoss">i</span>
+                    Until Loss?
+                </button>
+                <button class="toggle-btn" id="until2Losses">
+                    <span class="help-bubble top-right" data-help="until2Losses">i</span>
+                    Until 2 Losses?
+                </button>
+                <div class="coins-toggle" id="coinsToggle">
+                    <div class="coins-num-wrapper">
+                        <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
+                    </div>
+                    <button class="toggle-btn" id="coinsBtn">
+                        <span class="help-bubble top-right" data-help="coins">i</span>
+                        Coins?
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bottom-bar">
+            <button class="bottom-btn" id="helpBtn">Help</button>
+            <button class="bottom-btn" id="statsBtn">Stats</button>
+            <div class="heads-tails-container" id="htContainer">
+                <div class="help-bubble top-right" data-help="ht">i</div>
+                <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
+                <div class="ht-selector">
+                    <button class="ht-option" id="htHeads">H</button>
+                    <button class="ht-option selected" id="htTails">T</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-panel-title">SETTINGS</div>
+        <div class="settings-row">
+            <span class="settings-label">Dark Mode</span>
+            <div class="settings-switch" id="darkModeSwitch"></div>
+        </div>
+        <div class="settings-row">
+            <span class="settings-label">Voice</span>
+            <select class="settings-select" id="voiceSelect">
+                <option value="default">Default</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Okaun Words Overlay -->
+    <div class="okaun-overlay" id="okaunOverlay">
+        <div class="okaun-overlay-header">
+            <div class="okaun-overlay-label" id="okaunOverlayLabel">Okaun's Power and Toughness are:</div>
+            <button class="okaun-overlay-toggle" id="okaunOverlayToggle">Toughness</button>
+        </div>
+        <div class="okaun-overlay-content">
+            <div class="okaun-overlay-text" id="okaunOverlayText"></div>
+        </div>
+    </div>
+
+    <!-- Stats Overlay -->
+    <div class="overlay" id="statsOverlay">
+        <div class="overlay-content">
+            <div class="overlay-title">STATISTICS</div>
+            <div class="stat-row">
+                <span class="stat-label">Total Wins</span>
+                <span class="stat-value win" id="statWins">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total Losses</span>
+                <span class="stat-value loss" id="statLosses">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Win Rate</span>
+                <span class="stat-value" id="statWinRate">0%</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total Flips</span>
+                <span class="stat-value" id="statTotal">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Longest Win Streak</span>
+                <span class="stat-value win" id="statWinStreak">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Longest Loss Streak</span>
+                <span class="stat-value loss" id="statLossStreak">0</span>
+            </div>
+            <p class="overlay-description">
+                Randomization uses JavaScript's Math.random(), which generates cryptographically 
+                pseudo-random numbers via the browser's underlying algorithm. Each flip is 
+                independent with a true 50/50 probability.
+            </p>
+            <button class="overlay-btn" id="resetStats">Reset Stats</button>
+            <button class="overlay-btn secondary" id="closeStats">Close</button>
+        </div>
+    </div>
+
+    <!-- Help Tooltip -->
+    <div class="help-tooltip" id="helpTooltip"></div>
+
+    <script>
+        // Number to words converter
+        const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                      'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                      'seventeen', 'eighteen', 'nineteen'];
+        const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        
+        const largeNumbers = [
+            '', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion',
+            'sextillion', 'septillion', 'octillion', 'nonillion', 'decillion', 'undecillion',
+            'duodecillion', 'tredecillion', 'quattuordecillion', 'quindecillion', 'sexdecillion',
+            'septendecillion', 'octodecillion', 'novemdecillion', 'vigintillion', 'unvigintillion',
+            'duovigintillion', 'trevigintillion', 'quattuorvigintillion', 'quinvigintillion',
+            'sexvigintillion', 'septenvigintillion', 'octovigintillion', 'novemvigintillion',
+            'trigintillion', 'untrigintillion', 'duotrigintillion', 'tretrigintillion',
+            'quattuortrigintillion', 'quintrigintillion', 'sextrigintillion', 'septentrigintillion',
+            'octotrigintillion', 'novemtrigintillion', 'quadragintillion', 'unquadragintillion',
+            'duoquadragintillion', 'trequadragintillion', 'quattuorquadragintillion',
+            'quinquadragintillion', 'sexquadragintillion', 'septenquadragintillion',
+            'octoquadragintillion', 'novemquadragintillion', 'quinquagintillion',
+            'unquinquagintillion', 'duoquinquagintillion', 'trequinquagintillion',
+            'quattuorquinquagintillion', 'quinquinquagintillion', 'sexquinquagintillion',
+            'septenquinquagintillion', 'octoquinquagintillion', 'novemquinquagintillion',
+            'sexagintillion', 'unsexagintillion', 'duosexagintillion', 'tresexagintillion',
+            'quattuorsexagintillion', 'quinsexagintillion', 'sexsexagintillion',
+            'septensexagintillion', 'octosexagintillion', 'novemsexagintillion',
+            'septuagintillion', 'unseptuagintillion', 'duoseptuagintillion', 'treseptuagintillion',
+            'quattuorseptuagintillion', 'quinseptuagintillion', 'sexseptuagintillion',
+            'septenseptuagintillion', 'octoseptuagintillion', 'novemseptuagintillion',
+            'octogintillion', 'unoctogintillion', 'duooctogintillion', 'treoctogintillion',
+            'quattuoroctogintillion', 'quinoctogintillion', 'sexoctogintillion',
+            'septenoctogintillion', 'octooctogintillion', 'novemoctogintillion',
+            'nonagintillion', 'unnonagintillion', 'duononagintillion', 'trenonagintillion',
+            'quattuornonagintillion', 'quinnonagintillion', 'sexnonagintillion',
+            'septennonagintillion', 'octononagintillion', 'novemnonagintillion',
+            'centillion'
+        ];
+
+        function convertHundreds(num) {
+            let result = '';
+            num = parseInt(num);
+            if (num >= 100) {
+                result += ones[Math.floor(num / 100)] + ' hundred';
+                num %= 100;
+                if (num > 0) result += ' ';
+            }
+            if (num >= 20) {
+                result += tens[Math.floor(num / 10)];
+                num %= 10;
+                if (num > 0) result += '-' + ones[num];
+            } else if (num > 0) {
+                result += ones[num];
+            }
+            return result;
+        }
+
+        // Convert number to words - handles BigInt and arbitrarily large numbers
+        function numberToWords(num) {
+            // Handle BigInt
+            if (typeof num === 'bigint') {
+                if (num === 0n) return 'zero';
+                if (num < 0n) return 'negative ' + numberToWords(-num);
+                // Convert BigInt to string directly (preserves all digits)
+                return numberToWordsFromString(num.toString());
+            }
+            
+            // Handle regular numbers
+            if (num === 0) return 'zero';
+            if (num < 0) return 'negative ' + numberToWords(-num);
+            
+            // Convert to string to preserve all digits
+            let numStr = '';
+            if (typeof num === 'number') {
+                if (num >= 1e21) {
+                    numStr = bigNumberToString(num);
+                } else {
+                    numStr = Math.floor(num).toString();
+                }
+            } else {
+                numStr = num.toString();
+            }
+            
+            return numberToWordsFromString(numStr);
+        }
+        
+        // Convert number string to words
+        function numberToWordsFromString(numStr) {
+            // Remove any non-digit characters
+            numStr = numStr.replace(/[^0-9]/g, '');
+            
+            if (numStr === '' || numStr === '0') return 'zero';
+            
+            // Remove leading zeros
+            numStr = numStr.replace(/^0+/, '') || '0';
+            
+            // Pad to multiple of 3
+            while (numStr.length % 3 !== 0) {
+                numStr = '0' + numStr;
+            }
+            
+            // Split into groups of 3
+            const groups = [];
+            for (let i = 0; i < numStr.length; i += 3) {
+                groups.push(numStr.substring(i, i + 3));
+            }
+            
+            const numGroups = groups.length;
+            const parts = [];
+            
+            for (let i = 0; i < numGroups; i++) {
+                const groupValue = parseInt(groups[i]);
+                if (groupValue === 0) continue;
+                
+                const groupIndex = numGroups - 1 - i;
+                const groupWords = convertHundreds(groupValue);
+                
+                if (groupIndex > 0) {
+                    if (groupIndex < largeNumbers.length) {
+                        parts.push(groupWords + ' ' + largeNumbers[groupIndex]);
+                    } else {
+                        // For numbers beyond our named list
+                        const power = groupIndex * 3;
+                        parts.push(groupWords + ' times ten to the ' + numberToWords(power));
+                    }
+                } else {
+                    parts.push(groupWords);
+                }
+            }
+            
+            return parts.join(' ') || 'zero';
+        }
+
+        // Helper to convert very large numbers to full digit strings
+        function bigNumberToString(num) {
+            if (num < 1e21) {
+                return Math.floor(num).toString();
+            }
+            
+            // Get the exponent and mantissa
+            const str = num.toExponential();
+            const match = str.match(/^(\d)\.?(\d*)e\+(\d+)$/);
+            
+            if (!match) return Math.floor(num).toString();
+            
+            const firstDigit = match[1];
+            const decimals = match[2] || '';
+            const exponent = parseInt(match[3]);
+            
+            // Build the full number string
+            let result = firstDigit + decimals;
+            const zerosNeeded = exponent - decimals.length;
+            
+            if (zerosNeeded > 0) {
+                result += '0'.repeat(zerosNeeded);
+            } else if (zerosNeeded < 0) {
+                // Truncate if we have more decimals than the exponent allows
+                result = result.substring(0, exponent + 1);
+            }
+            
+            return result;
+        }
+
+        // Initialize voices with StreamElements options
+        function initVoices() {
+            // Clear and rebuild voice select
+            els.voiceSelect.innerHTML = '';
+            
+            // Group voices by language
+            const voiceGroups = {};
+            streamElementsVoices.forEach(voice => {
+                const lang = voice.lang.split('-')[0];
+                const langNames = {
+                    'en': 'English',
+                    'ar': 'Arabic',
+                    'zh': 'Chinese',
+                    'da': 'Danish',
+                    'nl': 'Dutch',
+                    'fr': 'French',
+                    'de': 'German',
+                    'it': 'Italian',
+                    'ja': 'Japanese',
+                    'ko': 'Korean',
+                    'nb': 'Norwegian',
+                    'pl': 'Polish',
+                    'pt': 'Portuguese',
+                    'ro': 'Romanian',
+                    'ru': 'Russian',
+                    'es': 'Spanish',
+                    'sv': 'Swedish',
+                    'tr': 'Turkish',
+                    'cy': 'Welsh'
+                };
+                const groupName = langNames[lang] || lang;
+                if (!voiceGroups[groupName]) {
+                    voiceGroups[groupName] = [];
+                }
+                voiceGroups[groupName].push(voice);
+            });
+            
+            // Add English voices first (most likely to be used)
+            if (voiceGroups['English']) {
+                const engGroup = document.createElement('optgroup');
+                engGroup.label = '🇬🇧 English';
+                voiceGroups['English'].forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.value;
+                    option.textContent = voice.label;
+                    engGroup.appendChild(option);
+                });
+                els.voiceSelect.appendChild(engGroup);
+                delete voiceGroups['English'];
+            }
+            
+            // Add other languages alphabetically
+            Object.keys(voiceGroups).sort().forEach(groupName => {
+                const group = document.createElement('optgroup');
+                group.label = groupName;
+                voiceGroups[groupName].forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.value;
+                    option.textContent = voice.label;
+                    group.appendChild(option);
+                });
+                els.voiceSelect.appendChild(group);
+            });
+        }
+
+        // State
+        const state = {
+            okaunLeftBase: 3n,
+            okaunRightBase: 3n,
+            okaunLeft: 3n,
+            okaunRight: 3n,
+            
+            krarkActive: false,
+            krarkCount: 1,
+            untilLossActive: false,
+            until2LossesActive: false,
+            coinsActive: false,
+            coinsCount: 5,
+            htActive: false,
+            htMode: 'tails',
+            helpMode: false,
+            powerSaveMode: false,
+            
+            isFlipping: false,
+            stopRequested: false,
+            isSpeaking: false,
+            currentAudio: null,
+            
+            overlayShowingPower: true,
+            
+            selectedVoice: 'brian',
+            availableVoices: [],
+            
+            history: [],
+            
+            stats: {
+                wins: 0,
+                losses: 0,
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                currentWinStreak: 0,
+                currentLossStreak: 0
+            },
+            
+            currentTooltip: null
+        };
+        
+        // StreamElements TTS voices
+        const streamElementsVoices = [
+            { value: 'brian', label: 'Brian (British Male)', lang: 'en-GB' },
+            { value: 'amy', label: 'Amy (British Female)', lang: 'en-GB' },
+            { value: 'emma', label: 'Emma (British Female)', lang: 'en-GB' },
+            { value: 'geraint', label: 'Geraint (Welsh Male)', lang: 'en-GB-WLS' },
+            { value: 'ivy', label: 'Ivy (US Child)', lang: 'en-US' },
+            { value: 'joanna', label: 'Joanna (US Female)', lang: 'en-US' },
+            { value: 'joey', label: 'Joey (US Male)', lang: 'en-US' },
+            { value: 'justin', label: 'Justin (US Child)', lang: 'en-US' },
+            { value: 'kendra', label: 'Kendra (US Female)', lang: 'en-US' },
+            { value: 'kimberly', label: 'Kimberly (US Female)', lang: 'en-US' },
+            { value: 'matthew', label: 'Matthew (US Male)', lang: 'en-US' },
+            { value: 'salli', label: 'Salli (US Female)', lang: 'en-US' },
+            { value: 'nicole', label: 'Nicole (Australian Female)', lang: 'en-AU' },
+            { value: 'russell', label: 'Russell (Australian Male)', lang: 'en-AU' },
+            { value: 'raveena', label: 'Raveena (Indian Female)', lang: 'en-IN' },
+            { value: 'zeina', label: 'Zeina (Arabic Female)', lang: 'ar' },
+            { value: 'zhiyu', label: 'Zhiyu (Chinese Female)', lang: 'zh-CN' },
+            { value: 'mads', label: 'Mads (Danish Male)', lang: 'da-DK' },
+            { value: 'naja', label: 'Naja (Danish Female)', lang: 'da-DK' },
+            { value: 'ruben', label: 'Ruben (Dutch Male)', lang: 'nl-NL' },
+            { value: 'lotte', label: 'Lotte (Dutch Female)', lang: 'nl-NL' },
+            { value: 'mathieu', label: 'Mathieu (French Male)', lang: 'fr-FR' },
+            { value: 'celine', label: 'Céline (French Female)', lang: 'fr-FR' },
+            { value: 'chantal', label: 'Chantal (Canadian French)', lang: 'fr-CA' },
+            { value: 'hans', label: 'Hans (German Male)', lang: 'de-DE' },
+            { value: 'marlene', label: 'Marlene (German Female)', lang: 'de-DE' },
+            { value: 'vicki', label: 'Vicki (German Female)', lang: 'de-DE' },
+            { value: 'giorgio', label: 'Giorgio (Italian Male)', lang: 'it-IT' },
+            { value: 'carla', label: 'Carla (Italian Female)', lang: 'it-IT' },
+            { value: 'takumi', label: 'Takumi (Japanese Male)', lang: 'ja-JP' },
+            { value: 'mizuki', label: 'Mizuki (Japanese Female)', lang: 'ja-JP' },
+            { value: 'seoyeon', label: 'Seoyeon (Korean Female)', lang: 'ko-KR' },
+            { value: 'liv', label: 'Liv (Norwegian Female)', lang: 'nb-NO' },
+            { value: 'ewa', label: 'Ewa (Polish Female)', lang: 'pl-PL' },
+            { value: 'maja', label: 'Maja (Polish Female)', lang: 'pl-PL' },
+            { value: 'jacek', label: 'Jacek (Polish Male)', lang: 'pl-PL' },
+            { value: 'jan', label: 'Jan (Polish Male)', lang: 'pl-PL' },
+            { value: 'ricardo', label: 'Ricardo (Portuguese Male)', lang: 'pt-BR' },
+            { value: 'vitoria', label: 'Vitória (Portuguese Female)', lang: 'pt-BR' },
+            { value: 'cristiano', label: 'Cristiano (Euro Portuguese)', lang: 'pt-PT' },
+            { value: 'ines', label: 'Inês (Euro Portuguese)', lang: 'pt-PT' },
+            { value: 'carmen', label: 'Carmen (Romanian Female)', lang: 'ro-RO' },
+            { value: 'maxim', label: 'Maxim (Russian Male)', lang: 'ru-RU' },
+            { value: 'tatyana', label: 'Tatyana (Russian Female)', lang: 'ru-RU' },
+            { value: 'enrique', label: 'Enrique (Spanish Male)', lang: 'es-ES' },
+            { value: 'conchita', label: 'Conchita (Spanish Female)', lang: 'es-ES' },
+            { value: 'lucia', label: 'Lucia (Spanish Female)', lang: 'es-ES' },
+            { value: 'mia', label: 'Mia (Mexican Female)', lang: 'es-MX' },
+            { value: 'penelope', label: 'Penelope (US Spanish Female)', lang: 'es-US' },
+            { value: 'miguel', label: 'Miguel (US Spanish Male)', lang: 'es-US' },
+            { value: 'astrid', label: 'Astrid (Swedish Female)', lang: 'sv-SE' },
+            { value: 'filiz', label: 'Filiz (Turkish Female)', lang: 'tr-TR' },
+            { value: 'gwyneth', label: 'Gwyneth (Welsh Female)', lang: 'cy-GB' }
+        ];
+
+        const helpTexts = {
+            result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
+            okaun: "Tracks Okaun's power/toughness. Numbers double on each win. Set your own base values!",
+            krark: "Krark's Thumb: Flip extra coins and win if ANY land on your winning side. Each thumb doubles the coins flipped.",
+            untilLoss: "Keep flipping automatically until you get a loss.",
+            until2Losses: "Keep flipping automatically until you get 2 losses.",
+            coins: "Flip multiple coins at once. Set the number to flip.",
+            speaker: "Read Okaun's current power and toughness aloud using text-to-speech.",
+            eye: "View Okaun's full power/toughness written out in words (useful for very large numbers!).",
+            resetOkaun: "Reset Okaun's power and toughness back to 3/3.",
+            endTurn: "Reset Okaun to the last manually-entered values (your 'base' stats).",
+            ht: "Toggle Heads/Tails mode. Choose whether Heads or Tails counts as your win."
+        };
+
+        const els = {
+            resultDisplay: document.getElementById('resultDisplay'),
+            historyBar: document.getElementById('historyBar'),
+            okaunLeft: document.getElementById('okaunLeft'),
+            okaunRight: document.getElementById('okaunRight'),
+            resetOkaun: document.getElementById('resetOkaun'),
+            endTurn: document.getElementById('endTurn'),
+            speakerBtn: document.getElementById('speakerBtn'),
+            speakerIcon: document.getElementById('speakerIcon'),
+            speakerMuteIcon: document.getElementById('speakerMuteIcon'),
+            eyeBtn: document.getElementById('eyeBtn'),
+            okaunOverlay: document.getElementById('okaunOverlay'),
+            okaunOverlayLabel: document.getElementById('okaunOverlayLabel'),
+            okaunOverlayToggle: document.getElementById('okaunOverlayToggle'),
+            okaunOverlayText: document.getElementById('okaunOverlayText'),
+            krarkToggle: document.getElementById('krarkToggle'),
+            krarkText: document.getElementById('krarkText'),
+            krarkNum: document.getElementById('krarkNum'),
+            krarkUp: document.getElementById('krarkUp'),
+            krarkDown: document.getElementById('krarkDown'),
+            flipBtn: document.getElementById('flipBtn'),
+            untilLoss: document.getElementById('untilLoss'),
+            until2Losses: document.getElementById('until2Losses'),
+            coinsToggle: document.getElementById('coinsToggle'),
+            coinsBtn: document.getElementById('coinsBtn'),
+            coinsNum: document.getElementById('coinsNum'),
+            helpBtn: document.getElementById('helpBtn'),
+            settingsPanel: document.getElementById('settingsPanel'),
+            darkModeSwitch: document.getElementById('darkModeSwitch'),
+            voiceSelect: document.getElementById('voiceSelect'),
+            statsBtn: document.getElementById('statsBtn'),
+            htContainer: document.getElementById('htContainer'),
+            htBtn: document.getElementById('htBtn'),
+            htHeads: document.getElementById('htHeads'),
+            htTails: document.getElementById('htTails'),
+            statsOverlay: document.getElementById('statsOverlay'),
+            helpTooltip: document.getElementById('helpTooltip'),
+            statWins: document.getElementById('statWins'),
+            statLosses: document.getElementById('statLosses'),
+            statWinRate: document.getElementById('statWinRate'),
+            statTotal: document.getElementById('statTotal'),
+            statWinStreak: document.getElementById('statWinStreak'),
+            statLossStreak: document.getElementById('statLossStreak'),
+            resetStats: document.getElementById('resetStats'),
+            closeStats: document.getElementById('closeStats')
+        };
+
+        function flipCoin() {
+            return Math.random() < 0.5;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1e12) {
+                return num.toExponential(2);
+            }
+            return num.toLocaleString();
+        }
+
+        function fitTextInContainer(element, text) {
+            const container = element.parentElement;
+            const maxWidth = container.offsetWidth - 16;
+            const maxHeight = 70 - 16;
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const minFontSize = 10;
+            const maxFontSize = 48;
+            
+            for (let size = maxFontSize; size >= minFontSize; size -= 2) {
+                ctx.font = `${size}px "Bebas Neue"`;
+                const metrics = ctx.measureText(text);
+                if (metrics.width <= maxWidth) {
+                    return { fontSize: size, wrap: false, useScientific: false };
+                }
+            }
+            
+            for (let size = maxFontSize; size >= minFontSize; size -= 2) {
+                ctx.font = `${size}px "Bebas Neue"`;
+                const charWidth = ctx.measureText('0').width;
+                const charsPerLine = Math.floor(maxWidth / charWidth);
+                const lines = Math.ceil(text.length / charsPerLine);
+                const lineHeight = size * 1.1;
+                const totalHeight = lines * lineHeight;
+                
+                if (totalHeight <= maxHeight && charsPerLine >= 3) {
+                    return { fontSize: size, wrap: true, useScientific: false };
+                }
+            }
+            
+            return { fontSize: 14, wrap: false, useScientific: true };
+        }
+
+        // Format BigInt for display
+        function formatBigIntDisplay(val) {
+            const str = val.toString();
+            if (str.length > 15) {
+                // Use scientific notation for very large numbers
+                const exp = str.length - 1;
+                const mantissa = str[0] + '.' + str.substring(1, 3);
+                return mantissa + 'e+' + exp;
+            }
+            // Add commas for readability
+            return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+        
+        function updateOkaunDisplay() {
+            [
+                { el: els.okaunLeft, val: state.okaunLeft },
+                { el: els.okaunRight, val: state.okaunRight }
+            ].forEach(({ el, val }) => {
+                const strVal = val.toString();
+                
+                // Use scientific notation for very large numbers
+                if (strVal.length > 12) {
+                    const exp = strVal.length - 1;
+                    const mantissa = strVal[0] + '.' + strVal.substring(1, 3);
+                    el.textContent = mantissa + 'e+' + exp;
+                    el.style.fontSize = '14px';
+                    el.style.fontFamily = "'Outfit', sans-serif";
+                    el.style.fontWeight = '700';
+                    el.style.wordBreak = 'normal';
+                    el.style.whiteSpace = 'nowrap';
+                    return;
+                }
+                
+                // Add commas for readability
+                const displayText = strVal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                const sizing = fitTextInContainer(el, displayText);
+                
+                if (sizing.useScientific) {
+                    const exp = strVal.length - 1;
+                    const mantissa = strVal[0] + '.' + strVal.substring(1, 3);
+                    el.textContent = mantissa + 'e+' + exp;
+                    el.style.fontSize = '14px';
+                    el.style.fontFamily = "'Outfit', sans-serif";
+                    el.style.fontWeight = '700';
+                    el.style.wordBreak = 'normal';
+                    el.style.whiteSpace = 'nowrap';
+                } else {
+                    el.textContent = displayText;
+                    el.style.fontSize = sizing.fontSize + 'px';
+                    el.style.fontFamily = "'Bebas Neue', sans-serif";
+                    el.style.fontWeight = 'normal';
+                    
+                    if (sizing.wrap) {
+                        el.style.wordBreak = 'break-all';
+                        el.style.whiteSpace = 'normal';
+                        el.style.lineHeight = '1.1';
+                    } else {
+                        el.style.wordBreak = 'normal';
+                        el.style.whiteSpace = 'nowrap';
+                        el.style.lineHeight = 'normal';
+                    }
+                }
+            });
+        }
+
+        function doubleOkaun() {
+            state.okaunLeft = state.okaunLeft * 2n;
+            state.okaunRight = state.okaunRight * 2n;
+            updateOkaunDisplay();
+        }
+
+        // Check if StreamElements is available (cache the result)
+        let streamElementsAvailable = null;
+        
+        async function checkStreamElements() {
+            if (streamElementsAvailable !== null) return streamElementsAvailable;
+            
+            try {
+                const testUrl = 'https://api.streamelements.com/kappa/v2/speech?voice=brian&text=test';
+                const audio = new Audio();
+                
+                return new Promise((resolve) => {
+                    const timeout = setTimeout(() => {
+                        resolve(false);
+                    }, 3000);
+                    
+                    audio.oncanplaythrough = () => {
+                        clearTimeout(timeout);
+                        streamElementsAvailable = true;
+                        resolve(true);
+                    };
+                    
+                    audio.onerror = () => {
+                        clearTimeout(timeout);
+                        streamElementsAvailable = false;
+                        resolve(false);
+                    };
+                    
+                    audio.src = testUrl;
+                    audio.load();
+                });
+            } catch {
+                streamElementsAvailable = false;
+                return false;
+            }
+        }
+        
+        async function speakOkaun() {
+            // If currently speaking, stop
+            if (state.isSpeaking) {
+                if (state.currentAudio) {
+                    state.currentAudio.pause();
+                    state.currentAudio = null;
+                }
+                window.speechSynthesis.cancel();
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                return;
+            }
+            
+            let text;
+            if (state.okaunLeft === state.okaunRight) {
+                text = "Okaun's power and toughness are " + numberToWords(state.okaunLeft);
+            } else {
+                text = "Okaun's power is " + numberToWords(state.okaunLeft) + ". Okaun's toughness is " + numberToWords(state.okaunRight);
+            }
+            
+            // Check if StreamElements is available and text isn't too long
+            const useStreamElements = text.length <= 500 && await checkStreamElements();
+            
+            if (!useStreamElements) {
+                speakOkaunFallback(text);
+                return;
+            }
+            
+            // StreamElements TTS API
+            const voice = state.selectedVoice;
+            const encodedText = encodeURIComponent(text);
+            const url = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodedText}`;
+            
+            state.isSpeaking = true;
+            updateSpeakerIcon();
+            
+            const audio = new Audio();
+            state.currentAudio = audio;
+            
+            // Track if we've already handled the error
+            let errorHandled = false;
+            
+            const handleError = () => {
+                if (errorHandled) return;
+                errorHandled = true;
+                state.currentAudio = null;
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                // Mark StreamElements as unavailable and use fallback
+                streamElementsAvailable = false;
+                speakOkaunFallback(text);
+            };
+            
+            audio.onended = () => {
+                state.isSpeaking = false;
+                state.currentAudio = null;
+                updateSpeakerIcon();
+            };
+            
+            audio.onerror = handleError;
+            
+            // Wait for audio to be ready before playing
+            audio.oncanplaythrough = () => {
+                if (!errorHandled) {
+                    audio.play().catch(handleError);
+                }
+            };
+            
+            // Set a timeout in case loading takes too long
+            setTimeout(() => {
+                if (!errorHandled && audio.readyState < 3) {
+                    handleError();
+                }
+            }, 5000);
+            
+            audio.src = url;
+            audio.load();
+        }
+        
+        // Fallback TTS using Web Speech API
+        function speakOkaunFallback(text) {
+            if (!window.speechSynthesis) {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+                return;
+            }
+            
+            // Cancel any existing speech
+            window.speechSynthesis.cancel();
+            
+            state.isSpeaking = true;
+            updateSpeakerIcon();
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.pitch = 1;
+            utterance.rate = 1;
+            
+            utterance.onend = () => {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+            };
+            
+            utterance.onerror = () => {
+                state.isSpeaking = false;
+                updateSpeakerIcon();
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function updateSpeakerIcon() {
+            if (state.isSpeaking) {
+                els.speakerIcon.style.display = 'none';
+                els.speakerMuteIcon.style.display = 'block';
+                els.speakerBtn.classList.add('speaking');
+            } else {
+                els.speakerIcon.style.display = 'block';
+                els.speakerMuteIcon.style.display = 'none';
+                els.speakerBtn.classList.remove('speaking');
+            }
+        }
+
+        function showOkaunWords() {
+            state.overlayShowingPower = true;
+            els.okaunOverlay.classList.add('visible');
+            
+            // Wait for overlay to be visible and laid out
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    updateOkaunOverlay();
+                });
+            });
+        }
+
+        function updateOkaunOverlay() {
+            const sameValues = state.okaunLeft === state.okaunRight;
+            
+            if (sameValues) {
+                els.okaunOverlayLabel.textContent = "Okaun's Power and Toughness are:";
+                els.okaunOverlayText.textContent = numberToWords(state.okaunLeft);
+                els.okaunOverlayToggle.classList.remove('visible');
+            } else {
+                if (state.overlayShowingPower) {
+                    els.okaunOverlayLabel.textContent = "Okaun's Power is:";
+                    els.okaunOverlayText.textContent = numberToWords(state.okaunLeft);
+                    els.okaunOverlayToggle.textContent = 'Toughness';
+                } else {
+                    els.okaunOverlayLabel.textContent = "Okaun's Toughness is:";
+                    els.okaunOverlayText.textContent = numberToWords(state.okaunRight);
+                    els.okaunOverlayToggle.textContent = 'Power';
+                }
+                els.okaunOverlayToggle.classList.add('visible');
+            }
+            
+            // Fit text after a small delay to ensure layout is complete
+            setTimeout(() => {
+                fitTextToOverlay();
+            }, 50);
+        }
+
+        function fitTextToOverlay() {
+            const container = els.okaunOverlay.querySelector('.okaun-overlay-content');
+            const textEl = els.okaunOverlayText;
+            const text = textEl.textContent;
+            
+            const maxWidth = container.offsetWidth - 40;
+            const maxHeight = container.offsetHeight - 40;
+            
+            // Use canvas for accurate text measurement
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Binary search for optimal font size
+            let min = 20;
+            let max = 500;
+            let bestSize = min;
+            
+            while (min <= max) {
+                const mid = Math.floor((min + max) / 2);
+                ctx.font = `700 ${mid}px "Outfit", sans-serif`;
+                
+                // Measure text - handle line breaks
+                const lines = text.split('\n');
+                let totalWidth = 0;
+                lines.forEach(line => {
+                    const metrics = ctx.measureText(line);
+                    totalWidth = Math.max(totalWidth, metrics.width);
+                });
+                
+                // Estimate height based on font size and number of lines
+                const lineHeight = mid * 1.2;
+                const totalHeight = lineHeight * lines.length;
+                
+                // Check if text fits with word wrapping
+                const wordsPerLine = Math.floor(maxWidth / (ctx.measureText('a').width));
+                const words = text.split(/\s+/);
+                let estimatedLines = 1;
+                let currentLineWidth = 0;
+                
+                words.forEach(word => {
+                    const wordWidth = ctx.measureText(word + ' ').width;
+                    if (currentLineWidth + wordWidth > maxWidth) {
+                        estimatedLines++;
+                        currentLineWidth = wordWidth;
+                    } else {
+                        currentLineWidth += wordWidth;
+                    }
+                });
+                
+                const estimatedHeight = estimatedLines * lineHeight;
+                
+                if (estimatedHeight <= maxHeight && currentLineWidth <= maxWidth) {
+                    bestSize = mid;
+                    min = mid + 1;
+                } else {
+                    max = mid - 1;
+                }
+            }
+            
+            textEl.style.fontSize = bestSize + 'px';
+        }
+
+        function addToHistory(result, isKrarkFlip = false, krarkWins = 0, krarkTotal = 0) {
+            const item = document.createElement('div');
+            item.classList.add('history-item');
+            
+            if (isKrarkFlip) {
+                item.classList.add('fraction');
+                item.textContent = `${krarkWins}/${krarkTotal}`;
+                item.classList.add(result ? 'win' : 'loss');
+            } else {
+                item.classList.add(result ? 'win' : 'loss');
+                item.textContent = result ? '✓' : '✗';
+            }
+            
+            state.history.push(item.outerHTML);
+            if (state.history.length > 10) {
+                state.history.shift();
+            }
+            
+            renderHistory();
+        }
+
+        function renderHistory() {
+            els.historyBar.innerHTML = state.history.join('');
+        }
+
+        function updateStats(isWin) {
+            if (isWin) {
+                state.stats.wins++;
+                state.stats.currentWinStreak++;
+                state.stats.currentLossStreak = 0;
+                if (state.stats.currentWinStreak > state.stats.longestWinStreak) {
+                    state.stats.longestWinStreak = state.stats.currentWinStreak;
+                }
+            } else {
+                state.stats.losses++;
+                state.stats.currentLossStreak++;
+                state.stats.currentWinStreak = 0;
+                if (state.stats.currentLossStreak > state.stats.longestLossStreak) {
+                    state.stats.longestLossStreak = state.stats.currentLossStreak;
+                }
+            }
+        }
+
+        function showResult(text, isWin, animate = true) {
+            els.resultDisplay.textContent = text;
+            els.resultDisplay.classList.remove('win', 'loss', 'animate');
+            
+            if (isWin !== null) {
+                els.resultDisplay.classList.add(isWin ? 'win' : 'loss');
+            }
+            
+            if (animate) {
+                void els.resultDisplay.offsetWidth;
+                els.resultDisplay.classList.add('animate');
+            }
+        }
+
+        function getResultText(isWin) {
+            if (state.htActive) {
+                if (state.htMode === 'heads') {
+                    return isWin ? 'HEADS' : 'TAILS';
+                } else {
+                    return isWin ? 'TAILS' : 'HEADS';
+                }
+            }
+            return isWin ? 'WIN' : 'LOSS';
+        }
+
+        function performSingleFlip() {
+            if (state.krarkActive) {
+                const totalCoins = Math.pow(2, state.krarkCount);
+                let wins = 0;
+                
+                for (let i = 0; i < totalCoins; i++) {
+                    if (flipCoin()) wins++;
+                }
+                
+                const isWin = wins > 0;
+                addToHistory(isWin, true, wins, totalCoins);
+                updateStats(isWin);
+                
+                return isWin;
+            } else {
+                const isWin = flipCoin();
+                addToHistory(isWin);
+                updateStats(isWin);
+                return isWin;
+            }
+        }
+
+        function calculateDelay(totalFlips, baseDelay = 500) {
+            const maxTime = 10000;
+            const totalTime = totalFlips * baseDelay;
+            
+            if (totalTime <= maxTime) {
+                return baseDelay;
+            }
+            
+            return maxTime / totalFlips;
+        }
+
+        async function doFlip() {
+            if (state.isFlipping) {
+                state.stopRequested = true;
+                return;
+            }
+            
+            state.isFlipping = true;
+            state.stopRequested = false;
+            
+            const isUntilLoss = state.untilLossActive;
+            const isUntil2Losses = state.until2LossesActive;
+            const isMultiCoins = state.coinsActive;
+            
+            if (isUntilLoss || isUntil2Losses) {
+                els.flipBtn.textContent = 'STOP?';
+                els.flipBtn.classList.add('stop-mode');
+                
+                let lossCount = 0;
+                const lossTarget = isUntil2Losses ? 2 : 1;
+                let flipCount = 0;
+                let winCount = 0;
+                let delay = 500;
+                const minDelay = 50;
+                const maxFlips = isMultiCoins ? parseInt(state.coinsCount) || 5 : Infinity;
+                
+                while (lossCount < lossTarget && flipCount < maxFlips && !state.stopRequested) {
+                    const isWin = performSingleFlip();
+                    flipCount++;
+                    
+                    if (isWin) {
+                        winCount++;
+                        doubleOkaun();
+                        showResult(getResultText(true), true);
+                    } else {
+                        lossCount++;
+                        showResult(getResultText(false), false);
+                    }
+                    
+                    if (flipCount < maxFlips && lossCount < lossTarget && !state.stopRequested) {
+                        await sleep(delay);
+                        delay = Math.max(minDelay, delay * 0.85);
+                    }
+                }
+                
+                if (isMultiCoins) {
+                    showResult(`${winCount}/${maxFlips} Wins`, winCount > 0);
+                }
+                
+            } else if (isMultiCoins) {
+                const totalCoins = parseInt(state.coinsCount) || 5;
+                const delay = calculateDelay(totalCoins);
+                let winCount = 0;
+                
+                els.flipBtn.classList.add('flipping');
+                
+                for (let i = 0; i < totalCoins; i++) {
+                    const isWin = performSingleFlip();
+                    
+                    if (isWin) {
+                        winCount++;
+                        doubleOkaun();
+                    }
+                    
+                    showResult(`${winCount}/${i + 1} Wins`, winCount > 0);
+                    
+                    if (i < totalCoins - 1) {
+                        await sleep(delay);
+                    }
+                }
+                
+                showResult(`${winCount}/${totalCoins} Wins`, winCount > 0);
+                
+            } else {
+                const isWin = performSingleFlip();
+                
+                if (isWin) {
+                    doubleOkaun();
+                }
+                
+                showResult(getResultText(isWin), isWin);
+            }
+            
+            els.flipBtn.textContent = 'FLIP';
+            els.flipBtn.classList.remove('flipping', 'stop-mode');
+            state.isFlipping = false;
+            state.stopRequested = false;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function parseOkaunValue(text) {
+            const cleaned = text.replace(/,/g, '').replace(/\s/g, '').trim();
+            
+            // Handle scientific notation
+            if (cleaned.includes('e') || cleaned.includes('E')) {
+                const num = parseFloat(cleaned);
+                if (isNaN(num) || num < 0) return 3n;
+                // Convert to BigInt (loses precision for very large numbers but better than nothing)
+                try {
+                    return BigInt(Math.floor(num));
+                } catch {
+                    return 3n;
+                }
+            }
+            
+            // Remove any non-digit characters for BigInt
+            const digitsOnly = cleaned.replace(/[^0-9]/g, '');
+            if (!digitsOnly || digitsOnly === '0') return 3n;
+            
+            try {
+                return BigInt(digitsOnly);
+            } catch {
+                return 3n;
+            }
+        }
+
+        // Event Listeners
+        
+        els.okaunLeft.addEventListener('blur', () => {
+            const val = parseOkaunValue(els.okaunLeft.textContent);
+            state.okaunLeft = val;
+            state.okaunLeftBase = val;
+            updateOkaunDisplay();
+        });
+        
+        els.okaunRight.addEventListener('blur', () => {
+            const val = parseOkaunValue(els.okaunRight.textContent);
+            state.okaunRight = val;
+            state.okaunRightBase = val;
+            updateOkaunDisplay();
+        });
+        
+        [els.okaunLeft, els.okaunRight].forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    el.blur();
+                }
+            });
+        });
+        
+        els.resetOkaun.addEventListener('click', () => {
+            state.okaunLeft = 3n;
+            state.okaunRight = 3n;
+            state.okaunLeftBase = 3n;
+            state.okaunRightBase = 3n;
+            updateOkaunDisplay();
+        });
+        
+        els.endTurn.addEventListener('click', () => {
+            state.okaunLeft = state.okaunLeftBase;
+            state.okaunRight = state.okaunRightBase;
+            updateOkaunDisplay();
+        });
+        
+        els.speakerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            speakOkaun();
+        });
+        
+        els.eyeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showOkaunWords();
+        });
+        
+        els.okaunOverlayToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.overlayShowingPower = !state.overlayShowingPower;
+            updateOkaunOverlay();
+        });
+        
+        els.okaunOverlay.addEventListener('click', (e) => {
+            if (e.target !== els.okaunOverlayToggle) {
+                els.okaunOverlay.classList.remove('visible');
+            }
+        });
+        
+        els.krarkToggle.addEventListener('click', (e) => {
+            if (e.target.closest('.krark-arrows')) return;
+            
+            state.krarkActive = !state.krarkActive;
+            els.krarkToggle.classList.toggle('active', state.krarkActive);
+            els.krarkText.textContent = state.krarkActive ? "KRARK'S THUMB!" : "Krark's Thumb?";
+        });
+        
+        els.krarkUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.krarkCount >= 8) {
+                els.krarkNum.classList.add('flash-red');
+                setTimeout(() => els.krarkNum.classList.remove('flash-red'), 300);
+                return;
+            }
+            state.krarkCount++;
+            els.krarkNum.textContent = state.krarkCount;
+        });
+        
+        els.krarkDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.krarkCount > 1) {
+                state.krarkCount--;
+                els.krarkNum.textContent = state.krarkCount;
+            }
+        });
+        
+        els.flipBtn.addEventListener('click', doFlip);
+        
+        els.untilLoss.addEventListener('click', () => {
+            state.untilLossActive = !state.untilLossActive;
+            if (state.untilLossActive) {
+                state.until2LossesActive = false;
+                els.until2Losses.classList.remove('active');
+            }
+            els.untilLoss.classList.toggle('active', state.untilLossActive);
+        });
+        
+        els.until2Losses.addEventListener('click', () => {
+            state.until2LossesActive = !state.until2LossesActive;
+            if (state.until2LossesActive) {
+                state.untilLossActive = false;
+                els.untilLoss.classList.remove('active');
+            }
+            els.until2Losses.classList.toggle('active', state.until2LossesActive);
+        });
+        
+        els.coinsBtn.addEventListener('click', () => {
+            state.coinsActive = !state.coinsActive;
+            els.coinsBtn.classList.toggle('active', state.coinsActive);
+            els.coinsToggle.classList.toggle('active', state.coinsActive);
+        });
+        
+        els.coinsNum.addEventListener('change', () => {
+            const val = parseInt(els.coinsNum.value) || 5;
+            state.coinsCount = Math.max(1, val);
+            els.coinsNum.value = state.coinsCount;
+        });
+        
+        els.helpBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.helpMode = !state.helpMode;
+            document.body.classList.toggle('help-mode', state.helpMode);
+            els.helpBtn.classList.toggle('active', state.helpMode);
+            els.settingsPanel.classList.toggle('visible', state.helpMode);
+            
+            els.helpTooltip.classList.remove('visible');
+            state.currentTooltip = null;
+            
+            if (state.helpMode) {
+                const rect = els.helpBtn.getBoundingClientRect();
+                els.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+                els.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
+            }
+        });
+        
+        els.darkModeSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.powerSaveMode = !state.powerSaveMode;
+            els.darkModeSwitch.classList.toggle('active', state.powerSaveMode);
+            document.body.classList.toggle('power-save', state.powerSaveMode);
+        });
+        
+        els.voiceSelect.addEventListener('change', (e) => {
+            state.selectedVoice = e.target.value;
+        });
+        
+        document.querySelectorAll('.help-bubble').forEach(bubble => {
+            bubble.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const helpKey = bubble.dataset.help;
+                
+                if (state.currentTooltip === helpKey && els.helpTooltip.classList.contains('visible')) {
+                    els.helpTooltip.classList.remove('visible');
+                    state.currentTooltip = null;
+                    return;
+                }
+                
+                const text = helpTexts[helpKey] || 'No help available.';
+                const rect = bubble.getBoundingClientRect();
+                
+                els.helpTooltip.textContent = text;
+                els.helpTooltip.classList.add('visible');
+                state.currentTooltip = helpKey;
+                
+                let top = rect.bottom + 8;
+                let left = rect.left - 100;
+                
+                if (left < 10) left = 10;
+                if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+                if (top + 100 > window.innerHeight) top = rect.top - 80;
+                
+                els.helpTooltip.style.top = top + 'px';
+                els.helpTooltip.style.left = left + 'px';
+            });
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.help-bubble')) {
+                els.helpTooltip.classList.remove('visible');
+                state.currentTooltip = null;
+            }
+            if (!e.target.closest('#helpBtn') && !e.target.closest('#settingsPanel')) {
+                state.helpMode = false;
+                document.body.classList.remove('help-mode');
+                els.helpBtn.classList.remove('active');
+                els.settingsPanel.classList.remove('visible');
+            }
+        });
+        
+        els.statsBtn.addEventListener('click', () => {
+            updateStatsDisplay();
+            els.statsOverlay.classList.add('visible');
+        });
+        
+        els.closeStats.addEventListener('click', () => {
+            els.statsOverlay.classList.remove('visible');
+        });
+        
+        els.resetStats.addEventListener('click', () => {
+            state.stats = {
+                wins: 0,
+                losses: 0,
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                currentWinStreak: 0,
+                currentLossStreak: 0
+            };
+            updateStatsDisplay();
+        });
+        
+        els.statsOverlay.addEventListener('click', (e) => {
+            if (e.target === els.statsOverlay) {
+                els.statsOverlay.classList.remove('visible');
+            }
+        });
+        
+        function updateStatsDisplay() {
+            const total = state.stats.wins + state.stats.losses;
+            const winRate = total > 0 ? ((state.stats.wins / total) * 100).toFixed(1) : 0;
+            
+            els.statWins.textContent = state.stats.wins;
+            els.statLosses.textContent = state.stats.losses;
+            els.statWinRate.textContent = winRate + '%';
+            els.statTotal.textContent = total;
+            els.statWinStreak.textContent = state.stats.longestWinStreak;
+            els.statLossStreak.textContent = state.stats.longestLossStreak;
+        }
+        
+        els.htBtn.addEventListener('click', () => {
+            state.htActive = !state.htActive;
+            els.htContainer.classList.toggle('active', state.htActive);
+            els.htBtn.classList.toggle('active', state.htActive);
+            updateHTButtonText();
+        });
+        
+        els.htHeads.addEventListener('click', () => {
+            state.htMode = 'heads';
+            els.htHeads.classList.add('selected');
+            els.htTails.classList.remove('selected');
+            updateHTButtonText();
+        });
+        
+        els.htTails.addEventListener('click', () => {
+            state.htMode = 'tails';
+            els.htTails.classList.add('selected');
+            els.htHeads.classList.remove('selected');
+            updateHTButtonText();
+        });
+        
+        function updateHTButtonText() {
+            if (state.htActive) {
+                els.htBtn.textContent = state.htMode === 'heads' ? 'Heads Mode!' : 'Tails Mode!';
+            } else {
+                els.htBtn.textContent = 'Heads/Tails Mode?';
+            }
+        }
+        
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+        
+        window.addEventListener('resize', () => {
+            updateOkaunDisplay();
+            if (els.okaunOverlay.classList.contains('visible')) {
+                fitTextToOverlay();
+            }
+        });
+        
+        // Initialize
+        updateOkaunDisplay();
+        initVoices();
+    </script>
+</body>
+</html>
