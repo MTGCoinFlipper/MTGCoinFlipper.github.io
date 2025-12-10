@@ -599,13 +599,14 @@
         .okaun-slide {
             min-width: 100%;
             flex-shrink: 0;
+            padding: 0 28px;
         }
 
         .okaun-nav-arrow {
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 24px;
+            width: 20px;
             background: var(--panel-gray);
             border: none;
             color: var(--text-white);
@@ -613,7 +614,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             transition: all 0.2s;
             z-index: 10;
         }
@@ -623,13 +624,13 @@
         }
 
         .okaun-nav-arrow.left {
-            left: 0;
-            border-radius: 0 8px 8px 0;
+            left: -12px;
+            border-radius: 0 4px 4px 0;
         }
 
         .okaun-nav-arrow.right {
-            right: 0;
-            border-radius: 8px 0 0 8px;
+            right: -12px;
+            border-radius: 4px 0 0 4px;
         }
 
         .okaun-nav-arrow.visible {
@@ -897,93 +898,6 @@
             transition: all 0.3s ease;
         }
 
-        .main-controls.with-tax {
-            min-height: 140px;
-        }
-
-        .tax-counters {
-            display: none;
-            gap: 8px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-        }
-
-        .tax-counters.visible {
-            display: flex;
-            max-height: 60px;
-            opacity: 1;
-        }
-
-        .tax-counter {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-radius: 12px;
-            padding: 8px 12px;
-            min-height: 52px;
-            transition: all 0.3s ease;
-        }
-
-        .tax-counter.zndrsplt {
-            background: #459ab5;
-        }
-
-        .tax-counter.okaun-tax {
-            background: #8cdb51;
-        }
-
-        .tax-counter-label {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1rem, 4vw, 1.2rem);
-            color: var(--text-white);
-            letter-spacing: 1px;
-        }
-
-        .tax-counter-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tax-num {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.5rem;
-            color: #000;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .tax-num.flash-red {
-            animation: flashRed 0.3s ease;
-        }
-
-        .tax-arrows {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .tax-arrow {
-            background: var(--panel-dark);
-            border: none;
-            border-radius: 4px;
-            width: 24px;
-            height: 18px;
-            color: var(--text-white);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            transition: all 0.2s;
-        }
-
-        .tax-arrow:hover {
-            background: var(--panel-gray);
-        }
 
         .flip-btn-container {
             flex: 1;
@@ -1236,247 +1150,6 @@
             background: var(--toggle-active);
             color: #000;
         }
-
-        /* Help bubbles */
-        .help-bubble {
-            display: none;
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: var(--help-blue);
-            border-radius: 50%;
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.5);
-        }
-
-        .help-bubble.top-right {
-            top: 4px;
-            right: 4px;
-        }
-
-        .help-bubble.top-left {
-            top: 4px;
-            left: 4px;
-        }
-
-        .help-bubble.icon-bubble {
-            top: -4px;
-            right: -4px;
-            width: 14px;
-            height: 14px;
-            font-size: 9px;
-        }
-
-        body.help-mode .help-bubble {
-            display: flex;
-        }
-
-        body.help-mode .result-panel,
-        body.help-mode .okaun-panel,
-        body.help-mode .krark-toggle,
-        body.help-mode .main-controls,
-        body.help-mode .tax-counters,
-        body.help-mode .heads-tails-container,
-        body.help-mode #statsBtn {
-            opacity: 0.4;
-        }
-
-        body.help-mode .result-panel *:not(.help-bubble),
-        body.help-mode .okaun-panel *:not(.help-bubble),
-        body.help-mode .krark-toggle *:not(.help-bubble),
-        body.help-mode .main-controls *:not(.help-bubble),
-        body.help-mode .tax-counters *,
-        body.help-mode .heads-tails-container *:not(.help-bubble),
-        body.help-mode #statsBtn {
-            pointer-events: none;
-        }
-
-        body.help-mode #helpBtn {
-            animation: helpPulse 1.5s ease-in-out infinite;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
-            opacity: 1 !important;
-            pointer-events: auto !important;
-        }
-
-        @keyframes helpPulse {
-            0%, 100% { 
-                box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
-            }
-            50% { 
-                box-shadow: 0 0 25px rgba(59, 130, 246, 1), 0 0 35px rgba(59, 130, 246, 0.4);
-            }
-        }
-
-        body.help-mode .settings-panel {
-            pointer-events: auto;
-            opacity: 1;
-        }
-
-        body.help-mode .settings-panel button,
-        body.help-mode .settings-panel .settings-switch,
-        body.help-mode .settings-panel select,
-        body.help-mode .settings-panel input,
-        body.help-mode .settings-panel .settings-tax-btn {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .help-tooltip {
-            display: none;
-            position: fixed;
-            background: var(--overlay-bg);
-            border-radius: 12px;
-            padding: 16px;
-            color: var(--text-white);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            max-width: 280px;
-            z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-
-        .help-tooltip.visible {
-            display: block;
-        }
-
-        /* Settings Panel */
-        .settings-panel {
-            display: none;
-            position: fixed;
-            background: var(--overlay-bg);
-            border-radius: 12px;
-            padding: 16px;
-            color: var(--text-white);
-            z-index: 999;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            min-width: 280px;
-            max-width: 320px;
-        }
-
-        .settings-panel.visible {
-            display: block;
-        }
-
-        .settings-panel-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .settings-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .settings-row:last-child {
-            border-bottom: none;
-        }
-
-        .settings-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .settings-switch {
-            position: relative;
-            width: 50px;
-            height: 26px;
-            background: var(--panel-gray);
-            border-radius: 13px;
-            cursor: pointer;
-            transition: background 0.3s;
-            flex-shrink: 0;
-        }
-
-        .settings-switch.active {
-            background: var(--win-green);
-        }
-
-        .settings-switch::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            transition: transform 0.3s;
-        }
-
-        .settings-switch.active::after {
-            transform: translateX(24px);
-        }
-
-        .settings-select {
-            background: var(--panel-gray);
-            border: none;
-            border-radius: 8px;
-            padding: 8px 12px;
-            color: var(--text-white);
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
-            cursor: pointer;
-            max-width: 150px;
-            outline: none;
-        }
-
-        .settings-select:focus {
-            background: var(--panel-light);
-        }
-
-        .settings-select option {
-            background: var(--panel-dark);
-            color: var(--text-white);
-        }
-
-
-        .settings-tax-toggles {
-            display: flex;
-            gap: 8px;
-        }
-
-        .settings-tax-btn {
-            background: #7a8a7a;
-            border: none;
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-white);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .settings-tax-btn:hover {
-            filter: brightness(1.1);
-        }
-
-        .settings-tax-btn.active {
-            background: #459ab5;
-        }
-
-        .settings-tax-btn.okaun {
-            background: #aab99e;
-        }
-
-        .settings-tax-btn.okaun.active {
-            background: #8cdb51;
-        }
-
         /* Okaun Words Overlay */
         .okaun-overlay {
             display: none;
@@ -1719,16 +1392,13 @@
     <div class="app-container">
         <!-- Result Display Panel -->
         <div class="result-panel">
-            <div class="help-bubble top-right" data-help="result">i</div>
             <div class="result-display" id="resultDisplay">—</div>
             <div class="history-bar" id="historyBar"></div>
         </div>
 
         <!-- Okaun Panel -->
         <div class="okaun-panel collapsed" id="okaunPanel">
-            <div class="help-bubble top-left" data-help="okaun">i</div>
             <button class="okaun-btn okaun-toggle-btn" id="okaunToggle">
-                <div class="help-bubble top-right" data-help="okaunToggle">i</div>
                 Okaun?
             </button>
             <div class="okaun-content" id="okaunContent">
@@ -1736,7 +1406,6 @@
                     <div class="okaun-title">OKAUN-O-METER</div>
                     <div class="okaun-icons">
                         <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
-                            <div class="help-bubble icon-bubble" data-help="speaker">i</div>
                             <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
                             </svg>
@@ -1745,7 +1414,6 @@
                             </svg>
                         </button>
                         <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
-                            <div class="help-bubble icon-bubble" data-help="eye">i</div>
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
                             </svg>
@@ -1780,12 +1448,7 @@
                     </div>
                 </div>
                 <div class="okaun-buttons">
-                    <button class="okaun-btn" id="resetOkaun">
-                        <div class="help-bubble top-right" data-help="resetOkaun">i</div>
-                        Reset Okaun
-                    </button>
                     <button class="okaun-btn" id="endTurn">
-                        <div class="help-bubble top-right" data-help="endTurn">i</div>
                         End Turn
                     </button>
                     <button class="okaun-collapse-btn" id="okaunCollapse">
@@ -1797,7 +1460,6 @@
 
         <!-- Krark's Thumb Toggle -->
         <div class="krark-toggle" id="krarkToggle">
-            <div class="help-bubble top-right" data-help="krark">i</div>
             <span class="krark-text" id="krarkText">Krark's Thumb?</span>
             <div class="krark-counter">
                 <span class="krark-num" id="krarkNum">1</span>
@@ -1815,11 +1477,9 @@
             </div>
             <div class="right-toggles">
                 <button class="toggle-btn" id="untilLoss">
-                    <span class="help-bubble top-right" data-help="untilLoss">i</span>
                     Until Loss?
                 </button>
                 <button class="toggle-btn" id="until2Losses">
-                    <span class="help-bubble top-right" data-help="until2Losses">i</span>
                     Until 2 Losses?
                 </button>
                 <div class="coins-toggle" id="coinsToggle">
@@ -1827,43 +1487,16 @@
                         <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
                     </div>
                     <button class="toggle-btn" id="coinsBtn">
-                        <span class="help-bubble top-right" data-help="coins">i</span>
                         Coins?
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Tax Counters -->
-        <div class="tax-counters" id="taxCounters">
-            <div class="tax-counter zndrsplt" id="zndrspltCounter" style="display: none;">
-                <span class="tax-counter-label">Zndrsplt Tax</span>
-                <div class="tax-counter-controls">
-                    <span class="tax-num" id="zndrspltNum">+0</span>
-                    <div class="tax-arrows">
-                        <button class="tax-arrow" id="zndrspltUp">▲</button>
-                        <button class="tax-arrow" id="zndrspltDown">▼</button>
-                    </div>
-                </div>
-            </div>
-            <div class="tax-counter okaun-tax" id="okaunTaxCounter" style="display: none;">
-                <span class="tax-counter-label">Okaun Tax</span>
-                <div class="tax-counter-controls">
-                    <span class="tax-num" id="okaunTaxNum">+0</span>
-                    <div class="tax-arrows">
-                        <button class="tax-arrow" id="okaunTaxUp">▲</button>
-                        <button class="tax-arrow" id="okaunTaxDown">▼</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Bottom Bar -->
         <div class="bottom-bar">
-            <button class="bottom-btn" id="helpBtn">Help</button>
             <button class="bottom-btn" id="statsBtn">Stats</button>
             <div class="heads-tails-container" id="htContainer">
-                <div class="help-bubble top-right" data-help="ht">i</div>
                 <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
                 <div class="ht-selector">
                     <button class="ht-option" id="htHeads">H</button>
@@ -1873,31 +1506,6 @@
         </div>
     </div>
 
-    <!-- Settings Panel -->
-    <div class="settings-panel" id="settingsPanel">
-        <div class="settings-panel-title">SETTINGS</div>
-        <div class="settings-row">
-            <span class="settings-label">Dark Mode</span>
-            <div class="settings-switch" id="darkModeSwitch"></div>
-        </div>
-        <div class="settings-row">
-            <span class="settings-label">Voice</span>
-            <select class="settings-select" id="voiceSelect">
-                <option value="default">Default</option>
-            </select>
-        </div>
-        <div class="settings-row">
-            <span class="settings-label">Track Tax?</span>
-            <div class="settings-switch" id="trackTaxSwitch"></div>
-        </div>
-        <div class="settings-row" id="trackTaxOptionsRow" style="display: none;">
-            <span class="settings-label">Track</span>
-            <div class="settings-tax-toggles">
-                <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
-                <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Okaun Options Modal -->
     <div class="okaun-options-modal" id="okaunOptionsModal">
@@ -2002,9 +1610,6 @@
         </div>
     </div>
 
-
-    <!-- Help Tooltip -->
-    <div class="help-tooltip" id="helpTooltip"></div>
 
     <script>
         // Number to words converter
@@ -2177,15 +1782,7 @@
             coinsCount: 5,
             htActive: false,
             htMode: 'tails',
-            helpMode: false,
             powerSaveMode: false,
-            
-            
-            trackTaxActive: false,
-            trackZndrsplt: false,
-            trackOkaun: false,
-            zndrspltTax: 0,
-            okaunTax: 0,
             
             isFlipping: false,
             stopRequested: false,
@@ -2207,30 +1804,14 @@
                 currentLossStreak: 0
             },
             
-            currentTooltip: null
         };
 
-        const helpTexts = {
-            result: "Displays the result of your coin flip. The bar below shows your last 10 flips.",
-            okaun: "Tracks Okaun's stats, which double with each win.",
-            krark: "Flip extra coins and win if ANY land on your winning side. Each thumb doubles the coins flipped.",
-            untilLoss: "Makes the Flip button flip coins until a loss occurs.",
-            until2Losses: "Makes the Flip button flip coins until 2 losses occur.",
-            coins: "Sets how many coins to flip. Can combine with 'Until Loss' or 'Until 2 Losses'.",
-            speaker: "Read Okaun's current power and toughness aloud using text-to-speech.",
-            eye: "View Okaun's full stats in written words.",
-            resetOkaun: "Reset Okaun to 3/3. When multiple Okauns exist, opens options to choose.",
-            endTurn: "Reset Okaun to the last manually-entered values (your 'base' stats). Also clears the result display.",
-            okaunToggle: "Toggle Okaun tracking on/off. When off, stats won't double on wins.",
-            ht: "Toggle Heads/Tails mode. Choose whether Heads or Tails counts as your win."
-        };
 
         const els = {
             resultDisplay: document.getElementById('resultDisplay'),
             historyBar: document.getElementById('historyBar'),
             okaunPanel: document.getElementById('okaunPanel'),
             okaunContent: document.getElementById('okaunContent'),
-            resetOkaun: document.getElementById('resetOkaun'),
             endTurn: document.getElementById('endTurn'),
             okaunToggle: document.getElementById('okaunToggle'),
             okaunCollapse: document.getElementById('okaunCollapse'),
@@ -2276,23 +1857,6 @@
             coinsToggle: document.getElementById('coinsToggle'),
             coinsBtn: document.getElementById('coinsBtn'),
             coinsNum: document.getElementById('coinsNum'),
-            helpBtn: document.getElementById('helpBtn'),
-            settingsPanel: document.getElementById('settingsPanel'),
-            darkModeSwitch: document.getElementById('darkModeSwitch'),
-            voiceSelect: document.getElementById('voiceSelect'),
-            trackTaxSwitch: document.getElementById('trackTaxSwitch'),
-            trackTaxOptionsRow: document.getElementById('trackTaxOptionsRow'),
-            trackZndrspltBtn: document.getElementById('trackZndrspltBtn'),
-            trackOkaunBtn: document.getElementById('trackOkaunBtn'),
-            taxCounters: document.getElementById('taxCounters'),
-            zndrspltCounter: document.getElementById('zndrspltCounter'),
-            okaunTaxCounter: document.getElementById('okaunTaxCounter'),
-            zndrspltNum: document.getElementById('zndrspltNum'),
-            okaunTaxNum: document.getElementById('okaunTaxNum'),
-            zndrspltUp: document.getElementById('zndrspltUp'),
-            zndrspltDown: document.getElementById('zndrspltDown'),
-            okaunTaxUp: document.getElementById('okaunTaxUp'),
-            okaunTaxDown: document.getElementById('okaunTaxDown'),
             mainControls: document.querySelector('.main-controls'),
             statsBtn: document.getElementById('statsBtn'),
             htContainer: document.getElementById('htContainer'),
@@ -2300,7 +1864,6 @@
             htHeads: document.getElementById('htHeads'),
             htTails: document.getElementById('htTails'),
             statsOverlay: document.getElementById('statsOverlay'),
-            helpTooltip: document.getElementById('helpTooltip'),
             statWins: document.getElementById('statWins'),
             statLosses: document.getElementById('statLosses'),
             statWinRate: document.getElementById('statWinRate'),
@@ -2462,6 +2025,9 @@
             
             // Update carousel position
             els.okaunCarouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            
+            // Update number indicator text
+            els.okaunNumberIndicator.textContent = '#' + (currentIndex + 1);
             
             // Update options count display
             els.okaunCountNum.textContent = '×' + numOkauns;
@@ -3005,21 +2571,6 @@
             }
         });
 
-        // Reset Okaun - shows options if multiple, otherwise resets directly
-        els.resetOkaun.addEventListener('click', () => {
-            if (state.okauns.length > 1) {
-                // Open options modal to choose reset option
-                openOkaunOptions();
-            } else {
-                // Single Okaun - reset directly
-                const okaun = getCurrentOkaun();
-                okaun.power = 3n;
-                okaun.toughness = 3n;
-                okaun.basePower = 3n;
-                okaun.baseToughness = 3n;
-                updateOkaunDisplay();
-            }
-        });
         
         els.endTurn.addEventListener('click', () => {
             // Reset ALL Okauns to their individual bases
@@ -3030,6 +2581,9 @@
             updateOkaunDisplay();
             // Reset results display to blank
             showResult('—', null, false);
+            // Clear flip history
+            state.history = [];
+            renderHistory();
         });
         
         function toggleOkaun(expand) {
@@ -3270,149 +2824,6 @@
             const val = parseInt(els.coinsNum.value) || 5;
             state.coinsCount = Math.max(1, val);
             els.coinsNum.value = state.coinsCount;
-        });
-        
-        els.helpBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.helpMode = !state.helpMode;
-            document.body.classList.toggle('help-mode', state.helpMode);
-            els.helpBtn.classList.toggle('active', state.helpMode);
-            els.settingsPanel.classList.toggle('visible', state.helpMode);
-            
-            els.helpTooltip.classList.remove('visible');
-            state.currentTooltip = null;
-            
-            if (state.helpMode) {
-                const rect = els.helpBtn.getBoundingClientRect();
-                els.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
-                els.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
-            } else {
-                // Exiting help mode - re-enable interactions
-                els.settingsPanel.classList.remove('visible');
-            }
-        });
-        
-        els.darkModeSwitch.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.powerSaveMode = !state.powerSaveMode;
-            els.darkModeSwitch.classList.toggle('active', state.powerSaveMode);
-            document.body.classList.toggle('power-save', state.powerSaveMode);
-        });
-        
-        els.voiceSelect.addEventListener('change', (e) => {
-            state.selectedVoice = e.target.value;
-        });
-        
-        // Track Tax toggle
-        els.trackTaxSwitch.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.trackTaxActive = !state.trackTaxActive;
-            els.trackTaxSwitch.classList.toggle('active', state.trackTaxActive);
-            els.trackTaxOptionsRow.style.display = state.trackTaxActive ? 'flex' : 'none';
-            if (!state.trackTaxActive) {
-                state.trackZndrsplt = false;
-                state.trackOkaun = false;
-                els.trackZndrspltBtn.classList.remove('active');
-                els.trackOkaunBtn.classList.remove('active');
-                updateTaxCountersVisibility();
-            }
-        });
-
-        els.trackZndrspltBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.trackZndrsplt = !state.trackZndrsplt;
-            els.trackZndrspltBtn.classList.toggle('active', state.trackZndrsplt);
-            updateTaxCountersVisibility();
-        });
-
-        els.trackOkaunBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.trackOkaun = !state.trackOkaun;
-            els.trackOkaunBtn.classList.toggle('active', state.trackOkaun);
-            updateTaxCountersVisibility();
-        });
-
-        function updateTaxCountersVisibility() {
-            const showAny = state.trackZndrsplt || state.trackOkaun;
-            els.taxCounters.classList.toggle('visible', showAny);
-            els.mainControls.classList.toggle('with-tax', showAny);
-            els.zndrspltCounter.style.display = state.trackZndrsplt ? 'flex' : 'none';
-            els.okaunTaxCounter.style.display = state.trackOkaun ? 'flex' : 'none';
-        }
-
-        // Tax counter arrows
-        els.zndrspltUp.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.zndrspltTax += 2;
-            els.zndrspltNum.textContent = '+' + state.zndrspltTax;
-        });
-
-        els.zndrspltDown.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (state.zndrspltTax > 0) {
-                state.zndrspltTax -= 2;
-                els.zndrspltNum.textContent = '+' + state.zndrspltTax;
-            } else {
-                els.zndrspltNum.classList.add('flash-red');
-                setTimeout(() => els.zndrspltNum.classList.remove('flash-red'), 300);
-            }
-        });
-
-        els.okaunTaxUp.addEventListener('click', (e) => {
-            e.stopPropagation();
-            state.okaunTax += 2;
-            els.okaunTaxNum.textContent = '+' + state.okaunTax;
-        });
-
-        els.okaunTaxDown.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (state.okaunTax > 0) {
-                state.okaunTax -= 2;
-                els.okaunTaxNum.textContent = '+' + state.okaunTax;
-            } else {
-                els.okaunTaxNum.classList.add('flash-red');
-                setTimeout(() => els.okaunTaxNum.classList.remove('flash-red'), 300);
-            }
-        });
-        
-        document.querySelectorAll('.help-bubble').forEach(bubble => {
-            bubble.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const helpKey = bubble.dataset.help;
-                
-                if (state.currentTooltip === helpKey && els.helpTooltip.classList.contains('visible')) {
-                    els.helpTooltip.classList.remove('visible');
-                    state.currentTooltip = null;
-                    return;
-                }
-                
-                const text = helpTexts[helpKey] || 'No help available.';
-                const rect = bubble.getBoundingClientRect();
-                
-                els.helpTooltip.textContent = text;
-                els.helpTooltip.classList.add('visible');
-                state.currentTooltip = helpKey;
-                
-                let top = rect.bottom + 8;
-                let left = rect.left - 100;
-                
-                if (left < 10) left = 10;
-                if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
-                if (top + 100 > window.innerHeight) top = rect.top - 80;
-                
-                els.helpTooltip.style.top = top + 'px';
-                els.helpTooltip.style.left = left + 'px';
-            });
-        });
-        
-        document.addEventListener('click', (e) => {
-            // Close tooltips when clicking outside help bubbles
-            if (!e.target.closest('.help-bubble')) {
-                els.helpTooltip.classList.remove('visible');
-                state.currentTooltip = null;
-            }
-            // Help mode can only be exited by clicking the Help button
-            // Settings panel stays visible and clickable in help mode
         });
         
         els.statsBtn.addEventListener('click', () => {
