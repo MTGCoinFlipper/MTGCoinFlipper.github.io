@@ -237,6 +237,7 @@
             transition: all 0.3s ease;
             overflow: hidden;
             margin-top: 8px;
+            position: relative;
         }
 
         .okaun-panel.collapsed .okaun-content {
@@ -420,6 +421,7 @@
             padding: 20px;
             min-width: 280px;
             max-width: 320px;
+            position: relative;
         }
 
         .okaun-options-title {
@@ -599,14 +601,15 @@
         .okaun-slide {
             min-width: 100%;
             flex-shrink: 0;
-            padding: 0 28px;
+            padding: 0 24px;
         }
 
         .okaun-nav-arrow {
             position: absolute;
-            top: 0;
-            bottom: 0;
+            top: 50%;
+            transform: translateY(-50%);
             width: 20px;
+            height: 60px;
             background: var(--panel-gray);
             border: none;
             color: var(--text-white);
@@ -616,7 +619,7 @@
             justify-content: center;
             font-size: 12px;
             transition: all 0.2s;
-            z-index: 10;
+            z-index: 20;
         }
 
         .okaun-nav-arrow:hover {
@@ -624,13 +627,13 @@
         }
 
         .okaun-nav-arrow.left {
-            left: -12px;
-            border-radius: 0 4px 4px 0;
+            left: 0;
+            border-radius: 0 8px 8px 0;
         }
 
         .okaun-nav-arrow.right {
-            right: -12px;
-            border-radius: 4px 0 0 4px;
+            right: 0;
+            border-radius: 8px 0 0 8px;
         }
 
         .okaun-nav-arrow.visible {
@@ -639,15 +642,11 @@
 
         .okaun-number-indicator {
             display: none;
-            position: absolute;
-            top: 8px;
-            left: 8px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
+            font-size: 1.2rem;
             color: var(--text-white);
-            opacity: 0.3;
-            z-index: 5;
-            line-height: 1;
+            opacity: 0.5;
+            margin-right: 8px;
         }
 
         .okaun-number-indicator.visible {
@@ -1150,6 +1149,249 @@
             background: var(--toggle-active);
             color: #000;
         }
+        /* Tax Counters */
+        .tax-counters {
+            display: none;
+            gap: 8px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .tax-counters.visible {
+            display: flex;
+            max-height: 60px;
+            opacity: 1;
+        }
+
+        .tax-counter {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            padding: 8px 12px;
+            min-height: 52px;
+            transition: all 0.3s ease;
+        }
+
+        .tax-counter.zndrsplt {
+            background: #459ab5;
+        }
+
+        .tax-counter.okaun-tax {
+            background: #8cdb51;
+        }
+
+        .tax-counter-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            color: var(--text-white);
+            letter-spacing: 1px;
+        }
+
+        .tax-counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tax-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: #000;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .tax-num.flash-red {
+            animation: flashRed 0.3s ease;
+        }
+
+        .tax-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .tax-arrow {
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 18px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+
+        .tax-arrow:hover {
+            background: var(--panel-gray);
+        }
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            background: var(--accent-red-hover);
+            transform: scale(1.1);
+        }
+
+        /* Settings Panel */
+        .settings-panel {
+            position: relative;
+            display: none;
+            position: fixed;
+            background: var(--overlay-bg);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-white);
+            z-index: 999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            min-width: 280px;
+            max-width: 320px;
+        }
+
+        .settings-panel.visible {
+            display: block;
+        }
+
+        .settings-panel-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .settings-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--panel-gray);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .settings-switch.active {
+            background: var(--win-green);
+        }
+
+        .settings-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .settings-switch.active::after {
+            transform: translateX(24px);
+        }
+
+        .settings-select {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: var(--text-white);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            max-width: 150px;
+            outline: none;
+        }
+
+        .settings-select:focus {
+            background: var(--panel-light);
+        }
+
+        .settings-select option {
+            background: var(--panel-dark);
+            color: var(--text-white);
+        }
+
+        .settings-tax-toggles {
+            display: flex;
+            gap: 8px;
+        }
+
+        .settings-tax-btn {
+            background: #7a8a7a;
+            border: none;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .settings-tax-btn:hover {
+            filter: brightness(1.1);
+        }
+
+        .settings-tax-btn.active {
+            background: #459ab5;
+        }
+
+        .settings-tax-btn.okaun {
+            background: #aab99e;
+        }
+
+        .settings-tax-btn.okaun.active {
+            background: #8cdb51;
+        }
+
         /* Okaun Words Overlay */
         .okaun-overlay {
             display: none;
@@ -1402,7 +1644,10 @@
                 Okaun?
             </button>
             <div class="okaun-content" id="okaunContent">
+                <button class="okaun-nav-arrow left" id="okaunNavLeft">◀</button>
+                <button class="okaun-nav-arrow right" id="okaunNavRight">▶</button>
                 <div class="okaun-header">
+                    <div class="okaun-number-indicator" id="okaunNumberIndicator">#1</div>
                     <div class="okaun-title">OKAUN-O-METER</div>
                     <div class="okaun-icons">
                         <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
@@ -1422,9 +1667,6 @@
                     </div>
                 </div>
                 <div class="okaun-carousel-container">
-                    <div class="okaun-number-indicator" id="okaunNumberIndicator">1</div>
-                    <button class="okaun-nav-arrow left" id="okaunNavLeft">◀</button>
-                    <button class="okaun-nav-arrow right" id="okaunNavRight">▶</button>
                     <div class="okaun-carousel-track" id="okaunCarouselTrack">
                         <div class="okaun-slide" data-okaun-index="0">
                             <div class="okaun-values">
@@ -1493,8 +1735,33 @@
             </div>
         </div>
 
+        <!-- Tax Counters -->
+        <div class="tax-counters" id="taxCounters">
+            <div class="tax-counter zndrsplt" id="zndrspltCounter" style="display: none;">
+                <span class="tax-counter-label">Zndrsplt Tax</span>
+                <div class="tax-counter-controls">
+                    <span class="tax-num" id="zndrspltNum">+0</span>
+                    <div class="tax-arrows">
+                        <button class="tax-arrow" id="zndrspltUp">▲</button>
+                        <button class="tax-arrow" id="zndrspltDown">▼</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tax-counter okaun-tax" id="okaunTaxCounter" style="display: none;">
+                <span class="tax-counter-label">Okaun Tax</span>
+                <div class="tax-counter-controls">
+                    <span class="tax-num" id="okaunTaxNum">+0</span>
+                    <div class="tax-arrows">
+                        <button class="tax-arrow" id="okaunTaxUp">▲</button>
+                        <button class="tax-arrow" id="okaunTaxDown">▼</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Bottom Bar -->
         <div class="bottom-bar">
+            <button class="bottom-btn" id="helpBtn">Help</button>
             <button class="bottom-btn" id="statsBtn">Stats</button>
             <div class="heads-tails-container" id="htContainer">
                 <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
@@ -1507,9 +1774,37 @@
     </div>
 
 
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <button class="close-btn" id="settingsClose">✕</button>
+        <div class="settings-panel-title">SETTINGS</div>
+        <div class="settings-row">
+            <span class="settings-label">Dark Mode</span>
+            <div class="settings-switch" id="darkModeSwitch"></div>
+        </div>
+        <div class="settings-row">
+            <span class="settings-label">Voice</span>
+            <select class="settings-select" id="voiceSelect">
+                <option value="default">Default</option>
+            </select>
+        </div>
+        <div class="settings-row">
+            <span class="settings-label">Track Tax?</span>
+            <div class="settings-switch" id="trackTaxSwitch"></div>
+        </div>
+        <div class="settings-row" id="trackTaxOptionsRow" style="display: none;">
+            <span class="settings-label">Track</span>
+            <div class="settings-tax-toggles">
+                <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
+                <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Okaun Options Modal -->
     <div class="okaun-options-modal" id="okaunOptionsModal">
         <div class="okaun-options-content">
+            <button class="close-btn" id="okaunOptionsClose">✕</button>
             <div class="okaun-options-title">OKAUN OPTIONS</div>
             <div class="okaun-options-row">
                 <span class="okaun-options-label">Number of Okauns</span>
@@ -1784,6 +2079,12 @@
             htMode: 'tails',
             powerSaveMode: false,
             
+            trackTaxActive: false,
+            trackZndrsplt: false,
+            trackOkaun: false,
+            zndrspltTax: 0,
+            okaunTax: 0,
+            
             isFlipping: false,
             stopRequested: false,
             isSpeaking: false,
@@ -1858,6 +2159,25 @@
             coinsBtn: document.getElementById('coinsBtn'),
             coinsNum: document.getElementById('coinsNum'),
             mainControls: document.querySelector('.main-controls'),
+            helpBtn: document.getElementById('helpBtn'),
+            settingsPanel: document.getElementById('settingsPanel'),
+            settingsClose: document.getElementById('settingsClose'),
+            okaunOptionsClose: document.getElementById('okaunOptionsClose'),
+            darkModeSwitch: document.getElementById('darkModeSwitch'),
+            voiceSelect: document.getElementById('voiceSelect'),
+            trackTaxSwitch: document.getElementById('trackTaxSwitch'),
+            trackTaxOptionsRow: document.getElementById('trackTaxOptionsRow'),
+            trackZndrspltBtn: document.getElementById('trackZndrspltBtn'),
+            trackOkaunBtn: document.getElementById('trackOkaunBtn'),
+            taxCounters: document.getElementById('taxCounters'),
+            zndrspltCounter: document.getElementById('zndrspltCounter'),
+            okaunTaxCounter: document.getElementById('okaunTaxCounter'),
+            zndrspltNum: document.getElementById('zndrspltNum'),
+            okaunTaxNum: document.getElementById('okaunTaxNum'),
+            zndrspltUp: document.getElementById('zndrspltUp'),
+            zndrspltDown: document.getElementById('zndrspltDown'),
+            okaunTaxUp: document.getElementById('okaunTaxUp'),
+            okaunTaxDown: document.getElementById('okaunTaxDown'),
             statsBtn: document.getElementById('statsBtn'),
             htContainer: document.getElementById('htContainer'),
             htBtn: document.getElementById('htBtn'),
@@ -2021,13 +2341,10 @@
             
             // Show/hide number indicator
             els.okaunNumberIndicator.classList.toggle('visible', numOkauns > 1);
-            els.okaunNumberIndicator.textContent = currentIndex + 1;
+            els.okaunNumberIndicator.textContent = '#' + (currentIndex + 1);
             
             // Update carousel position
             els.okaunCarouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
-            
-            // Update number indicator text
-            els.okaunNumberIndicator.textContent = '#' + (currentIndex + 1);
             
             // Update options count display
             els.okaunCountNum.textContent = '×' + numOkauns;
@@ -2473,26 +2790,9 @@
         }
 
         function updateToggleButtonText() {
-            // Until Loss - preserve help bubble
-            const untilLossText = state.untilLossActive ? 'Until Loss!' : 'Until Loss?';
-            const untilLossBubble = els.untilLoss.querySelector('.help-bubble');
-            els.untilLoss.textContent = '';
-            if (untilLossBubble) els.untilLoss.appendChild(untilLossBubble);
-            els.untilLoss.appendChild(document.createTextNode(untilLossText));
-            
-            // Until 2 Losses - preserve help bubble
-            const until2LossesText = state.until2LossesActive ? 'Until 2 Losses!' : 'Until 2 Losses?';
-            const until2LossesBubble = els.until2Losses.querySelector('.help-bubble');
-            els.until2Losses.textContent = '';
-            if (until2LossesBubble) els.until2Losses.appendChild(until2LossesBubble);
-            els.until2Losses.appendChild(document.createTextNode(until2LossesText));
-            
-            // Coins - preserve help bubble
-            const coinsText = state.coinsActive ? 'Coins!' : 'Coins?';
-            const coinsBubble = els.coinsBtn.querySelector('.help-bubble');
-            els.coinsBtn.textContent = '';
-            if (coinsBubble) els.coinsBtn.appendChild(coinsBubble);
-            els.coinsBtn.appendChild(document.createTextNode(coinsText));
+            els.untilLoss.textContent = state.untilLossActive ? 'Until Loss!' : 'Until Loss?';
+            els.until2Losses.textContent = state.until2LossesActive ? 'Until 2 Losses!' : 'Until 2 Losses?';
+            els.coinsBtn.textContent = state.coinsActive ? 'Coins!' : 'Coins?';
         }
 
         // Event Listeners - Okaun Carousel
@@ -2824,6 +3124,120 @@
             const val = parseInt(els.coinsNum.value) || 5;
             state.coinsCount = Math.max(1, val);
             els.coinsNum.value = state.coinsCount;
+        });
+
+        // Help button and Settings Panel
+        els.helpBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isVisible = els.settingsPanel.classList.contains('visible');
+            els.settingsPanel.classList.toggle('visible', !isVisible);
+            els.helpBtn.classList.toggle('active', !isVisible);
+            
+            if (!isVisible) {
+                const rect = els.helpBtn.getBoundingClientRect();
+                els.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+                els.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
+            }
+        });
+
+        els.settingsClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            els.settingsPanel.classList.remove('visible');
+            els.helpBtn.classList.remove('active');
+        });
+
+        els.okaunOptionsClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeOkaunOptions();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#helpBtn') && !e.target.closest('#settingsPanel')) {
+                els.settingsPanel.classList.remove('visible');
+                els.helpBtn.classList.remove('active');
+            }
+        });
+
+        els.darkModeSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.powerSaveMode = !state.powerSaveMode;
+            els.darkModeSwitch.classList.toggle('active', state.powerSaveMode);
+            document.body.classList.toggle('power-save', state.powerSaveMode);
+        });
+
+        els.voiceSelect.addEventListener('change', (e) => {
+            state.selectedVoice = e.target.value;
+        });
+
+        // Track Tax toggle
+        els.trackTaxSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackTaxActive = !state.trackTaxActive;
+            els.trackTaxSwitch.classList.toggle('active', state.trackTaxActive);
+            els.trackTaxOptionsRow.style.display = state.trackTaxActive ? 'flex' : 'none';
+            if (!state.trackTaxActive) {
+                state.trackZndrsplt = false;
+                state.trackOkaun = false;
+                els.trackZndrspltBtn.classList.remove('active');
+                els.trackOkaunBtn.classList.remove('active');
+                updateTaxCountersVisibility();
+            }
+        });
+
+        els.trackZndrspltBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackZndrsplt = !state.trackZndrsplt;
+            els.trackZndrspltBtn.classList.toggle('active', state.trackZndrsplt);
+            updateTaxCountersVisibility();
+        });
+
+        els.trackOkaunBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.trackOkaun = !state.trackOkaun;
+            els.trackOkaunBtn.classList.toggle('active', state.trackOkaun);
+            updateTaxCountersVisibility();
+        });
+
+        function updateTaxCountersVisibility() {
+            const showAny = state.trackZndrsplt || state.trackOkaun;
+            els.taxCounters.classList.toggle('visible', showAny);
+            els.zndrspltCounter.style.display = state.trackZndrsplt ? 'flex' : 'none';
+            els.okaunTaxCounter.style.display = state.trackOkaun ? 'flex' : 'none';
+        }
+
+        // Tax counter arrows
+        els.zndrspltUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.zndrspltTax += 2;
+            els.zndrspltNum.textContent = '+' + state.zndrspltTax;
+        });
+
+        els.zndrspltDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.zndrspltTax > 0) {
+                state.zndrspltTax -= 2;
+                els.zndrspltNum.textContent = '+' + state.zndrspltTax;
+            } else {
+                els.zndrspltNum.classList.add('flash-red');
+                setTimeout(() => els.zndrspltNum.classList.remove('flash-red'), 300);
+            }
+        });
+
+        els.okaunTaxUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.okaunTax += 2;
+            els.okaunTaxNum.textContent = '+' + state.okaunTax;
+        });
+
+        els.okaunTaxDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.okaunTax > 0) {
+                state.okaunTax -= 2;
+                els.okaunTaxNum.textContent = '+' + state.okaunTax;
+            } else {
+                els.okaunTaxNum.classList.add('flash-red');
+                setTimeout(() => els.okaunTaxNum.classList.remove('flash-red'), 300);
+            }
         });
         
         els.statsBtn.addEventListener('click', () => {
