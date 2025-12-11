@@ -35,7 +35,6 @@
             --accent-red: #cc0000;
             --accent-red-hover: #a62942;
             --okaun-red: rgba(255, 0, 51, 1);
-            --okaun-green: rgb(85, 134, 37);
             --win-green: #22c55e;
             --loss-red: #ef4444;
             --toggle-active: #ffffff;
@@ -165,7 +164,14 @@
 
         .history-item.fraction {
             background: rgba(255,255,255,0.1);
-            color: var(--text-white);
+        }
+
+        .history-item.fraction.win {
+            color: var(--win-green);
+        }
+
+        .history-item.fraction.loss {
+            color: var(--loss-red);
         }
 
         .history-item.latest {
@@ -176,11 +182,18 @@
                 var(--gold-mid) 75%, 
                 var(--gold-light) 100%
             );
-            color: #1a1a1a !important;
             font-weight: 800;
             position: relative;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(218, 165, 32, 0.4);
+        }
+
+        .history-item.latest.win {
+            color: #166534;
+        }
+
+        .history-item.latest.loss {
+            color: #991b1b;
         }
 
         .history-item.latest::before {
@@ -348,8 +361,8 @@
         }
 
         .okaun-input-wrapper {
-            flex: 1;
-            min-width: 0;
+            flex: 0 0 auto;
+            width: 120px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -760,8 +773,12 @@
         }
 
         .okaun-input {
-            width: 100%;
+            width: 85px;
             height: 70px;
+            min-width: 85px;
+            max-width: 85px;
+            min-height: 70px;
+            max-height: 70px;
             background: var(--panel-gray);
             border: none;
             border-radius: 12px;
@@ -776,6 +793,7 @@
             justify-content: center;
             cursor: text;
             overflow: hidden;
+            box-sizing: border-box;
         }
 
         .okaun-input:focus {
@@ -934,6 +952,35 @@
         .flip-btn-container {
             flex: 1;
             display: flex;
+            position: relative;
+        }
+
+        .undo-flip-btn {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 14px;
+            padding: 8px 24px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: default;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .undo-flip-btn.has-undo {
+            color: var(--text-white);
+            cursor: pointer;
+        }
+
+        .undo-flip-btn.has-undo:hover {
+            transform: translateX(-50%) scale(1.02);
+            background: var(--panel-gray);
         }
 
         .flip-btn {
@@ -1085,20 +1132,50 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px;
+            padding: 4px 8px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
         .coins-num {
-            width: 100%;
             background: transparent;
             border: none;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: var(--text-white);
             text-align: center;
             outline: none;
-            padding: 8px;
+            width: 36px;
+            padding: 0;
+        }
+
+        .coins-num.flash-red {
+            animation: flashRed 0.3s ease;
+        }
+
+        .coins-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .coins-arrow {
+            background: var(--panel-dark);
+            border: 1px solid var(--panel-gray);
+            border-radius: 4px;
+            width: 28px;
+            height: 20px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: background 0.2s;
+        }
+
+        .coins-arrow:hover {
+            background: var(--panel-light);
         }
 
         .coins-toggle .toggle-btn {
@@ -1153,6 +1230,8 @@
 
         .heads-tails-container.active .bottom-btn {
             border-radius: 12px 0 0 12px;
+            font-size: clamp(0.6rem, 2vw, 0.75rem);
+            white-space: nowrap;
         }
 
         .ht-selector {
@@ -1302,7 +1381,6 @@
 
         /* Settings Panel */
         .settings-panel {
-            position: relative;
             display: none;
             position: fixed;
             background: var(--overlay-bg);
@@ -1597,17 +1675,6 @@
             margin-top: 10px;
         }
 
-        .result-panel,
-        .okaun-panel,
-        .krark-toggle,
-        .flip-btn-container,
-        .toggle-btn,
-        .coins-toggle,
-        .bottom-btn,
-        .heads-tails-container {
-            position: relative;
-        }
-
         @media (max-height: 700px) {
             .app-container {
                 gap: 6px;
@@ -1621,6 +1688,8 @@
             }
             .okaun-input {
                 height: 60px;
+                min-height: 60px;
+                max-height: 60px;
                 padding: 6px;
             }
             .main-controls {
@@ -1756,6 +1825,7 @@
         <div class="main-controls">
             <div class="flip-btn-container">
                 <button class="flip-btn" id="flipBtn">FLIP</button>
+                <button class="undo-flip-btn" id="undoFlipBtn">↩ Undo</button>
             </div>
             <div class="right-toggles">
                 <button class="toggle-btn" id="untilLoss">
@@ -1767,6 +1837,10 @@
                 <div class="coins-toggle" id="coinsToggle">
                     <div class="coins-num-wrapper">
                         <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
+                        <div class="coins-arrows">
+                            <button class="coins-arrow" id="coinsUp">▲</button>
+                            <button class="coins-arrow" id="coinsDown">▼</button>
+                        </div>
                     </div>
                     <button class="toggle-btn" id="coinsBtn">
                         Coins?
@@ -1801,7 +1875,7 @@
 
         <!-- Bottom Bar -->
         <div class="bottom-bar">
-            <button class="bottom-btn" id="helpBtn">Help</button>
+            <button class="bottom-btn" id="helpBtn">Extras</button>
             <button class="bottom-btn" id="statsBtn">Stats</button>
             <div class="heads-tails-container" id="htContainer">
                 <button class="bottom-btn" id="htBtn">Heads/Tails Mode?</button>
@@ -1971,6 +2045,10 @@
 
 
     <script>
+        // Reusable canvas for text measurement (performance optimization)
+        const measureCanvas = document.createElement('canvas');
+        const measureCtx = measureCanvas.getContext('2d');
+
         // Number to words converter
         const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
                       'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
@@ -2169,6 +2247,9 @@
                 currentLossStreak: 0
             },
             
+            // For undo functionality (stack for multiple undos)
+            undoStack: [],
+            canUndo: false
         };
 
 
@@ -2230,6 +2311,9 @@
             coinsToggle: document.getElementById('coinsToggle'),
             coinsBtn: document.getElementById('coinsBtn'),
             coinsNum: document.getElementById('coinsNum'),
+            coinsUp: document.getElementById('coinsUp'),
+            coinsDown: document.getElementById('coinsDown'),
+            undoFlipBtn: document.getElementById('undoFlipBtn'),
             mainControls: document.querySelector('.main-controls'),
             helpBtn: document.getElementById('helpBtn'),
             settingsPanel: document.getElementById('settingsPanel'),
@@ -2304,30 +2388,29 @@
         }
 
         function fitTextInContainer(element, text) {
-            const container = element.parentElement;
-            const maxWidth = container.offsetWidth - 16;
-            const maxHeight = 70 - 16;
+            // Use the element's own fixed dimensions
+            const maxWidth = (element.offsetWidth || 85) - 16;
+            const maxHeight = (element.offsetHeight || 70) - 16;
             
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            const minFontSize = 10;
+            const minFontSize = 8;
             const maxFontSize = 48;
             
+            // Try to fit on one line first
             for (let size = maxFontSize; size >= minFontSize; size -= 2) {
-                ctx.font = `${size}px "Bebas Neue"`;
-                const metrics = ctx.measureText(text);
+                measureCtx.font = `${size}px "Bebas Neue"`;
+                const metrics = measureCtx.measureText(text);
                 if (metrics.width <= maxWidth) {
                     return { fontSize: size, wrap: false, useScientific: false };
                 }
             }
             
-            for (let size = maxFontSize; size >= minFontSize; size -= 2) {
-                ctx.font = `${size}px "Bebas Neue"`;
-                const charWidth = ctx.measureText('0').width;
+            // Try wrapping to multiple lines (allow up to 4 lines before scientific)
+            for (let size = 24; size >= minFontSize; size -= 2) {
+                measureCtx.font = `${size}px "Bebas Neue"`;
+                const charWidth = measureCtx.measureText('0').width;
                 const charsPerLine = Math.floor(maxWidth / charWidth);
                 const lines = Math.ceil(text.length / charsPerLine);
-                const lineHeight = size * 1.1;
+                const lineHeight = size * 1.0;
                 const totalHeight = lines * lineHeight;
                 
                 if (totalHeight <= maxHeight && charsPerLine >= 3) {
@@ -2335,12 +2418,13 @@
                 }
             }
             
-            return { fontSize: 14, wrap: false, useScientific: true };
+            return { fontSize: 12, wrap: false, useScientific: true };
         }
 
         function formatOkaunValue(val) {
             const strVal = val.toString();
-            if (strVal.length > 12) {
+            // Allow more digits before going to scientific notation (for multi-line wrapping)
+            if (strVal.length > 24) {
                 const exp = strVal.length - 1;
                 const mantissa = strVal[0] + '.' + strVal.substring(1, 3);
                 return { text: mantissa + 'e+' + exp, isScientific: true };
@@ -2497,6 +2581,8 @@
             }
             
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
+            
             let text;
             const okaunNum = state.okauns.length > 1 ? ` ${state.currentOkaunIndex + 1}` : '';
             if (okaun.power === okaun.toughness) {
@@ -2556,15 +2642,14 @@
             state.overlayShowingPower = true;
             els.okaunOverlay.classList.add('visible');
             
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    updateOkaunOverlay();
-                });
-            });
+            // Use setTimeout to ensure DOM is updated before measuring
+            setTimeout(updateOkaunOverlay, 0);
         }
 
         function updateOkaunOverlay() {
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
+            
             const sameValues = okaun.power === okaun.toughness;
             const okaunNum = state.okauns.length > 1 ? ` ${state.currentOkaunIndex + 1}` : '';
             
@@ -2598,23 +2683,20 @@
             const maxWidth = container.offsetWidth - 40;
             const maxHeight = container.offsetHeight - 40;
             
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
             let min = 5;
             let max = 500;
             let bestSize = min;
             
             while (min <= max) {
                 const mid = Math.floor((min + max) / 2);
-                ctx.font = `700 ${mid}px "Outfit", sans-serif`;
+                measureCtx.font = `700 ${mid}px "Outfit", sans-serif`;
                 
                 const words = text.split(/\s+/);
                 let estimatedLines = 1;
                 let currentLineWidth = 0;
                 
                 words.forEach(word => {
-                    const wordWidth = ctx.measureText(word + ' ').width;
+                    const wordWidth = measureCtx.measureText(word + ' ').width;
                     if (currentLineWidth + wordWidth > maxWidth) {
                         estimatedLines++;
                         currentLineWidth = wordWidth;
@@ -2644,14 +2726,15 @@
             if (isKrarkFlip) {
                 item.classList.add('fraction');
                 item.textContent = `${krarkWins}/${krarkTotal}`;
-                item.classList.add(result ? 'win' : 'loss');
+                // Color based on wins: green if any wins, red if zero wins
+                item.classList.add(krarkWins > 0 ? 'win' : 'loss');
             } else {
                 item.classList.add(result ? 'win' : 'loss');
                 item.textContent = result ? '✓' : '✗';
             }
             
-            // Remove latest class from previous items in history array
-            state.history = state.history.map(h => h.replace(/\s*latest\s*sparkle?/g, '').replace('class="history-item ', 'class="history-item '));
+            // Remove latest and sparkle classes from previous items in history array
+            state.history = state.history.map(h => h.replace(/\blatest\b/g, '').replace(/\bsparkle\b/g, '').replace(/\s+"/g, '"').replace(/class="\s+/g, 'class="'));
             
             // Mark this as the latest item with sparkle
             item.classList.add('latest', 'sparkle');
@@ -2758,6 +2841,23 @@
                 return;
             }
             
+            // Save pre-flip state to undo stack (including history and result display)
+            state.undoStack.push({
+                okauns: state.okaunActive && state.okauns.length > 0 ? 
+                    state.okauns.map(o => ({
+                        power: o.power,
+                        toughness: o.toughness
+                    })) : null,
+                history: [...state.history],
+                resultText: els.resultDisplay.textContent,
+                resultIsWin: els.resultDisplay.classList.contains('win') ? true : 
+                             els.resultDisplay.classList.contains('loss') ? false : null
+            });
+            // Limit undo stack to 50 entries
+            if (state.undoStack.length > 50) {
+                state.undoStack.shift();
+            }
+            
             state.isFlipping = true;
             state.stopRequested = false;
             
@@ -2837,6 +2937,12 @@
             els.flipBtn.classList.remove('flipping', 'stop-mode');
             state.isFlipping = false;
             state.stopRequested = false;
+            
+            // Enable undo button if there's something to undo
+            if (state.undoStack.length > 0) {
+                state.canUndo = true;
+                els.undoFlipBtn.classList.add('has-undo');
+            }
         }
 
         function sleep(ms) {
@@ -2961,6 +3067,10 @@
             // Clear flip history
             state.history = [];
             renderHistory();
+            // Clear undo state
+            state.undoStack = [];
+            state.canUndo = false;
+            els.undoFlipBtn.classList.remove('has-undo');
         });
         
         function toggleOkaun(expand) {
@@ -2985,6 +3095,9 @@
                     updateCarouselNavigation();
                 }
                 updateOkaunDisplay();
+            } else {
+                // Note: Don't clear undo state when collapsing Okaun panel
+                // since undo now works independently of Okaun
             }
         }
 
@@ -3008,6 +3121,15 @@
                 els.okaunPlusXToughnessNum.textContent = okaun.plusXToughness.toString();
             }
             els.okaunCountNum.textContent = '×' + state.okauns.length;
+            
+            // Update reset button text based on Okaun count
+            if (state.okauns.length === 1) {
+                els.resetThisOkaun.textContent = 'Reset Okaun';
+                els.resetAllOkauns.style.display = 'none';
+            } else {
+                els.resetThisOkaun.textContent = 'Reset This Okaun';
+                els.resetAllOkauns.style.display = '';
+            }
         }
 
         function closeOkaunOptions() {
@@ -3131,6 +3253,7 @@
         els.okaunPlusXSwitch.addEventListener('click', (e) => {
             e.stopPropagation();
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             okaun.plusXActive = !okaun.plusXActive;
             els.okaunPlusXSwitch.classList.toggle('active', okaun.plusXActive);
             els.okaunPlusXInputs.classList.toggle('visible', okaun.plusXActive);
@@ -3140,6 +3263,7 @@
         els.okaunPlusXPowerUp.addEventListener('click', (e) => {
             e.stopPropagation();
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             const val = parseInt(els.okaunPlusXPowerNum.textContent) || 0;
             okaun.plusXPower = BigInt(val + 1);
             els.okaunPlusXPowerNum.textContent = (val + 1).toString();
@@ -3148,6 +3272,7 @@
         els.okaunPlusXPowerDown.addEventListener('click', (e) => {
             e.stopPropagation();
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             const val = parseInt(els.okaunPlusXPowerNum.textContent) || 0;
             if (val > 0) {
                 okaun.plusXPower = BigInt(val - 1);
@@ -3158,6 +3283,7 @@
         els.okaunPlusXToughnessUp.addEventListener('click', (e) => {
             e.stopPropagation();
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             const val = parseInt(els.okaunPlusXToughnessNum.textContent) || 0;
             okaun.plusXToughness = BigInt(val + 1);
             els.okaunPlusXToughnessNum.textContent = (val + 1).toString();
@@ -3166,6 +3292,7 @@
         els.okaunPlusXToughnessDown.addEventListener('click', (e) => {
             e.stopPropagation();
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             const val = parseInt(els.okaunPlusXToughnessNum.textContent) || 0;
             if (val > 0) {
                 okaun.plusXToughness = BigInt(val - 1);
@@ -3176,6 +3303,7 @@
         // Reset this Okaun
         els.resetThisOkaun.addEventListener('click', () => {
             const okaun = getCurrentOkaun();
+            if (!okaun) return;
             okaun.power = 3n;
             okaun.toughness = 3n;
             okaun.basePower = 3n;
@@ -3227,12 +3355,20 @@
             }
         });
         
+        function updateKrarkText() {
+            if (state.krarkActive) {
+                els.krarkText.textContent = state.krarkCount > 1 ? "KRARK'S THUMBS!" : "KRARK'S THUMB!";
+            } else {
+                els.krarkText.textContent = "Krark's Thumb?";
+            }
+        }
+        
         els.krarkToggle.addEventListener('click', (e) => {
             if (e.target.closest('.krark-arrows')) return;
             
             state.krarkActive = !state.krarkActive;
             els.krarkToggle.classList.toggle('active', state.krarkActive);
-            els.krarkText.textContent = state.krarkActive ? "KRARK'S THUMB!" : "Krark's Thumb?";
+            updateKrarkText();
         });
         
         els.krarkUp.addEventListener('click', (e) => {
@@ -3244,6 +3380,7 @@
             }
             state.krarkCount++;
             els.krarkNum.textContent = state.krarkCount;
+            updateKrarkText();
         });
         
         els.krarkDown.addEventListener('click', (e) => {
@@ -3251,6 +3388,7 @@
             if (state.krarkCount > 1) {
                 state.krarkCount--;
                 els.krarkNum.textContent = state.krarkCount;
+                updateKrarkText();
             }
         });
         
@@ -3283,10 +3421,123 @@
             updateToggleButtonText();
         });
         
-        els.coinsNum.addEventListener('change', () => {
-            const val = parseInt(els.coinsNum.value) || 5;
-            state.coinsCount = Math.max(1, val);
+        // Coins arrows with hold-to-accelerate
+        let coinsHoldInterval = null;
+        let coinsHoldTimeout = null;
+        let coinsHoldDelay = 300;
+        
+        function updateCoinsDisplay() {
             els.coinsNum.value = state.coinsCount;
+        }
+        
+        function incrementCoins() {
+            if (state.coinsCount >= 999) {
+                els.coinsNum.classList.add('flash-red');
+                setTimeout(() => els.coinsNum.classList.remove('flash-red'), 300);
+                return false;
+            }
+            state.coinsCount++;
+            updateCoinsDisplay();
+            return true;
+        }
+        
+        function decrementCoins() {
+            if (state.coinsCount <= 1) {
+                els.coinsNum.classList.add('flash-red');
+                setTimeout(() => els.coinsNum.classList.remove('flash-red'), 300);
+                return false;
+            }
+            state.coinsCount--;
+            updateCoinsDisplay();
+            return true;
+        }
+        
+        function startCoinsHold(action) {
+            coinsHoldDelay = 300;
+            const doAction = action === 'up' ? incrementCoins : decrementCoins;
+            
+            coinsHoldTimeout = setTimeout(function repeat() {
+                if (doAction()) {
+                    coinsHoldDelay = Math.max(30, coinsHoldDelay * 0.8);
+                    coinsHoldInterval = setTimeout(repeat, coinsHoldDelay);
+                }
+            }, coinsHoldDelay);
+        }
+        
+        function stopCoinsHold() {
+            clearTimeout(coinsHoldTimeout);
+            clearTimeout(coinsHoldInterval);
+            coinsHoldTimeout = null;
+            coinsHoldInterval = null;
+        }
+        
+        els.coinsUp.addEventListener('click', incrementCoins);
+        els.coinsDown.addEventListener('click', decrementCoins);
+        
+        els.coinsUp.addEventListener('mousedown', () => startCoinsHold('up'));
+        els.coinsUp.addEventListener('mouseup', stopCoinsHold);
+        els.coinsUp.addEventListener('mouseleave', stopCoinsHold);
+        els.coinsUp.addEventListener('touchstart', (e) => { e.preventDefault(); incrementCoins(); startCoinsHold('up'); });
+        els.coinsUp.addEventListener('touchend', stopCoinsHold);
+        
+        els.coinsDown.addEventListener('mousedown', () => startCoinsHold('down'));
+        els.coinsDown.addEventListener('mouseup', stopCoinsHold);
+        els.coinsDown.addEventListener('mouseleave', stopCoinsHold);
+        els.coinsDown.addEventListener('touchstart', (e) => { e.preventDefault(); decrementCoins(); startCoinsHold('down'); });
+        els.coinsDown.addEventListener('touchend', stopCoinsHold);
+        
+        // Manual input for coins
+        els.coinsNum.addEventListener('change', () => {
+            let val = parseInt(els.coinsNum.value) || 5;
+            val = Math.max(1, Math.min(999, val));
+            state.coinsCount = val;
+            updateCoinsDisplay();
+        });
+        
+        els.coinsNum.addEventListener('blur', () => {
+            let val = parseInt(els.coinsNum.value) || 5;
+            val = Math.max(1, Math.min(999, val));
+            state.coinsCount = val;
+            updateCoinsDisplay();
+        });
+        
+        // Undo flip button
+        els.undoFlipBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!state.canUndo || state.undoStack.length === 0) return;
+            
+            // Pop the last state from the undo stack
+            const previousState = state.undoStack.pop();
+            
+            // Restore pre-flip Okaun stats if they were saved
+            if (previousState.okauns) {
+                state.okauns.forEach((okaun, index) => {
+                    if (previousState.okauns[index]) {
+                        okaun.power = previousState.okauns[index].power;
+                        okaun.toughness = previousState.okauns[index].toughness;
+                    }
+                });
+                updateOkaunDisplay();
+            }
+            
+            // Restore history
+            state.history = previousState.history;
+            renderHistory();
+            
+            // Restore result display
+            els.resultDisplay.textContent = previousState.resultText;
+            els.resultDisplay.classList.remove('win', 'loss');
+            if (previousState.resultIsWin === true) {
+                els.resultDisplay.classList.add('win');
+            } else if (previousState.resultIsWin === false) {
+                els.resultDisplay.classList.add('loss');
+            }
+            
+            // Disable undo button if no more undos available
+            if (state.undoStack.length === 0) {
+                state.canUndo = false;
+                els.undoFlipBtn.classList.remove('has-undo');
+            }
         });
 
         // Help button and Settings Panel
