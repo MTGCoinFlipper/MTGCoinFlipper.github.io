@@ -1701,7 +1701,7 @@
         }
 
         @media (max-height: 700px) {
-            .app-container {
+        .app-container {
                 gap: 6px;
             }
             .result-panel {
@@ -2196,6 +2196,349 @@
                 gap: 8px;
             }
         }
+
+        /* ========== VOLTRON MODE STYLES ========== */
+        .voltron-panel {
+            display: none;
+            background: var(--panel-dark);
+            border-radius: 16px;
+            padding: 16px;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .enchantment-container.voltron-active .ench-counter-panel,
+        .enchantment-container.voltron-active .ench-reset-btn {
+            display: none;
+        }
+
+        .enchantment-container.voltron-active .voltron-panel {
+            display: flex;
+        }
+
+        .enchantment-title.lethal {
+            animation: voltronLethal 0.5s ease infinite;
+            font-size: clamp(2.2rem, 7vw, 2.8rem);
+        }
+
+        @keyframes voltronLethal {
+            0%, 100% { 
+                color: var(--panel-dark);
+                transform: translateX(0) scale(1);
+            }
+            25% { 
+                color: #ef4444;
+                transform: translateX(-2px) scale(1.02);
+            }
+            50% { 
+                color: #ff6b6b;
+                transform: translateX(2px) scale(1.04);
+            }
+            75% { 
+                color: #ef4444;
+                transform: translateX(-1px) scale(1.02);
+            }
+        }
+
+        .voltron-pt-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 0;
+        }
+
+        .voltron-pt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .voltron-pt-input {
+            width: 100px;
+            height: 80px;
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.2rem, 9vw, 3rem);
+            color: var(--text-white);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            cursor: text;
+        }
+
+        .voltron-pt-input:focus {
+            background: var(--panel-light);
+        }
+
+        .voltron-pt-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .voltron-pt-arrow {
+            background: var(--panel-dark);
+            border: 1px solid var(--panel-gray);
+            border-radius: 4px;
+            width: 28px;
+            height: 24px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: all 0.15s ease;
+        }
+
+        .voltron-pt-arrow:hover {
+            background: var(--panel-gray);
+        }
+
+        .voltron-divider {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--text-white);
+            opacity: 0.8;
+        }
+
+        .voltron-keyword-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .voltron-keyword-dropdown {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-white);
+            cursor: pointer;
+            outline: none;
+            width: 100%;
+        }
+
+        .voltron-keyword-dropdown option {
+            background: var(--panel-dark);
+            color: var(--text-white);
+        }
+
+        .voltron-keywords-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 40px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .voltron-keyword-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--panel-gray);
+            border-radius: 20px;
+            padding: 6px 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .voltron-keyword-icon {
+            font-size: 1rem;
+        }
+
+        .voltron-keyword-text {
+            white-space: nowrap;
+        }
+
+        .voltron-keyword-remove {
+            background: transparent;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1;
+            padding: 2px;
+            transition: all 0.15s ease;
+        }
+
+        .voltron-keyword-remove:hover {
+            color: var(--accent-red-hover);
+            transform: scale(1.2);
+        }
+
+        .voltron-keyword-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--text-white);
+            color: var(--text-white);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            width: 60px;
+            padding: 2px 4px;
+            outline: none;
+        }
+
+        .voltron-keyword-input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .voltron-reset-btn {
+            background: var(--accent-red);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .voltron-reset-btn:hover {
+            background: var(--accent-red-hover);
+            transform: scale(1.02);
+        }
+
+        /* Voltron toggle in settings */
+        .ench-settings-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .ench-settings-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .ench-settings-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--panel-gray);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .ench-settings-switch.active {
+            background: var(--win-green);
+        }
+
+        .ench-settings-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .ench-settings-switch.active::after {
+            transform: translateX(24px);
+        }
+
+        /* Mode Switch Confirmation Modal */
+        .mode-switch-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1500;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mode-switch-modal.visible {
+            display: flex;
+        }
+
+        .mode-switch-content {
+            background: var(--panel-dark);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .mode-switch-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text-white);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .mode-switch-text {
+            color: var(--text-white);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .mode-switch-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mode-switch-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-switch-btn.primary {
+            background: var(--win-green);
+            color: var(--text-white);
+        }
+
+        .mode-switch-btn.primary:hover {
+            filter: brightness(1.1);
+        }
+
+        .mode-switch-btn.secondary {
+            background: var(--panel-gray);
+            color: var(--text-white);
+        }
+
+        .mode-switch-btn.secondary:hover {
+            background: var(--panel-light);
+        }
     </style>
 </head>
 <body>
@@ -2358,7 +2701,7 @@
 
     <!-- Enchantment Mode Container -->
     <div class="enchantment-container" id="enchantmentContainer">
-        <div class="enchantment-title">ENCHANTMENT TRACKER</div>
+        <div class="enchantment-title" id="enchantmentTitle">ENCHANTMENT TRACKER</div>
 
         <!-- Enchantments on Field -->
         <div class="ench-counter-panel ench-field">
@@ -2435,6 +2778,50 @@
         <!-- Reset All Button -->
         <button class="ench-reset-btn" id="enchResetAll">RESET ALL</button>
 
+        <!-- Voltron Mode Panel -->
+        <div class="voltron-panel" id="voltronPanel">
+            <div class="voltron-pt-container">
+                <div class="voltron-pt-wrapper">
+                    <div class="voltron-pt-input" id="voltronPower" contenteditable="true">0</div>
+                    <div class="voltron-pt-arrows">
+                        <button class="voltron-pt-arrow" id="voltronPowerUp">▲</button>
+                        <button class="voltron-pt-arrow" id="voltronPowerDown">▼</button>
+                    </div>
+                </div>
+                <span class="voltron-divider">/</span>
+                <div class="voltron-pt-wrapper">
+                    <div class="voltron-pt-input" id="voltronToughness" contenteditable="true">0</div>
+                    <div class="voltron-pt-arrows">
+                        <button class="voltron-pt-arrow" id="voltronToughnessUp">▲</button>
+                        <button class="voltron-pt-arrow" id="voltronToughnessDown">▼</button>
+                    </div>
+                </div>
+            </div>
+            <div class="voltron-keyword-section">
+                <select class="voltron-keyword-dropdown" id="voltronKeywordDropdown">
+                    <option value="">Add keyword...</option>
+                    <option value="flying">Flying</option>
+                    <option value="trample">Trample</option>
+                    <option value="lifelink">Lifelink</option>
+                    <option value="pseudo-lifelink">Pseudo Lifelink</option>
+                    <option value="deathtouch">Deathtouch</option>
+                    <option value="first-strike">First Strike</option>
+                    <option value="double-strike">Double Strike</option>
+                    <option value="vigilance">Vigilance</option>
+                    <option value="haste">Haste</option>
+                    <option value="hexproof">Hexproof</option>
+                    <option value="indestructible">Indestructible</option>
+                    <option value="menace">Menace</option>
+                    <option value="reach">Reach</option>
+                    <option value="shroud">Shroud</option>
+                    <option value="ward">Ward</option>
+                    <option value="protection">Protection from...</option>
+                </select>
+                <div class="voltron-keywords-list" id="voltronKeywordsList"></div>
+            </div>
+            <button class="voltron-reset-btn" id="voltronResetAll">RESET ALL</button>
+    </div>
+
         <!-- Enchantment Bottom Bar -->
         <div class="ench-bottom-bar">
             <button class="ench-bottom-btn" id="enchExtrasBtn">Extras</button>
@@ -2445,8 +2832,24 @@
     <div class="ench-settings-panel" id="enchSettingsPanel">
         <button class="close-btn" id="enchSettingsClose"></button>
         <div class="ench-settings-title">SETTINGS</div>
+        <div class="ench-settings-toggle-row">
+            <span class="ench-settings-label">Voltron Mode</span>
+            <div class="ench-settings-switch" id="voltronModeSwitch"></div>
+        </div>
         <div class="ench-settings-row">
             <button class="ench-return-btn" id="enchReturnBtn">Return to Coinflip Mode</button>
+        </div>
+    </div>
+
+    <!-- Mode Switch Confirmation Modal -->
+    <div class="mode-switch-modal" id="modeSwitchModal">
+        <div class="mode-switch-content">
+            <div class="mode-switch-title">SWITCH MODES?</div>
+            <p class="mode-switch-text">Woah! You found the secret enchantment/voltron mode I included just for me. Using this mode will reset all of your coinflips, stats, and other coin-y business. Are you sure you want to proceed?</p>
+            <div class="mode-switch-buttons">
+                <button class="mode-switch-btn primary" id="modeSwitchConfirm">Yes, Switch Modes</button>
+                <button class="mode-switch-btn secondary" id="modeSwitchCancel">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -4406,23 +4809,7 @@
         let settingsTapCount = 0;
         let settingsTapTimeout = null;
 
-        enchEls.settingsPanelTitle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            settingsTapCount++;
-            
-            if (settingsTapCount === 3) {
-                // Triple tap detected - switch to enchantment mode
-                settingsTapCount = 0;
-                clearTimeout(settingsTapTimeout);
-                switchToEnchantmentMode();
-            } else {
-                // Reset count after 500ms of no taps
-                clearTimeout(settingsTapTimeout);
-                settingsTapTimeout = setTimeout(() => {
-                    settingsTapCount = 0;
-                }, 500);
-            }
-        });
+        // Handler will be set up after voltron elements are defined
 
         function switchToEnchantmentMode() {
             // Close settings panel
@@ -4690,6 +5077,456 @@
             updateEnchControl();
             updateEnchField();
         });
+
+        // ========== VOLTRON MODE ==========
+        
+        // Voltron State
+        const voltronState = {
+            power: 0,
+            toughness: 0,
+            keywords: [], // Array of { id, type, value (optional for ward/protection) }
+            active: false
+        };
+
+        let voltronKeywordIdCounter = 0;
+
+        // Keyword icons mapping
+        const keywordIcons = {
+            'flying': '🪽',
+            'trample': '🦏',
+            'lifelink': '💚',
+            'pseudo-lifelink': '💛',
+            'deathtouch': '💀',
+            'first-strike': '⚔️',
+            'double-strike': '⚔️⚔️',
+            'vigilance': '👁️',
+            'haste': '⚡',
+            'hexproof': '🛡️',
+            'indestructible': '💎',
+            'menace': '😈',
+            'reach': '🏹',
+            'shroud': '🌫️',
+            'ward': '🔮',
+            'protection': '✨'
+        };
+
+        const keywordNames = {
+            'flying': 'Flying',
+            'trample': 'Trample',
+            'lifelink': 'Lifelink',
+            'pseudo-lifelink': 'Pseudo Lifelink',
+            'deathtouch': 'Deathtouch',
+            'first-strike': 'First Strike',
+            'double-strike': 'Double Strike',
+            'vigilance': 'Vigilance',
+            'haste': 'Haste',
+            'hexproof': 'Hexproof',
+            'indestructible': 'Indestructible',
+            'menace': 'Menace',
+            'reach': 'Reach',
+            'shroud': 'Shroud',
+            'ward': 'Ward',
+            'protection': 'Protection from'
+        };
+
+        // Voltron Elements
+        const voltronEls = {
+            panel: document.getElementById('voltronPanel'),
+            power: document.getElementById('voltronPower'),
+            powerUp: document.getElementById('voltronPowerUp'),
+            powerDown: document.getElementById('voltronPowerDown'),
+            toughness: document.getElementById('voltronToughness'),
+            toughnessUp: document.getElementById('voltronToughnessUp'),
+            toughnessDown: document.getElementById('voltronToughnessDown'),
+            keywordDropdown: document.getElementById('voltronKeywordDropdown'),
+            keywordsList: document.getElementById('voltronKeywordsList'),
+            resetAll: document.getElementById('voltronResetAll'),
+            modeSwitch: document.getElementById('voltronModeSwitch'),
+            modeSwitchModal: document.getElementById('modeSwitchModal'),
+            modeSwitchConfirm: document.getElementById('modeSwitchConfirm'),
+            modeSwitchCancel: document.getElementById('modeSwitchCancel')
+        };
+
+        // Voltron Mode Toggle
+        const enchantmentTitle = document.getElementById('enchantmentTitle');
+        
+        voltronEls.modeSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            voltronState.active = !voltronState.active;
+            voltronEls.modeSwitch.classList.toggle('active', voltronState.active);
+            enchEls.container.classList.toggle('voltron-active', voltronState.active);
+            
+            // Update title text
+            if (enchantmentTitle) {
+                if (voltronState.active) {
+                    const isLethal = voltronState.power >= 21;
+                    enchantmentTitle.textContent = isLethal ? "IT'S VOLTRON TIME" : 'VOLTRON MODE';
+                    enchantmentTitle.classList.toggle('lethal', isLethal);
+                } else {
+                    enchantmentTitle.textContent = 'ENCHANTMENT TRACKER';
+                    enchantmentTitle.classList.remove('lethal');
+                }
+            }
+        });
+
+        // Voltron P/T Display
+        function updateVoltronPower() {
+            voltronEls.power.textContent = voltronState.power;
+            // Toggle lethal animation and text when power >= 21 (only if voltron mode is active)
+            const title = document.getElementById('enchantmentTitle');
+            if (title && voltronState.active) {
+                const isLethal = voltronState.power >= 21;
+                title.classList.toggle('lethal', isLethal);
+                title.textContent = isLethal ? "IT'S VOLTRON TIME" : "VOLTRON MODE";
+            }
+        }
+
+        function updateVoltronToughness() {
+            voltronEls.toughness.textContent = voltronState.toughness;
+        }
+
+        // Hold-to-accelerate for P/T arrows
+        let voltronHoldInterval = null;
+        let voltronHoldTimeout = null;
+        let voltronHoldDelay = 300;
+
+        function startVoltronHold(action) {
+            voltronHoldDelay = 300;
+            const doAction = action;
+            
+            voltronHoldTimeout = setTimeout(function repeat() {
+                doAction();
+                voltronHoldDelay = Math.max(30, voltronHoldDelay * 0.8);
+                voltronHoldInterval = setTimeout(repeat, voltronHoldDelay);
+            }, voltronHoldDelay);
+        }
+
+        function stopVoltronHold() {
+            clearTimeout(voltronHoldTimeout);
+            clearTimeout(voltronHoldInterval);
+            voltronHoldTimeout = null;
+            voltronHoldInterval = null;
+        }
+
+        function incrementVoltronPower() {
+            voltronState.power++;
+            updateVoltronPower();
+        }
+
+        function decrementVoltronPower() {
+            if (voltronState.power > 0) {
+                voltronState.power--;
+                updateVoltronPower();
+            } else {
+                enchFlashElement(voltronEls.power);
+            }
+        }
+
+        function incrementVoltronToughness() {
+            voltronState.toughness++;
+            updateVoltronToughness();
+        }
+
+        function decrementVoltronToughness() {
+            if (voltronState.toughness > 0) {
+                voltronState.toughness--;
+                updateVoltronToughness();
+            } else {
+                enchFlashElement(voltronEls.toughness);
+            }
+        }
+
+        // Power arrows
+        voltronEls.powerUp.addEventListener('click', incrementVoltronPower);
+        voltronEls.powerDown.addEventListener('click', decrementVoltronPower);
+        
+        voltronEls.powerUp.addEventListener('mousedown', () => startVoltronHold(incrementVoltronPower));
+        voltronEls.powerUp.addEventListener('mouseup', stopVoltronHold);
+        voltronEls.powerUp.addEventListener('mouseleave', stopVoltronHold);
+        voltronEls.powerUp.addEventListener('touchstart', (e) => { e.preventDefault(); incrementVoltronPower(); startVoltronHold(incrementVoltronPower); });
+        voltronEls.powerUp.addEventListener('touchend', stopVoltronHold);
+
+        voltronEls.powerDown.addEventListener('mousedown', () => startVoltronHold(decrementVoltronPower));
+        voltronEls.powerDown.addEventListener('mouseup', stopVoltronHold);
+        voltronEls.powerDown.addEventListener('mouseleave', stopVoltronHold);
+        voltronEls.powerDown.addEventListener('touchstart', (e) => { e.preventDefault(); decrementVoltronPower(); startVoltronHold(decrementVoltronPower); });
+        voltronEls.powerDown.addEventListener('touchend', stopVoltronHold);
+
+        // Toughness arrows
+        voltronEls.toughnessUp.addEventListener('click', incrementVoltronToughness);
+        voltronEls.toughnessDown.addEventListener('click', decrementVoltronToughness);
+        
+        voltronEls.toughnessUp.addEventListener('mousedown', () => startVoltronHold(incrementVoltronToughness));
+        voltronEls.toughnessUp.addEventListener('mouseup', stopVoltronHold);
+        voltronEls.toughnessUp.addEventListener('mouseleave', stopVoltronHold);
+        voltronEls.toughnessUp.addEventListener('touchstart', (e) => { e.preventDefault(); incrementVoltronToughness(); startVoltronHold(incrementVoltronToughness); });
+        voltronEls.toughnessUp.addEventListener('touchend', stopVoltronHold);
+
+        voltronEls.toughnessDown.addEventListener('mousedown', () => startVoltronHold(decrementVoltronToughness));
+        voltronEls.toughnessDown.addEventListener('mouseup', stopVoltronHold);
+        voltronEls.toughnessDown.addEventListener('mouseleave', stopVoltronHold);
+        voltronEls.toughnessDown.addEventListener('touchstart', (e) => { e.preventDefault(); decrementVoltronToughness(); startVoltronHold(decrementVoltronToughness); });
+        voltronEls.toughnessDown.addEventListener('touchend', stopVoltronHold);
+
+        // Editable P/T fields
+        function setupVoltronPTField(el, stateKey) {
+            el.addEventListener('focus', () => {
+                const range = document.createRange();
+                range.selectNodeContents(el);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            });
+
+            el.addEventListener('blur', () => {
+                const text = el.textContent.trim();
+                const newValue = parseInt(text, 10);
+
+                if (isNaN(newValue) || newValue < 0) {
+                    el.textContent = voltronState[stateKey];
+                    enchShakeElement(el);
+                    return;
+                }
+
+                voltronState[stateKey] = newValue;
+                el.textContent = newValue;
+            });
+
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                e.preventDefault();
+                    el.blur();
+                }
+            });
+
+            el.addEventListener('input', () => {
+                const text = el.textContent;
+                const cleaned = text.replace(/[^0-9]/g, '');
+                if (text !== cleaned) {
+                    el.textContent = cleaned;
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    range.collapse(false);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            });
+        }
+
+        setupVoltronPTField(voltronEls.power, 'power');
+        setupVoltronPTField(voltronEls.toughness, 'toughness');
+
+        // Keyword dropdown handler
+        voltronEls.keywordDropdown.addEventListener('change', (e) => {
+            const value = e.target.value;
+            if (!value) return;
+
+            const keywordId = voltronKeywordIdCounter++;
+            const keyword = {
+                id: keywordId,
+                type: value,
+                value: ''
+            };
+
+            voltronState.keywords.push(keyword);
+            renderVoltronKeywords();
+        });
+
+        function renderVoltronKeywords() {
+            voltronEls.keywordsList.innerHTML = '';
+
+            voltronState.keywords.forEach((keyword) => {
+                const badge = document.createElement('div');
+                badge.className = 'voltron-keyword-badge';
+                badge.dataset.keywordId = keyword.id;
+
+                const icon = document.createElement('span');
+                icon.className = 'voltron-keyword-icon';
+                icon.textContent = keywordIcons[keyword.type] || '';
+                badge.appendChild(icon);
+
+                const text = document.createElement('span');
+                text.className = 'voltron-keyword-text';
+
+                if (keyword.type === 'ward' || keyword.type === 'protection') {
+                    text.textContent = keywordNames[keyword.type] + ' ';
+                    badge.appendChild(text);
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'voltron-keyword-input';
+                    input.placeholder = keyword.type === 'ward' ? 'cost' : 'what?';
+                    input.value = keyword.value || '';
+                    input.addEventListener('input', (e) => {
+                        keyword.value = e.target.value;
+                    });
+                    input.addEventListener('click', (e) => e.stopPropagation());
+                    badge.appendChild(input);
+                } else {
+                    text.textContent = keywordNames[keyword.type];
+                    badge.appendChild(text);
+                }
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'voltron-keyword-remove';
+                removeBtn.textContent = '−';
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeVoltronKeyword(keyword.id);
+                });
+                badge.appendChild(removeBtn);
+
+                voltronEls.keywordsList.appendChild(badge);
+            });
+        }
+
+        function removeVoltronKeyword(id) {
+            voltronState.keywords = voltronState.keywords.filter(k => k.id !== id);
+            renderVoltronKeywords();
+        }
+
+        // Voltron Reset All
+        voltronEls.resetAll.addEventListener('click', () => {
+            resetVoltronState();
+            resetEnchantmentState();
+        });
+
+        function resetVoltronState() {
+            voltronState.power = 0;
+            voltronState.toughness = 0;
+            voltronState.keywords = [];
+            voltronKeywordIdCounter = 0;
+            updateVoltronPower();
+            updateVoltronToughness();
+            renderVoltronKeywords();
+            voltronEls.keywordDropdown.value = '';
+            // Remove lethal animation
+            const title = document.getElementById('enchantmentTitle');
+            if (title) title.classList.remove('lethal');
+        }
+
+        function resetEnchantmentState() {
+            enchState.commanderTax = 0;
+            enchState.field = 0;
+            enchState.control = 0;
+            enchState.auras = 0;
+            updateEnchCommanderTax();
+            updateEnchField();
+            updateEnchControl();
+            updateEnchAuras();
+        }
+
+        // Update enchantment Reset All to also reset Voltron
+        enchEls.resetAll.removeEventListener('click', enchEls.resetAll._handler);
+        enchEls.resetAll._handler = () => {
+            resetEnchantmentState();
+            resetVoltronState();
+        };
+        enchEls.resetAll.addEventListener('click', enchEls.resetAll._handler);
+
+        // ========== MODE SWITCHING WITH CONFIRMATION ==========
+
+        // Triple-tap handler to show confirmation modal
+        enchEls.settingsPanelTitle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsTapCount++;
+            
+            if (settingsTapCount === 3) {
+                settingsTapCount = 0;
+                clearTimeout(settingsTapTimeout);
+                // Show confirmation modal
+                voltronEls.modeSwitchModal.classList.add('visible');
+            } else {
+                clearTimeout(settingsTapTimeout);
+                settingsTapTimeout = setTimeout(() => {
+                    settingsTapCount = 0;
+                }, 500);
+            }
+        });
+
+        // Mode switch confirmation
+        voltronEls.modeSwitchConfirm.addEventListener('click', () => {
+            voltronEls.modeSwitchModal.classList.remove('visible');
+            resetAllAppState();
+            switchToEnchantmentMode();
+        });
+
+        voltronEls.modeSwitchCancel.addEventListener('click', () => {
+            voltronEls.modeSwitchModal.classList.remove('visible');
+        });
+
+        // Click outside modal to close
+        voltronEls.modeSwitchModal.addEventListener('click', (e) => {
+            if (e.target === voltronEls.modeSwitchModal) {
+                voltronEls.modeSwitchModal.classList.remove('visible');
+            }
+        });
+
+        // Reset all app state when switching modes
+        function resetAllAppState() {
+            // Reset coinflip state
+            state.commanderTax = 0;
+            state.history = [];
+            state.stats = {
+                wins: 0,
+                losses: 0,
+                longestWinStreak: 0,
+                longestLossStreak: 0,
+                currentWinStreak: 0,
+                currentLossStreak: 0
+            };
+            state.undoStack = [];
+            state.canUndo = false;
+            state.zndrspltTax = 0;
+            state.okaunTax = 0;
+            state.otherTax = 0;
+            
+            // Reset Okaun state
+            state.okauns = [{
+                power: 3n,
+                toughness: 3n,
+                basePower: 3n,
+                baseToughness: 3n,
+                plusXActive: false,
+                plusXPower: 1n,
+                plusXToughness: 1n
+            }];
+            state.currentOkaunIndex = 0;
+            
+            // Update UI
+            els.resultDisplay.textContent = '—';
+            els.resultDisplay.classList.remove('win', 'loss');
+            renderHistory();
+            els.undoFlipBtn.classList.remove('has-undo');
+            els.zndrspltNum.textContent = '+0';
+            els.okaunTaxNum.textContent = '+0';
+            els.otherTaxNum.textContent = '+0';
+            
+            // Reset enchantment state
+            resetEnchantmentState();
+            
+            // Reset voltron state
+            resetVoltronState();
+            voltronState.active = false;
+            voltronEls.modeSwitch.classList.remove('active');
+            enchEls.container.classList.remove('voltron-active');
+            
+            // Reset title
+            const title = document.getElementById('enchantmentTitle');
+            if (title) {
+                title.textContent = 'ENCHANTMENT TRACKER';
+                title.classList.remove('lethal');
+            }
+        }
+
+        // Update return to coinflip to also reset
+        enchEls.returnBtn.removeEventListener('click', enchEls.returnBtn._handler);
+        enchEls.returnBtn._handler = () => {
+            resetAllAppState();
+            switchToCoinflipMode();
+        };
+        enchEls.returnBtn.addEventListener('click', enchEls.returnBtn._handler);
     </script>
 </body>
 </html>
