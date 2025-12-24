@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTG Coin Flipper</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1296,11 +1296,17 @@
             background: #8cdb51;
         }
 
+        .tax-counter.other-tax {
+            background: #9b59b6;
+        }
+
         .tax-counter-label {
+            flex: 1;
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(1rem, 4vw, 1.2rem);
             color: var(--text-white);
             letter-spacing: 1px;
+            text-align: center;
         }
 
         .tax-counter-controls {
@@ -1369,7 +1375,7 @@
         }
 
         .close-btn::before {
-            content: '×';
+            content: '\00D7';
             display: block;
             line-height: 1;
         }
@@ -1403,6 +1409,8 @@
             letter-spacing: 2px;
             margin-bottom: 16px;
             text-align: center;
+            cursor: pointer;
+            user-select: none;
         }
 
         .settings-row {
@@ -1508,6 +1516,23 @@
 
         .settings-tax-btn.okaun.active {
             background: #8cdb51;
+        }
+
+        .settings-tax-btn.other {
+            background: #7a6b8a;
+        }
+
+        .settings-tax-btn.other.active {
+            background: #9b59b6;
+        }
+
+        .settings-tax-btn.flash-red {
+            animation: flashRedBtn 0.3s ease;
+        }
+
+        @keyframes flashRedBtn {
+            0%, 100% { background: inherit; }
+            50% { background: #ef4444; }
         }
 
         /* Okaun Words Overlay */
@@ -1737,6 +1762,440 @@
         .result-display.animate {
             animation: resultPop 0.3s ease;
         }
+
+        /* ========== ENCHANTMENT MODE STYLES ========== */
+        body.enchantment-mode {
+            background: linear-gradient(180deg, 
+                #ffffff 0%,
+                #f0fff0 15%,
+                #c8f7c8 35%,
+                #90ee90 55%,
+                #5cb85c 75%,
+                #3d8b3d 100%
+            );
+            padding: 16px;
+        }
+
+        .enchantment-container {
+            display: none;
+            width: 100%;
+            max-width: 400px;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        body.enchantment-mode .app-container {
+            display: none;
+        }
+
+        body.enchantment-mode .enchantment-container {
+            display: flex;
+        }
+
+        .enchantment-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.8rem, 6vw, 2.4rem);
+            color: var(--panel-dark);
+            text-align: center;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+
+        .ench-counter-panel {
+            background: var(--panel-dark);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ench-counter-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ench-counter-label {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            color: var(--text-white);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .ench-counter-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .ench-counter-content-left {
+            /* Empty spacer for grid layout balance */
+            display: block;
+        }
+
+        .ench-counter-content-right {
+            display: flex;
+            justify-content: center;
+        }
+
+        .ench-counter-reset-btn {
+            background: #992222;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .ench-counter-reset-btn:hover {
+            background: var(--accent-red);
+        }
+
+        .ench-counter-reset-btn:active {
+            transform: scale(0.95);
+        }
+
+        .ench-counter-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .ench-counter-value {
+            width: 100px;
+            height: 70px;
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 8vw, 3rem);
+            color: var(--text-white);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            cursor: text;
+        }
+
+        .ench-counter-value:focus {
+            background: var(--panel-light);
+        }
+
+        .ench-counter-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ench-counter-arrow {
+            background: var(--panel-dark);
+            border: 1px solid var(--panel-gray);
+            border-radius: 4px;
+            width: 32px;
+            height: 28px;
+            color: var(--text-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.15s ease;
+        }
+
+        .ench-counter-arrow:hover {
+            background: var(--panel-gray);
+        }
+
+        .ench-counter-arrow:active {
+            transform: scale(0.95);
+        }
+
+        /* Enchantment panel size variants */
+        .ench-field {
+            padding: 20px 20px;
+        }
+
+        .ench-field .ench-counter-value {
+            width: 120px;
+            height: 90px;
+            font-size: clamp(2.5rem, 10vw, 3.5rem);
+        }
+
+        .ench-field .ench-counter-arrow {
+            width: 36px;
+            height: 34px;
+            font-size: 16px;
+        }
+
+        .ench-field .ench-counter-arrows {
+            gap: 6px;
+        }
+
+        .ench-field .ench-counter-reset-btn {
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+
+        .ench-field .ench-counter-row {
+            gap: 10px;
+        }
+
+        .ench-field .ench-counter-label {
+            color: #90ee90;
+        }
+
+        .ench-control {
+            padding: 14px 20px;
+            gap: 8px;
+        }
+
+        .ench-control .ench-counter-value {
+            width: 90px;
+            height: 60px;
+            font-size: clamp(1.8rem, 7vw, 2.4rem);
+            border-radius: 10px;
+        }
+
+        .ench-control .ench-counter-arrow {
+            width: 30px;
+            height: 26px;
+            font-size: 13px;
+        }
+
+        .ench-control .ench-counter-arrows {
+            gap: 3px;
+        }
+
+        .ench-control .ench-counter-row {
+            gap: 6px;
+        }
+
+        .ench-control .ench-counter-label {
+            font-size: clamp(0.95rem, 3.5vw, 1.2rem);
+            color: #87ceeb;
+        }
+
+        .ench-control .ench-counter-reset-btn {
+            padding: 5px 10px;
+            font-size: 0.7rem;
+        }
+
+        .ench-auras {
+            padding: 10px 20px;
+            gap: 6px;
+        }
+
+        .ench-auras .ench-counter-value {
+            width: 70px;
+            height: 44px;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            border-radius: 8px;
+        }
+
+        .ench-auras .ench-counter-arrow {
+            width: 26px;
+            height: 20px;
+            font-size: 11px;
+        }
+
+        .ench-auras .ench-counter-arrows {
+            gap: 2px;
+        }
+
+        .ench-auras .ench-counter-row {
+            gap: 5px;
+        }
+
+        .ench-auras .ench-counter-label {
+            font-size: clamp(0.85rem, 3vw, 1rem);
+            color: #c9a0dc;
+        }
+
+        .ench-auras .ench-counter-reset-btn {
+            padding: 4px 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Enchantment Commander Tax */
+        .ench-commander-tax {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            gap: 12px;
+        }
+
+        .ench-commander-tax .ench-counter-label {
+            flex: 1;
+            font-size: clamp(1.2rem, 5vw, 1.8rem);
+            text-align: center;
+        }
+
+        .ench-commander-tax .ench-counter-row {
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .ench-commander-tax .ench-counter-value {
+            width: 70px;
+            height: 44px;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
+            border-radius: 8px;
+            background: transparent;
+            cursor: default;
+        }
+
+        .ench-commander-tax .ench-counter-arrow {
+            width: 28px;
+            height: 20px;
+            font-size: 11px;
+        }
+
+        /* Enchantment Reset All Button */
+        .ench-reset-btn {
+            background: var(--accent-red);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .ench-reset-btn:hover {
+            background: var(--accent-red-hover);
+            transform: scale(1.02);
+        }
+
+        .ench-reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Enchantment Bottom Bar */
+        .ench-bottom-bar {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ench-bottom-btn {
+            flex: 1;
+            background: var(--panel-dark);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(0.8rem, 3vw, 0.95rem);
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ench-bottom-btn:hover {
+            background: var(--panel-gray);
+            transform: scale(1.02);
+        }
+
+        /* Enchantment Settings Panel */
+        .ench-settings-panel {
+            display: none;
+            position: fixed;
+            background: var(--overlay-bg);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-white);
+            z-index: 999;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            min-width: 280px;
+            max-width: 320px;
+        }
+
+        .ench-settings-panel.visible {
+            display: block;
+        }
+
+        .ench-settings-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .ench-settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .ench-return-btn {
+            background: var(--panel-gray);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ench-return-btn:hover {
+            background: var(--panel-light);
+        }
+
+        .ench-flash-red {
+            animation: enchFlashRed 0.3s ease;
+        }
+
+        @keyframes enchFlashRed {
+            0%, 100% { color: var(--text-white); }
+            50% { color: #ef4444; }
+        }
+
+        .ench-shake {
+            animation: enchShake 0.4s ease;
+        }
+
+        @keyframes enchShake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        @media (max-height: 700px) {
+            .ench-counter-panel {
+                padding: 12px 16px;
+                gap: 8px;
+            }
+            
+            .ench-counter-value {
+                height: 55px;
+            }
+            
+            .enchantment-container {
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1780,7 +2239,7 @@
                         <div class="okaun-slide" data-okaun-index="0">
                             <div class="okaun-values">
                                 <div class="okaun-input-wrapper">
-                                    <div class="okaun-input" data-field="power" contenteditable="true" inputmode="numeric">3</div>
+                                    <div class="okaun-input" data-field="power" contenteditable="true">3</div>
                                     <div class="okaun-arrows">
                                         <button class="okaun-arrow" data-action="power-up">▲</button>
                                         <button class="okaun-arrow" data-action="power-down">▼</button>
@@ -1788,7 +2247,7 @@
                                 </div>
                                 <span class="okaun-divider">/</span>
                                 <div class="okaun-input-wrapper">
-                                    <div class="okaun-input" data-field="toughness" contenteditable="true" inputmode="numeric">3</div>
+                                    <div class="okaun-input" data-field="toughness" contenteditable="true">3</div>
                                     <div class="okaun-arrows">
                                         <button class="okaun-arrow" data-action="toughness-up">▲</button>
                                         <button class="okaun-arrow" data-action="toughness-down">▼</button>
@@ -1836,7 +2295,7 @@
                 </button>
                 <div class="coins-toggle" id="coinsToggle">
                     <div class="coins-num-wrapper">
-                        <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric">
+                        <input type="number" class="coins-num" id="coinsNum" value="5" min="1" max="999">
                         <div class="coins-arrows">
                             <button class="coins-arrow" id="coinsUp">▲</button>
                             <button class="coins-arrow" id="coinsDown">▼</button>
@@ -1871,6 +2330,16 @@
                     </div>
                 </div>
             </div>
+            <div class="tax-counter other-tax" id="otherTaxCounter" style="display: none;">
+                <span class="tax-counter-label">Commander Tax</span>
+                <div class="tax-counter-controls">
+                    <span class="tax-num" id="otherTaxNum">+0</span>
+                    <div class="tax-arrows">
+                        <button class="tax-arrow" id="otherTaxUp">▲</button>
+                        <button class="tax-arrow" id="otherTaxDown">▼</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Bottom Bar -->
@@ -1887,11 +2356,104 @@
         </div>
     </div>
 
+    <!-- Enchantment Mode Container -->
+    <div class="enchantment-container" id="enchantmentContainer">
+        <div class="enchantment-title">ENCHANTMENT TRACKER</div>
+
+        <!-- Enchantments on Field -->
+        <div class="ench-counter-panel ench-field">
+            <div class="ench-counter-header">
+                <div class="ench-counter-label">ENCHANTMENTS ON FIELD</div>
+            </div>
+            <div class="ench-counter-content">
+                <div class="ench-counter-content-left"></div>
+                <div class="ench-counter-row">
+                    <div class="ench-counter-value" id="enchFieldValue" contenteditable="true">0</div>
+                    <div class="ench-counter-arrows">
+                        <button class="ench-counter-arrow" id="enchFieldUp">▲</button>
+                        <button class="ench-counter-arrow" id="enchFieldDown">▼</button>
+                    </div>
+                </div>
+                <div class="ench-counter-content-right">
+                    <button class="ench-counter-reset-btn" id="enchFieldReset">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enchantments You Control -->
+        <div class="ench-counter-panel ench-control">
+            <div class="ench-counter-header">
+                <div class="ench-counter-label">ENCHANTMENTS YOU CONTROL</div>
+            </div>
+            <div class="ench-counter-content">
+                <div class="ench-counter-content-left"></div>
+                <div class="ench-counter-row">
+                    <div class="ench-counter-value" id="enchControlValue" contenteditable="true">0</div>
+                    <div class="ench-counter-arrows">
+                        <button class="ench-counter-arrow" id="enchControlUp">▲</button>
+                        <button class="ench-counter-arrow" id="enchControlDown">▼</button>
+                    </div>
+                </div>
+                <div class="ench-counter-content-right">
+                    <button class="ench-counter-reset-btn" id="enchControlReset">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auras You Control -->
+        <div class="ench-counter-panel ench-auras">
+            <div class="ench-counter-header">
+                <div class="ench-counter-label">AURAS YOU CONTROL</div>
+            </div>
+            <div class="ench-counter-content">
+                <div class="ench-counter-content-left"></div>
+                <div class="ench-counter-row">
+                    <div class="ench-counter-value" id="enchAurasValue" contenteditable="true">0</div>
+                    <div class="ench-counter-arrows">
+                        <button class="ench-counter-arrow" id="enchAurasUp">▲</button>
+                        <button class="ench-counter-arrow" id="enchAurasDown">▼</button>
+                    </div>
+                </div>
+                <div class="ench-counter-content-right">
+                    <button class="ench-counter-reset-btn" id="enchAurasReset">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commander Tax -->
+        <div class="ench-counter-panel ench-commander-tax">
+            <div class="ench-counter-label">COMMANDER TAX</div>
+            <div class="ench-counter-row">
+                <div class="ench-counter-value" id="enchCommanderTaxValue">+0</div>
+                <div class="ench-counter-arrows">
+                    <button class="ench-counter-arrow" id="enchCommanderTaxUp">▲</button>
+                    <button class="ench-counter-arrow" id="enchCommanderTaxDown">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reset All Button -->
+        <button class="ench-reset-btn" id="enchResetAll">RESET ALL</button>
+
+        <!-- Enchantment Bottom Bar -->
+        <div class="ench-bottom-bar">
+            <button class="ench-bottom-btn" id="enchExtrasBtn">Extras</button>
+        </div>
+    </div>
+
+    <!-- Enchantment Settings Panel -->
+    <div class="ench-settings-panel" id="enchSettingsPanel">
+        <button class="close-btn" id="enchSettingsClose"></button>
+        <div class="ench-settings-title">SETTINGS</div>
+        <div class="ench-settings-row">
+            <button class="ench-return-btn" id="enchReturnBtn">Return to Coinflip Mode</button>
+        </div>
+    </div>
 
     <!-- Settings Panel -->
     <div class="settings-panel" id="settingsPanel">
         <button class="close-btn" id="settingsClose"></button>
-        <div class="settings-panel-title">SETTINGS</div>
+        <div class="settings-panel-title" id="settingsPanelTitle">SETTINGS</div>
         <div class="settings-row">
             <span class="settings-label">Simple Mode</span>
             <div class="settings-switch" id="simpleModeSwitch"></div>
@@ -1911,6 +2473,7 @@
             <div class="settings-tax-toggles">
                 <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
                 <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
+                <button class="settings-tax-btn other" id="trackOtherBtn">Other</button>
             </div>
         </div>
     </div>
@@ -1923,7 +2486,7 @@
             <div class="okaun-options-row">
                 <span class="okaun-options-label">Number of Okauns</span>
                 <div class="okaun-options-counter">
-                    <span class="okaun-options-num" id="okaunCountNum">×1</span>
+                    <span class="okaun-options-num" id="okaunCountNum">&times;1</span>
                     <div class="okaun-options-arrows">
                         <button class="okaun-options-arrow" id="okaunCountUp">▲</button>
                         <button class="okaun-options-arrow" id="okaunCountDown">▼</button>
@@ -2224,8 +2787,10 @@
             trackTaxActive: false,
             trackZndrsplt: false,
             trackOkaun: false,
+            trackOther: false,
             zndrspltTax: 0,
             okaunTax: 0,
+            otherTax: 0,
             
             isFlipping: false,
             stopRequested: false,
@@ -2325,15 +2890,20 @@
             trackTaxOptionsRow: document.getElementById('trackTaxOptionsRow'),
             trackZndrspltBtn: document.getElementById('trackZndrspltBtn'),
             trackOkaunBtn: document.getElementById('trackOkaunBtn'),
+            trackOtherBtn: document.getElementById('trackOtherBtn'),
             taxCounters: document.getElementById('taxCounters'),
             zndrspltCounter: document.getElementById('zndrspltCounter'),
             okaunTaxCounter: document.getElementById('okaunTaxCounter'),
+            otherTaxCounter: document.getElementById('otherTaxCounter'),
             zndrspltNum: document.getElementById('zndrspltNum'),
             okaunTaxNum: document.getElementById('okaunTaxNum'),
+            otherTaxNum: document.getElementById('otherTaxNum'),
             zndrspltUp: document.getElementById('zndrspltUp'),
             zndrspltDown: document.getElementById('zndrspltDown'),
             okaunTaxUp: document.getElementById('okaunTaxUp'),
             okaunTaxDown: document.getElementById('okaunTaxDown'),
+            otherTaxUp: document.getElementById('otherTaxUp'),
+            otherTaxDown: document.getElementById('otherTaxDown'),
             statsBtn: document.getElementById('statsBtn'),
             htContainer: document.getElementById('htContainer'),
             htBtn: document.getElementById('htBtn'),
@@ -2507,7 +3077,7 @@
             }
             
             // Update options count display
-            els.okaunCountNum.textContent = '×' + numOkauns;
+            els.okaunCountNum.textContent = '\u00D7' + numOkauns;
         }
 
         function getCurrentOkaun() {
@@ -2539,7 +3109,7 @@
                 <div class="okaun-slide" data-okaun-index="${index}">
                     <div class="okaun-values">
                         <div class="okaun-input-wrapper">
-                            <div class="okaun-input" data-field="power" contenteditable="true" inputmode="numeric">3</div>
+                            <div class="okaun-input" data-field="power" contenteditable="true">3</div>
                             <div class="okaun-arrows">
                                 <button class="okaun-arrow" data-action="power-up">▲</button>
                                 <button class="okaun-arrow" data-action="power-down">▼</button>
@@ -2547,7 +3117,7 @@
                         </div>
                         <span class="okaun-divider">/</span>
                         <div class="okaun-input-wrapper">
-                            <div class="okaun-input" data-field="toughness" contenteditable="true" inputmode="numeric">3</div>
+                            <div class="okaun-input" data-field="toughness" contenteditable="true">3</div>
                             <div class="okaun-arrows">
                                 <button class="okaun-arrow" data-action="toughness-up">▲</button>
                                 <button class="okaun-arrow" data-action="toughness-down">▼</button>
@@ -3091,7 +3661,7 @@
                     }];
                     state.currentOkaunIndex = 0;
                     rebuildOkaunSlides();
-                    els.okaunCountNum.textContent = '×1';
+                    els.okaunCountNum.textContent = '\u00D71';
                     updateCarouselNavigation();
                 }
                 updateOkaunDisplay();
@@ -3120,7 +3690,7 @@
                 els.okaunPlusXPowerNum.textContent = okaun.plusXPower.toString();
                 els.okaunPlusXToughnessNum.textContent = okaun.plusXToughness.toString();
             }
-            els.okaunCountNum.textContent = '×' + state.okauns.length;
+            els.okaunCountNum.textContent = '\u00D7' + state.okauns.length;
             
             // Update reset button text based on Okaun count
             if (state.okauns.length === 1) {
@@ -3165,7 +3735,7 @@
                 state.currentOkaunIndex = 0;
             }
             addOkaunSlide(state.okauns.length - 1);
-            els.okaunCountNum.textContent = '×' + state.okauns.length;
+            els.okaunCountNum.textContent = '\u00D7' + state.okauns.length;
             updateCarouselNavigation();
             updateOkaunDisplay();
         });
@@ -3202,7 +3772,7 @@
             if (state.currentOkaunIndex >= state.okauns.length) {
                 state.currentOkaunIndex = Math.max(0, state.okauns.length - 1);
             }
-            els.okaunCountNum.textContent = '×' + state.okauns.length;
+            els.okaunCountNum.textContent = '\u00D7' + state.okauns.length;
             updateCarouselNavigation();
         }
 
@@ -3213,7 +3783,7 @@
             state.okauns = [];
             els.okaunCarouselTrack.innerHTML = '';
             state.currentOkaunIndex = 0;
-            els.okaunCountNum.textContent = '×0';
+            els.okaunCountNum.textContent = '\u00D70';
             updateCarouselNavigation();
             // Then collapse the panel
             toggleOkaun(false);
@@ -3593,14 +4163,30 @@
             if (!state.trackTaxActive) {
                 state.trackZndrsplt = false;
                 state.trackOkaun = false;
+                state.trackOther = false;
                 els.trackZndrspltBtn.classList.remove('active');
                 els.trackOkaunBtn.classList.remove('active');
+                els.trackOtherBtn.classList.remove('active');
                 updateTaxCountersVisibility();
             }
         });
 
+        function getActiveTrackCount() {
+            return (state.trackZndrsplt ? 1 : 0) + (state.trackOkaun ? 1 : 0) + (state.trackOther ? 1 : 0);
+        }
+
+        function flashTrackBtn(btn) {
+            btn.classList.add('flash-red');
+            setTimeout(() => btn.classList.remove('flash-red'), 300);
+        }
+
         els.trackZndrspltBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            // If trying to activate and already have 2 active, flash red
+            if (!state.trackZndrsplt && getActiveTrackCount() >= 2) {
+                flashTrackBtn(els.trackZndrspltBtn);
+                return;
+            }
             state.trackZndrsplt = !state.trackZndrsplt;
             els.trackZndrspltBtn.classList.toggle('active', state.trackZndrsplt);
             updateTaxCountersVisibility();
@@ -3608,16 +4194,34 @@
 
         els.trackOkaunBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            // If trying to activate and already have 2 active, flash red
+            if (!state.trackOkaun && getActiveTrackCount() >= 2) {
+                flashTrackBtn(els.trackOkaunBtn);
+                return;
+            }
             state.trackOkaun = !state.trackOkaun;
             els.trackOkaunBtn.classList.toggle('active', state.trackOkaun);
             updateTaxCountersVisibility();
         });
 
+        els.trackOtherBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // If trying to activate and already have 2 active, flash red
+            if (!state.trackOther && getActiveTrackCount() >= 2) {
+                flashTrackBtn(els.trackOtherBtn);
+                return;
+            }
+            state.trackOther = !state.trackOther;
+            els.trackOtherBtn.classList.toggle('active', state.trackOther);
+            updateTaxCountersVisibility();
+        });
+
         function updateTaxCountersVisibility() {
-            const showAny = state.trackZndrsplt || state.trackOkaun;
+            const showAny = state.trackZndrsplt || state.trackOkaun || state.trackOther;
             els.taxCounters.classList.toggle('visible', showAny);
             els.zndrspltCounter.style.display = state.trackZndrsplt ? 'flex' : 'none';
             els.okaunTaxCounter.style.display = state.trackOkaun ? 'flex' : 'none';
+            els.otherTaxCounter.style.display = state.trackOther ? 'flex' : 'none';
         }
 
         // Tax counter arrows
@@ -3652,6 +4256,23 @@
             } else {
                 els.okaunTaxNum.classList.add('flash-red');
                 setTimeout(() => els.okaunTaxNum.classList.remove('flash-red'), 300);
+            }
+        });
+
+        els.otherTaxUp.addEventListener('click', (e) => {
+            e.stopPropagation();
+            state.otherTax += 2;
+            els.otherTaxNum.textContent = '+' + state.otherTax;
+        });
+
+        els.otherTaxDown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (state.otherTax > 0) {
+                state.otherTax -= 2;
+                els.otherTaxNum.textContent = '+' + state.otherTax;
+            } else {
+                els.otherTaxNum.classList.add('flash-red');
+                setTimeout(() => els.otherTaxNum.classList.remove('flash-red'), 300);
             }
         });
         
@@ -3744,6 +4365,331 @@
         updateOkaunDisplay();
         updateCarouselNavigation();
         updateToggleButtonText();
+
+        // ========== ENCHANTMENT MODE ==========
+        
+        // Enchantment State
+        const enchState = {
+            commanderTax: 0,
+            field: 0,
+            control: 0,
+            auras: 0
+        };
+
+        // Enchantment Elements
+        const enchEls = {
+            container: document.getElementById('enchantmentContainer'),
+            fieldValue: document.getElementById('enchFieldValue'),
+            fieldUp: document.getElementById('enchFieldUp'),
+            fieldDown: document.getElementById('enchFieldDown'),
+            fieldReset: document.getElementById('enchFieldReset'),
+            controlValue: document.getElementById('enchControlValue'),
+            controlUp: document.getElementById('enchControlUp'),
+            controlDown: document.getElementById('enchControlDown'),
+            controlReset: document.getElementById('enchControlReset'),
+            aurasValue: document.getElementById('enchAurasValue'),
+            aurasUp: document.getElementById('enchAurasUp'),
+            aurasDown: document.getElementById('enchAurasDown'),
+            aurasReset: document.getElementById('enchAurasReset'),
+            commanderTaxValue: document.getElementById('enchCommanderTaxValue'),
+            commanderTaxUp: document.getElementById('enchCommanderTaxUp'),
+            commanderTaxDown: document.getElementById('enchCommanderTaxDown'),
+            resetAll: document.getElementById('enchResetAll'),
+            extrasBtn: document.getElementById('enchExtrasBtn'),
+            settingsPanel: document.getElementById('enchSettingsPanel'),
+            settingsClose: document.getElementById('enchSettingsClose'),
+            returnBtn: document.getElementById('enchReturnBtn'),
+            settingsPanelTitle: document.getElementById('settingsPanelTitle')
+        };
+
+        // Triple-tap detection for SETTINGS title
+        let settingsTapCount = 0;
+        let settingsTapTimeout = null;
+
+        enchEls.settingsPanelTitle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsTapCount++;
+            
+            if (settingsTapCount === 3) {
+                // Triple tap detected - switch to enchantment mode
+                settingsTapCount = 0;
+                clearTimeout(settingsTapTimeout);
+                switchToEnchantmentMode();
+            } else {
+                // Reset count after 500ms of no taps
+                clearTimeout(settingsTapTimeout);
+                settingsTapTimeout = setTimeout(() => {
+                    settingsTapCount = 0;
+                }, 500);
+            }
+        });
+
+        function switchToEnchantmentMode() {
+            // Close settings panel
+            els.settingsPanel.classList.remove('visible');
+            els.helpBtn.classList.remove('active');
+            // Switch to enchantment mode
+            document.body.classList.add('enchantment-mode');
+        }
+
+        function switchToCoinflipMode() {
+            // Close enchantment settings panel
+            enchEls.settingsPanel.classList.remove('visible');
+            // Switch back to coinflip mode
+            document.body.classList.remove('enchantment-mode');
+        }
+
+        // Enchantment update functions
+        function updateEnchCommanderTax() {
+            enchEls.commanderTaxValue.textContent = '+' + enchState.commanderTax;
+        }
+
+        function updateEnchField() {
+            enchEls.fieldValue.textContent = enchState.field;
+        }
+
+        function updateEnchControl() {
+            enchEls.controlValue.textContent = enchState.control;
+        }
+
+        function updateEnchAuras() {
+            enchEls.aurasValue.textContent = enchState.auras;
+        }
+
+        function enchFlashElement(el) {
+            el.classList.add('ench-flash-red');
+            setTimeout(() => el.classList.remove('ench-flash-red'), 300);
+        }
+
+        function enchShakeElement(el) {
+            el.classList.add('ench-shake');
+            el.classList.add('ench-flash-red');
+            setTimeout(() => {
+                el.classList.remove('ench-shake');
+                el.classList.remove('ench-flash-red');
+            }, 400);
+        }
+
+        // Enchantment Commander Tax handlers
+        enchEls.commanderTaxUp.addEventListener('click', () => {
+            enchState.commanderTax += 2;
+            updateEnchCommanderTax();
+        });
+
+        enchEls.commanderTaxDown.addEventListener('click', () => {
+            if (enchState.commanderTax >= 2) {
+                enchState.commanderTax -= 2;
+                updateEnchCommanderTax();
+            } else if (enchState.commanderTax === 1) {
+                enchState.commanderTax = 0;
+                updateEnchCommanderTax();
+            } else {
+                enchFlashElement(enchEls.commanderTaxValue);
+            }
+        });
+
+        // Field handlers
+        enchEls.fieldUp.addEventListener('click', () => {
+            enchState.field += 1;
+            updateEnchField();
+        });
+
+        enchEls.fieldDown.addEventListener('click', () => {
+            if (enchState.field > enchState.control) {
+                enchState.field -= 1;
+                updateEnchField();
+            } else {
+                enchFlashElement(enchEls.fieldValue);
+            }
+        });
+
+        enchEls.fieldReset.addEventListener('click', () => {
+            enchState.field = 0;
+            enchState.control = 0;
+            enchState.auras = 0;
+            updateEnchField();
+            updateEnchControl();
+            updateEnchAuras();
+        });
+
+        // Control handlers
+        enchEls.controlUp.addEventListener('click', () => {
+            enchState.control += 1;
+            enchState.field += 1;
+            updateEnchControl();
+            updateEnchField();
+        });
+
+        enchEls.controlDown.addEventListener('click', () => {
+            if (enchState.control > enchState.auras) {
+                enchState.control -= 1;
+                enchState.field = Math.max(0, enchState.field - 1);
+                updateEnchControl();
+                updateEnchField();
+            } else {
+                enchFlashElement(enchEls.controlValue);
+            }
+        });
+
+        enchEls.controlReset.addEventListener('click', () => {
+            enchState.field = Math.max(0, enchState.field - enchState.control);
+            enchState.control = 0;
+            enchState.auras = 0;
+            updateEnchControl();
+            updateEnchField();
+            updateEnchAuras();
+        });
+
+        // Auras handlers
+        enchEls.aurasUp.addEventListener('click', () => {
+            enchState.auras += 1;
+            enchState.control += 1;
+            enchState.field += 1;
+            updateEnchAuras();
+            updateEnchControl();
+            updateEnchField();
+        });
+
+        enchEls.aurasDown.addEventListener('click', () => {
+            if (enchState.auras > 0) {
+                enchState.auras -= 1;
+                enchState.control = Math.max(0, enchState.control - 1);
+                enchState.field = Math.max(0, enchState.field - 1);
+                updateEnchAuras();
+                updateEnchControl();
+                updateEnchField();
+            } else {
+                enchFlashElement(enchEls.aurasValue);
+            }
+        });
+
+        enchEls.aurasReset.addEventListener('click', () => {
+            enchState.control = Math.max(0, enchState.control - enchState.auras);
+            enchState.field = Math.max(0, enchState.field - enchState.auras);
+            enchState.auras = 0;
+            updateEnchAuras();
+            updateEnchControl();
+            updateEnchField();
+        });
+
+        // Reset All
+        enchEls.resetAll.addEventListener('click', () => {
+            enchState.commanderTax = 0;
+            enchState.field = 0;
+            enchState.control = 0;
+            enchState.auras = 0;
+            updateEnchCommanderTax();
+            updateEnchField();
+            updateEnchControl();
+            updateEnchAuras();
+        });
+
+        // Enchantment Extras button
+        enchEls.extrasBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isVisible = enchEls.settingsPanel.classList.contains('visible');
+            enchEls.settingsPanel.classList.toggle('visible', !isVisible);
+            
+            if (!isVisible) {
+                const rect = enchEls.extrasBtn.getBoundingClientRect();
+                enchEls.settingsPanel.style.bottom = (window.innerHeight - rect.top + 8) + 'px';
+                enchEls.settingsPanel.style.left = Math.max(10, rect.left - 50) + 'px';
+            }
+        });
+
+        enchEls.settingsClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            enchEls.settingsPanel.classList.remove('visible');
+        });
+
+        enchEls.returnBtn.addEventListener('click', () => {
+            switchToCoinflipMode();
+        });
+
+        // Close enchantment settings when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#enchExtrasBtn') && !e.target.closest('#enchSettingsPanel')) {
+                enchEls.settingsPanel.classList.remove('visible');
+            }
+        });
+
+        // Enchantment editable field handling
+        function setupEnchEditableField(el, stateKey, minValueGetter, onValidIncrease) {
+            let previousValue = enchState[stateKey];
+
+            el.addEventListener('focus', () => {
+                previousValue = enchState[stateKey];
+                const range = document.createRange();
+                range.selectNodeContents(el);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            });
+
+            el.addEventListener('blur', () => {
+                const text = el.textContent.trim();
+                const newValue = parseInt(text, 10);
+
+                if (isNaN(newValue) || newValue < 0) {
+                    enchState[stateKey] = previousValue;
+                    el.textContent = previousValue;
+                    enchShakeElement(el);
+                    return;
+                }
+
+                const minValue = minValueGetter();
+
+                if (newValue < minValue) {
+                    enchState[stateKey] = previousValue;
+                    el.textContent = previousValue;
+                    enchShakeElement(el);
+                    return;
+                }
+
+                const difference = newValue - previousValue;
+                enchState[stateKey] = newValue;
+
+                if (difference > 0 && onValidIncrease) {
+                    onValidIncrease(difference);
+                }
+
+                el.textContent = newValue;
+            });
+
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    el.blur();
+                }
+            });
+
+            el.addEventListener('input', () => {
+                const text = el.textContent;
+                const cleaned = text.replace(/[^0-9]/g, '');
+                if (text !== cleaned) {
+                    el.textContent = cleaned;
+                    const range = document.createRange();
+                    range.selectNodeContents(el);
+                    range.collapse(false);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            });
+        }
+
+        // Setup enchantment editable fields
+        setupEnchEditableField(enchEls.fieldValue, 'field', () => enchState.control, null);
+        setupEnchEditableField(enchEls.controlValue, 'control', () => enchState.auras, (diff) => {
+            enchState.field += diff;
+            updateEnchField();
+        });
+        setupEnchEditableField(enchEls.aurasValue, 'auras', () => 0, (diff) => {
+            enchState.control += diff;
+            enchState.field += diff;
+            updateEnchControl();
+            updateEnchField();
+        });
     </script>
 </body>
 </html>
