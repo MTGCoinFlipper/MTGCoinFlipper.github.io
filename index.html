@@ -3142,34 +3142,37 @@
             </div>
         </div>
     </div>
-
-    <!-- Settings Panel -->
-    <div class="settings-panel" id="settingsPanel">
-        <button class="close-btn" id="settingsClose"></button>
-        <div class="settings-panel-title" id="settingsPanelTitle">SETTINGS</div>
-        <div class="settings-row">
-            <span class="settings-label">Simple Mode</span>
-            <div class="settings-switch" id="simpleModeSwitch"></div>
-        </div>
-        <div class="settings-row">
-            <span class="settings-label">Voice</span>
-            <select class="settings-select" id="voiceSelect">
-                <option value="default">Default</option>
-            </select>
-        </div>
-        <div class="settings-row">
-            <span class="settings-label">Track Tax?</span>
-            <div class="settings-switch" id="trackTaxSwitch"></div>
-        </div>
-        <div class="settings-row" id="trackTaxOptionsRow" style="display: none;">
-            <span class="settings-label">Track</span>
-            <div class="settings-tax-toggles">
-                <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
-                <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
-                <button class="settings-tax-btn other" id="trackOtherBtn">Other</button>
-            </div>
+    
+<!-- Settings Panel -->
+<div class="settings-panel" id="settingsPanel">
+    <button class="close-btn" id="settingsClose"></button>
+    <div class="settings-panel-title" id="settingsPanelTitle">SETTINGS</div>
+    <div class="settings-row">
+        <span class="settings-label">Simple Mode</span>
+        <div class="settings-switch" id="simpleModeSwitch"></div>
+    </div>
+    <div class="settings-row">
+        <span class="settings-label">Voice</span>
+        <select class="settings-select" id="voiceSelect">
+            <option value="default">Default</option>
+        </select>
+    </div>
+    <div class="settings-row">
+        <span class="settings-label">Track Tax?</span>
+        <div class="settings-switch" id="trackTaxSwitch"></div>
+    </div>
+    <div class="settings-row" id="trackTaxOptionsRow" style="display: none;">
+        <span class="settings-label">Track</span>
+        <div class="settings-tax-toggles">
+            <button class="settings-tax-btn" id="trackZndrspltBtn">Zndrsplt</button>
+            <button class="settings-tax-btn okaun" id="trackOkaunBtn">Okaun</button>
+            <button class="settings-tax-btn other" id="trackOtherBtn">Other</button>
         </div>
     </div>
+    <div class="settings-row" style="justify-content: center; border-bottom: none; padding-top: 16px;">
+        <a href="https://ko-fi.com/mtgcoinflipper" target="_blank" rel="noopener" style="color: #00b9fe; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Glad this exists?</a>
+    </div>
+</div>
 
     <!-- Okaun Options Modal -->
     <div class="okaun-options-modal" id="okaunOptionsModal">
@@ -5892,13 +5895,7 @@
         });
     </script>
 
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('mtgcoinflipper', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support me',
-    'floating-chat.donateButton.background-color': '#00b9fe',
-    'floating-chat.donateButton.text-color': '#fff'
+
   });
 </script>
 
