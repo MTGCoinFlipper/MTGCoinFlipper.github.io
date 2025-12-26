@@ -1411,6 +1411,7 @@
             text-align: center;
             cursor: pointer;
             user-select: none;
+            touch-action: manipulation;
         }
 
         .settings-row {
@@ -5428,7 +5429,7 @@
         // ========== MODE SWITCHING WITH CONFIRMATION ==========
 
         // Triple-tap handler to show confirmation modal
-        enchEls.settingsPanelTitle.addEventListener('click', (e) => {
+        function handleSettingsTripleTap(e) {
             e.stopPropagation();
             settingsTapCount++;
             
@@ -5443,6 +5444,17 @@
                     settingsTapCount = 0;
                 }, 500);
             }
+        }
+        
+        // Desktop: use click
+        enchEls.settingsPanelTitle.addEventListener('click', handleSettingsTripleTap);
+        
+        // Mobile: use touchend directly (bypasses the document-level touchend preventDefault)
+        enchEls.settingsPanelTitle.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+            // Prevent the click event from also firing (avoid double-counting)
+            e.preventDefault();
+            handleSettingsTripleTap(e);
         });
 
         // Mode switch confirmation
