@@ -2255,6 +2255,45 @@
             display: flex;
         }
 
+        /* Voltron Commander Tax - Compact styling (about half height of regular counter panels) */
+        .voltron-commander-tax {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            gap: 10px;
+        }
+
+        .voltron-commander-tax .ench-counter-label {
+            flex: 1;
+            font-size: clamp(0.9rem, 4vw, 1.2rem);
+            text-align: center;
+        }
+
+        .voltron-commander-tax .ench-counter-row {
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .voltron-commander-tax .ench-counter-value {
+            width: 55px;
+            height: 28px;
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            border-radius: 6px;
+            background: transparent;
+            cursor: default;
+        }
+
+        .voltron-commander-tax .ench-counter-arrows {
+            gap: 2px;
+        }
+
+        .voltron-commander-tax .ench-counter-arrow {
+            width: 22px;
+            height: 14px;
+            font-size: 8px;
+        }
+
         .enchantment-container.voltron-active .voltron-mode-switch,
         .enchantment-container.voltron-active .voltron-reset-btn {
             display: block;
