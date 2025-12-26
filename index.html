@@ -2445,6 +2445,56 @@
             transform: scale(1.02);
         }
 
+        /* Mode Switch Panel Styles */
+        .mode-switch-panel {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        /* Enchantment mode - green panel */
+        .mode-switch-panel.ench-mode-switch {
+            background: var(--win-green);
+            color: var(--text-white);
+        }
+
+        .mode-switch-panel.ench-mode-switch:hover {
+            background: #3da03d;
+            transform: scale(1.02);
+        }
+
+        /* Voltron mode - white panel */
+        .mode-switch-panel.voltron-mode-switch {
+            background: #ffffff;
+            color: var(--panel-dark);
+        }
+
+        .mode-switch-panel.voltron-mode-switch:hover {
+            background: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+        /* Hide ench-mode-switch in voltron mode, show voltron-mode-switch */
+        .enchantment-container.voltron-active .mode-switch-panel.ench-mode-switch {
+            display: none;
+        }
+
+        .mode-switch-panel.voltron-mode-switch {
+            display: none;
+        }
+
+        .enchantment-container.voltron-active .mode-switch-panel.voltron-mode-switch {
+            display: block;
+        }
+
         /* Voltron toggle in settings */
         .ench-settings-toggle-row {
             display: flex;
@@ -2852,6 +2902,9 @@
             </div>
         </div>
 
+        <!-- Mode Switch Panel (Enchantment Mode) -->
+        <button class="mode-switch-panel ench-mode-switch" id="enchModeSwitch">Switch to Voltron Mode</button>
+
         <!-- Reset All Button -->
         <button class="ench-reset-btn" id="enchResetAll">RESET ALL</button>
 
@@ -2859,7 +2912,7 @@
         <div class="voltron-panel" id="voltronPanel">
             <div class="voltron-pt-container">
                 <div class="voltron-pt-wrapper">
-                    <div class="voltron-pt-input" id="voltronPower" contenteditable="true">0</div>
+                    <div class="voltron-pt-input" id="voltronPower" contenteditable="true">5</div>
                     <div class="voltron-pt-arrows">
                         <button class="voltron-pt-arrow" id="voltronPowerUp">▲</button>
                         <button class="voltron-pt-arrow" id="voltronPowerDown">▼</button>
@@ -2867,7 +2920,7 @@
                 </div>
                 <span class="voltron-divider">/</span>
                 <div class="voltron-pt-wrapper">
-                    <div class="voltron-pt-input" id="voltronToughness" contenteditable="true">0</div>
+                    <div class="voltron-pt-input" id="voltronToughness" contenteditable="true">5</div>
                     <div class="voltron-pt-arrows">
                         <button class="voltron-pt-arrow" id="voltronToughnessUp">▲</button>
                         <button class="voltron-pt-arrow" id="voltronToughnessDown">▼</button>
@@ -2896,6 +2949,8 @@
                 </select>
                 <div class="voltron-keywords-list" id="voltronKeywordsList"></div>
             </div>
+            <!-- Mode Switch Panel (Voltron Mode) -->
+            <button class="mode-switch-panel voltron-mode-switch" id="voltronModeSwitchPanel">Switch to Enchantment Tracking Mode</button>
             <button class="voltron-reset-btn" id="voltronResetAll">RESET ALL</button>
     </div>
 
@@ -2909,10 +2964,6 @@
     <div class="ench-settings-panel" id="enchSettingsPanel">
         <button class="close-btn" id="enchSettingsClose"></button>
         <div class="ench-settings-title">SETTINGS</div>
-        <div class="ench-settings-toggle-row">
-            <span class="ench-settings-label">Voltron Mode</span>
-            <div class="ench-settings-switch" id="voltronModeSwitch"></div>
-        </div>
         <div class="ench-settings-row">
             <button class="ench-return-btn" id="enchReturnBtn">Return to Coinflip Mode</button>
         </div>
@@ -5164,8 +5215,8 @@
         
         // Voltron State
         const voltronState = {
-            power: 0,
-            toughness: 0,
+            power: 5,
+            toughness: 5,
             keywords: [], // Array of { id, type, value (optional for ward/protection) }
             active: false
         };
@@ -5223,19 +5274,18 @@
             keywordDropdown: document.getElementById('voltronKeywordDropdown'),
             keywordsList: document.getElementById('voltronKeywordsList'),
             resetAll: document.getElementById('voltronResetAll'),
-            modeSwitch: document.getElementById('voltronModeSwitch'),
             modeSwitchModal: document.getElementById('modeSwitchModal'),
             modeSwitchConfirm: document.getElementById('modeSwitchConfirm'),
-            modeSwitchCancel: document.getElementById('modeSwitchCancel')
+            modeSwitchCancel: document.getElementById('modeSwitchCancel'),
+            enchModeSwitch: document.getElementById('enchModeSwitch'),
+            voltronModeSwitch: document.getElementById('voltronModeSwitchPanel')
         };
 
         // Voltron Mode Toggle
         const enchantmentTitle = document.getElementById('enchantmentTitle');
         
-        voltronEls.modeSwitch.addEventListener('click', (e) => {
-            e.stopPropagation();
+        function toggleVoltronMode() {
             voltronState.active = !voltronState.active;
-            voltronEls.modeSwitch.classList.toggle('active', voltronState.active);
             enchEls.container.classList.toggle('voltron-active', voltronState.active);
             
             // Update title text
@@ -5249,6 +5299,17 @@
                     enchantmentTitle.classList.remove('lethal');
                 }
             }
+        }
+
+        // Mode switch panel event listeners
+        voltronEls.enchModeSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleVoltronMode();
+        });
+
+        voltronEls.voltronModeSwitch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleVoltronMode();
         });
 
         // Voltron P/T Display
@@ -5476,8 +5537,8 @@
         });
 
         function resetVoltronState() {
-            voltronState.power = 0;
-            voltronState.toughness = 0;
+            voltronState.power = 5;
+            voltronState.toughness = 5;
             voltronState.keywords = [];
             voltronKeywordIdCounter = 0;
             updateVoltronPower();
