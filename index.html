@@ -2566,6 +2566,37 @@
         .mode-switch-btn.secondary:hover {
             background: var(--panel-light);
         }
+
+        /* Fix for mobile: prevent hover state from persisting after tap */
+        @media (hover: none) {
+            .okaun-arrow:hover,
+            .okaun-options-arrow:hover,
+            .okaun-plusx-arrow:hover,
+            .okaun-nav-arrow:hover,
+            .krark-arrow:hover,
+            .coins-arrow:hover,
+            .tax-arrow:hover,
+            .ench-counter-arrow:hover,
+            .voltron-pt-arrow:hover {
+                background: var(--panel-dark);
+            }
+        }
+
+        /* Active states for all arrow buttons (pressed state) */
+        .okaun-arrow:active,
+        .okaun-options-arrow:active,
+        .okaun-plusx-arrow:active,
+        .krark-arrow:active,
+        .tax-arrow:active,
+        .ench-counter-arrow:active,
+        .voltron-pt-arrow:active {
+            background: var(--panel-gray) !important;
+        }
+
+        .okaun-nav-arrow:active,
+        .coins-arrow:active {
+            background: var(--panel-light) !important;
+        }
     </style>
 </head>
 <body>
