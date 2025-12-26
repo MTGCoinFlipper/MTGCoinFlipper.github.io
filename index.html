@@ -2568,11 +2568,25 @@
         }
 
         /* Fix for mobile: prevent hover state from persisting after tap */
-        @media (hover: none) {
+        @media (pointer: coarse) {
+            /* Disable transitions on touch to prevent stuck states */
+            .okaun-arrow,
+            .okaun-options-arrow,
+            .okaun-plusx-arrow,
+            .okaun-nav-arrow,
+            .krark-arrow,
+            .coins-arrow,
+            .tax-arrow,
+            .ench-counter-arrow,
+            .voltron-pt-arrow {
+                transition: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* Reset hover to base backgrounds on touch devices */
             .okaun-arrow:hover,
             .okaun-options-arrow:hover,
             .okaun-plusx-arrow:hover,
-            .okaun-nav-arrow:hover,
             .krark-arrow:hover,
             .coins-arrow:hover,
             .tax-arrow:hover,
@@ -2580,22 +2594,26 @@
             .voltron-pt-arrow:hover {
                 background: var(--panel-dark);
             }
-        }
 
-        /* Active states for all arrow buttons (pressed state) */
-        .okaun-arrow:active,
-        .okaun-options-arrow:active,
-        .okaun-plusx-arrow:active,
-        .krark-arrow:active,
-        .tax-arrow:active,
-        .ench-counter-arrow:active,
-        .voltron-pt-arrow:active {
-            background: var(--panel-gray) !important;
-        }
+            .okaun-nav-arrow:hover {
+                background: var(--panel-gray);
+            }
 
-        .okaun-nav-arrow:active,
-        .coins-arrow:active {
-            background: var(--panel-light) !important;
+            /* Active states - only show while pressed */
+            .okaun-arrow:active,
+            .okaun-options-arrow:active,
+            .okaun-plusx-arrow:active,
+            .krark-arrow:active,
+            .tax-arrow:active,
+            .ench-counter-arrow:active,
+            .voltron-pt-arrow:active {
+                background: var(--panel-gray);
+            }
+
+            .okaun-nav-arrow:active,
+            .coins-arrow:active {
+                background: var(--panel-light);
+            }
         }
     </style>
 </head>
