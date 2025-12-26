@@ -2396,9 +2396,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 20px;
+            font-weight: 900;
             line-height: 1;
+            -webkit-text-stroke: 1px var(--accent-red);
             padding: 2px;
             transition: all 0.15s ease;
         }
@@ -5412,6 +5413,7 @@
 
             voltronState.keywords.push(keyword);
             renderVoltronKeywords();
+            voltronEls.keywordDropdown.value = ''; // Reset to "Add keyword..."
         });
 
         function renderVoltronKeywords() {
