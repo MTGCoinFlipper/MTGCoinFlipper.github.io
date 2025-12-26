@@ -15,6 +15,32 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Prevent double-tap-to-zoom on all interactive elements for fast consecutive taps */
+        button,
+        input,
+        select,
+        textarea,
+        a,
+        [role="button"],
+        .btn,
+        .settings-switch,
+        .toggle-btn,
+        .close-btn,
+        .okaun-btn,
+        .okaun-icon-btn,
+        .confirm-btn,
+        .flip-btn-container,
+        .undo-flip-btn,
+        .coins-control,
+        .voltron-control,
+        .ench-control,
+        .ench-btn,
+        .card-btn,
+        .settings-panel-title,
+        .ench-settings-title {
+            touch-action: manipulation;
+        }
+
         :root {
             --bg-gradient: linear-gradient(180deg, 
                 #2d5a27 0%, 
@@ -4753,7 +4779,12 @@
         document.addEventListener('touchend', (e) => {
             const now = Date.now();
             if (now - lastTouchEnd <= 300) {
-                e.preventDefault();
+                // Only prevent zoom on non-interactive elements (background areas)
+                // Interactive elements handle this via CSS touch-action: manipulation
+                const interactive = e.target.closest('button, input, select, textarea, a, [role="button"], .btn, .settings-switch, .toggle-btn, .close-btn, .okaun-btn, .okaun-icon-btn, .confirm-btn, .flip-btn-container, .undo-flip-btn, .coins-control, .voltron-control, .ench-control, .ench-btn, .card-btn, .settings-panel-title, .ench-settings-title');
+                if (!interactive) {
+                    e.preventDefault();
+                }
             }
             lastTouchEnd = now;
         }, false);
