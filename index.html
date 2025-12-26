@@ -1832,10 +1832,10 @@
         .ench-counter-panel {
             background: var(--panel-dark);
             border-radius: 16px;
-            padding: 16px 20px;
+            padding: 20px 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .ench-counter-header {
@@ -1846,7 +1846,7 @@
 
         .ench-counter-label {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
+            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
             color: var(--text-white);
             letter-spacing: 2px;
             text-align: center;
@@ -1897,13 +1897,13 @@
         }
 
         .ench-counter-value {
-            width: 100px;
-            height: 70px;
+            width: 110px;
+            height: 80px;
             background: var(--panel-gray);
             border: none;
             border-radius: 12px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2rem, 8vw, 3rem);
+            font-size: clamp(2.2rem, 9vw, 3.2rem);
             color: var(--text-white);
             text-align: center;
             display: flex;
@@ -2235,12 +2235,29 @@
         }
 
         .enchantment-container.voltron-active .ench-counter-panel,
-        .enchantment-container.voltron-active .ench-reset-btn {
+        .enchantment-container.voltron-active .ench-reset-btn,
+        .enchantment-container.voltron-active .ench-mode-switch {
             display: none;
         }
 
         .enchantment-container.voltron-active .voltron-panel {
             display: flex;
+        }
+
+        /* Voltron-only elements - hidden by default, shown in voltron mode */
+        .voltron-commander-tax,
+        .voltron-mode-switch,
+        .voltron-reset-btn {
+            display: none;
+        }
+
+        .enchantment-container.voltron-active .voltron-commander-tax {
+            display: flex;
+        }
+
+        .enchantment-container.voltron-active .voltron-mode-switch,
+        .enchantment-container.voltron-active .voltron-reset-btn {
+            display: block;
         }
 
         .enchantment-title.lethal {
@@ -2460,14 +2477,14 @@
             text-align: center;
         }
 
-        /* Enchantment mode - green panel */
+        /* Enchantment mode - black panel */
         .mode-switch-panel.ench-mode-switch {
-            background: var(--win-green);
+            background: var(--panel-dark);
             color: var(--text-white);
         }
 
         .mode-switch-panel.ench-mode-switch:hover {
-            background: #3da03d;
+            background: var(--panel-gray);
             transform: scale(1.02);
         }
 
@@ -2482,18 +2499,6 @@
             transform: scale(1.02);
         }
 
-        /* Hide ench-mode-switch in voltron mode, show voltron-mode-switch */
-        .enchantment-container.voltron-active .mode-switch-panel.ench-mode-switch {
-            display: none;
-        }
-
-        .mode-switch-panel.voltron-mode-switch {
-            display: none;
-        }
-
-        .enchantment-container.voltron-active .mode-switch-panel.voltron-mode-switch {
-            display: block;
-        }
 
         /* Voltron toggle in settings */
         .ench-settings-toggle-row {
@@ -2890,18 +2895,6 @@
             </div>
         </div>
 
-        <!-- Commander Tax -->
-        <div class="ench-counter-panel ench-commander-tax">
-            <div class="ench-counter-label">COMMANDER TAX</div>
-            <div class="ench-counter-row">
-                <div class="ench-counter-value" id="enchCommanderTaxValue">+0</div>
-                <div class="ench-counter-arrows">
-                    <button class="ench-counter-arrow" id="enchCommanderTaxUp">▲</button>
-                    <button class="ench-counter-arrow" id="enchCommanderTaxDown">▼</button>
-                </div>
-            </div>
-        </div>
-
         <!-- Mode Switch Panel (Enchantment Mode) -->
         <button class="mode-switch-panel ench-mode-switch" id="enchModeSwitch">Switch to Voltron Mode</button>
 
@@ -2949,10 +2942,25 @@
                 </select>
                 <div class="voltron-keywords-list" id="voltronKeywordsList"></div>
             </div>
-            <!-- Mode Switch Panel (Voltron Mode) -->
-            <button class="mode-switch-panel voltron-mode-switch" id="voltronModeSwitchPanel">Switch to Enchantment Tracking Mode</button>
-            <button class="voltron-reset-btn" id="voltronResetAll">RESET ALL</button>
-    </div>
+        </div>
+
+        <!-- Commander Tax (Voltron Mode Only) -->
+        <div class="ench-counter-panel voltron-commander-tax">
+            <div class="ench-counter-label">COMMANDER TAX</div>
+            <div class="ench-counter-row">
+                <div class="ench-counter-value" id="enchCommanderTaxValue">+0</div>
+                <div class="ench-counter-arrows">
+                    <button class="ench-counter-arrow" id="enchCommanderTaxUp">▲</button>
+                    <button class="ench-counter-arrow" id="enchCommanderTaxDown">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mode Switch Panel (Voltron Mode) -->
+        <button class="mode-switch-panel voltron-mode-switch" id="voltronModeSwitchPanel">Switch to Enchantment Tracking Mode</button>
+        
+        <!-- Reset All Button (Voltron Mode) -->
+        <button class="voltron-reset-btn" id="voltronResetAll">RESET ALL</button>
 
         <!-- Enchantment Bottom Bar -->
         <div class="ench-bottom-bar">
