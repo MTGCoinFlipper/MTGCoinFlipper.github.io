@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MTG Coin Flipper</title>
 
-<meta name="google-site-verification" content="YvXTh9CWZezWRcAxl1RdND3yQxOVNjM9ITfZegdnMQk" />
+<meta name="google-site-verification" content="YvXTh9CWZezWRcAxl1RdND3yQxOVNjM9ITfZegdnMQk">
     
 <!-- Basic SEO -->
 <meta name="description" content="Free online coin flipper for Magic: The Gathering. Perfect for Okaun, Eye of Chaos and Zndrsplt, Eye of Wisdom commander decks. Supports Krark's Thumb, tracks stats, win streaks, and commander tax.">
@@ -27,8 +25,8 @@
 <link rel="canonical" href="https://mtgcoinflipper.github.io/">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Outfit:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -2832,8 +2830,8 @@
     <div class="app-container">
         <!-- Result Display Panel -->
         <div class="result-panel">
-            <div class="result-display" id="resultDisplay">—</div>
-            <div class="history-bar" id="historyBar"></div>
+            <div class="result-display loss animate" id="resultDisplay">0/1 WINS</div>
+            <div class="history-bar" id="historyBar"><div class="history-item loss">✗</div><div class="history-item loss latest">✗</div></div>
         </div>
 
         <!-- Okaun Panel -->
@@ -2850,26 +2848,26 @@
                     <div class="okaun-icons">
                         <button class="okaun-icon-btn" id="speakerBtn" title="Read aloud">
                             <svg id="speakerIcon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
                             </svg>
                             <svg id="speakerMuteIcon" style="display:none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+                                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path>
                             </svg>
                         </button>
                         <button class="okaun-icon-btn" id="eyeBtn" title="View full numbers">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path>
                             </svg>
                         </button>
                         <button class="okaun-options-btn" id="okaunOptionsBtn" title="Options">⋮</button>
                     </div>
                 </div>
                 <div class="okaun-carousel-container">
-                    <div class="okaun-carousel-track" id="okaunCarouselTrack">
+                    <div class="okaun-carousel-track" id="okaunCarouselTrack" style="transform: translateX(0%);">
                         <div class="okaun-slide" data-okaun-index="0">
                             <div class="okaun-values">
                                 <div class="okaun-input-wrapper">
-                                    <div class="okaun-input" data-field="power" contenteditable="true">3</div>
+                                    <div class="okaun-input" data-field="power" contenteditable="true" style="font-size: 48px; font-family: &quot;Bebas Neue&quot;, sans-serif; font-weight: normal; word-break: normal; white-space: nowrap; line-height: normal;">3</div>
                                     <div class="okaun-arrows">
                                         <button class="okaun-arrow" data-action="power-up">▲</button>
                                         <button class="okaun-arrow" data-action="power-down">▼</button>
@@ -2877,7 +2875,7 @@
                                 </div>
                                 <span class="okaun-divider">/</span>
                                 <div class="okaun-input-wrapper">
-                                    <div class="okaun-input" data-field="toughness" contenteditable="true">3</div>
+                                    <div class="okaun-input" data-field="toughness" contenteditable="true" style="font-size: 48px; font-family: &quot;Bebas Neue&quot;, sans-serif; font-weight: normal; word-break: normal; white-space: nowrap; line-height: normal;">3</div>
                                     <div class="okaun-arrows">
                                         <button class="okaun-arrow" data-action="toughness-up">▲</button>
                                         <button class="okaun-arrow" data-action="toughness-down">▼</button>
@@ -2914,15 +2912,11 @@
         <div class="main-controls">
             <div class="flip-btn-container">
                 <button class="flip-btn" id="flipBtn">FLIP</button>
-                <button class="undo-flip-btn" id="undoFlipBtn">↩ Undo</button>
+                <button class="undo-flip-btn has-undo" id="undoFlipBtn">↩ Undo</button>
             </div>
             <div class="right-toggles">
-                <button class="toggle-btn" id="untilLoss">
-                    Until Loss?
-                </button>
-                <button class="toggle-btn" id="until2Losses">
-                    Until 2 Losses?
-                </button>
+                <button class="toggle-btn active" id="untilLoss">Until Loss!</button>
+                <button class="toggle-btn" id="until2Losses">Until 2 Losses?</button>
                 <div class="coins-toggle" id="coinsToggle">
                     <div class="coins-num-wrapper">
                         <input type="text" class="coins-num" id="coinsNum" value="5" inputmode="numeric" pattern="[0-9]*">
@@ -2931,9 +2925,7 @@
                             <button class="coins-arrow" id="coinsDown">▼</button>
                         </div>
                     </div>
-                    <button class="toggle-btn" id="coinsBtn">
-                        Coins?
-                    </button>
+                    <button class="toggle-btn" id="coinsBtn">Coins?</button>
                 </div>
             </div>
         </div>
@@ -3153,9 +3145,7 @@
     </div>
     <div class="settings-row">
         <span class="settings-label">Voice</span>
-        <select class="settings-select" id="voiceSelect">
-            <option value="default">Default</option>
-        </select>
+        <select class="settings-select" id="voiceSelect"><option value="default">Default</option><option value="system_0">Microsoft David - English (United States...</option><option value="system_1">Microsoft Mark - English (United States)...</option><option value="system_2">Microsoft Zira - English (United States)...</option><option value="system_3">Microsoft David Desktop - English (Unite...</option><option value="system_4">Microsoft Zira Desktop - English (United...</option></select>
     </div>
     <div class="settings-row">
         <span class="settings-label">Track Tax?</span>
@@ -3182,7 +3172,7 @@
             <div class="okaun-options-row">
                 <span class="okaun-options-label">Number of Okauns</span>
                 <div class="okaun-options-counter">
-                    <span class="okaun-options-num" id="okaunCountNum">&times;1</span>
+                    <span class="okaun-options-num" id="okaunCountNum">×1</span>
                     <div class="okaun-options-arrows">
                         <button class="okaun-options-arrow" id="okaunCountUp">▲</button>
                         <button class="okaun-options-arrow" id="okaunCountDown">▼</button>
@@ -5896,8 +5886,7 @@
     </script>
 
 
-  });
-</script>
 
-</body>
-</html>
+
+
+</body></html>
