@@ -126,7 +126,7 @@
             max-height: 850px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: min(8px, 1.5vh);
         }
 
         .result-panel {
@@ -977,9 +977,9 @@
 
         .main-controls {
             display: flex;
-            gap: 8px;
+            gap: min(8px, 2vw);
             flex: 1;
-            min-height: 180px;
+            min-height: min(180px, 25vh);
             transition: all 0.3s ease;
         }
 
@@ -1030,7 +1030,7 @@
             border: none;
             border-radius: 16px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(2.5rem, 10vw + 1rem, 5rem);
+            font-size: clamp(2rem, 5vh + 5vw, 5rem);
             color: #1a1a1a;
             cursor: pointer;
             transition: all 0.2s;
@@ -1122,27 +1122,30 @@
         .right-toggles {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: min(8px, 1.5vh);
             width: 45%;
             max-width: 180px;
+            min-width: 90px;
         }
 
         .toggle-btn {
             background: var(--panel-dark);
             border: none;
             border-radius: 12px;
-            padding: 12px;
+            padding: min(12px, 2vh) min(12px, 2vw);
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(0.75rem, 2vw + 0.5rem, 1.15rem);
+            font-size: clamp(0.65rem, 1.2vh + 1.2vw, 1.1rem);
             font-weight: 700;
             color: var(--text-white);
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-            flex: 1;
+            flex: 1 1 auto;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: min(44px, 6vh);
+            line-height: 1.15;
         }
 
         .toggle-btn.active {
