@@ -3447,8 +3447,14 @@
             return result;
         }
 
-        // State
-        const state = {
+// Utility function for temporary CSS classes
+function addTemporaryClass(element, className, duration = 300) {
+    element.classList.add(className);
+    setTimeout(() => element.classList.remove(className), duration);
+}
+
+// State
+const state = {
             // Multiple Okauns - each has: power, toughness, basePower, baseToughness, plusXActive, plusXPower, plusXToughness
             okauns: [{
                 power: 3n,
@@ -4633,8 +4639,7 @@
         els.krarkUp.addEventListener('click', (e) => {
             e.stopPropagation();
             if (state.krarkCount >= 8) {
-                els.krarkNum.classList.add('flash-red');
-                setTimeout(() => els.krarkNum.classList.remove('flash-red'), 300);
+                addTemporaryClass(els.krarkNum, 'flash-red');
                 return;
             }
             state.krarkCount++;
@@ -4691,8 +4696,7 @@
         
         function incrementCoins() {
             if (state.coinsCount >= 999) {
-                els.coinsNum.classList.add('flash-red');
-                setTimeout(() => els.coinsNum.classList.remove('flash-red'), 300);
+                addTemporaryClass(els.coinsNum, 'flash-red');
                 return false;
             }
             state.coinsCount++;
@@ -4702,8 +4706,7 @@
         
         function decrementCoins() {
             if (state.coinsCount <= 1) {
-                els.coinsNum.classList.add('flash-red');
-                setTimeout(() => els.coinsNum.classList.remove('flash-red'), 300);
+                addTemporaryClass(els.coinsNum, 'flash-red');
                 return false;
             }
             state.coinsCount--;
@@ -4926,7 +4929,7 @@
                 state.zndrspltTax -= 2;
                 els.zndrspltNum.textContent = '+' + state.zndrspltTax;
             } else {
-                els.zndrspltNum.classList.add('flash-red');
+                addTemporaryClass(els.zndrspltNum, 'flash-red');
                 setTimeout(() => els.zndrspltNum.classList.remove('flash-red'), 300);
             }
         });
@@ -4960,7 +4963,7 @@
                 state.otherTax -= 2;
                 els.otherTaxNum.textContent = '+' + state.otherTax;
             } else {
-                els.otherTaxNum.classList.add('flash-red');
+                addTemporaryClass(els.otherTaxNum, 'flash-red');
                 setTimeout(() => els.otherTaxNum.classList.remove('flash-red'), 300);
             }
         });
