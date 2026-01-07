@@ -3998,9 +3998,6 @@ const state = {
                 item.textContent = result ? '✓' : '✗';
             }
             
-            // Remove latest and sparkle classes from previous items in history array
-            state.history = state.history.map(h => h.replace(/\blatest\b/g, '').replace(/\bsparkle\b/g, '').replace(/\s+"/g, '"').replace(/class="\s+/g, 'class="'));
-            
             // Mark this as the latest item with sparkle
             item.classList.add('latest', 'sparkle');
             
@@ -4021,7 +4018,10 @@ const state = {
         }
 
         function renderHistory() {
-            els.historyBar.innerHTML = state.history.join('');
+    // Remove latest/sparkle classes when rendering
+    els.historyBar.innerHTML = state.history
+        .map(h => h.replace(/\s*(latest|sparkle)\s*/g, ''))
+        .join('');
         }
 
         function updateStats(isWin) {
@@ -5136,19 +5136,14 @@ const state = {
             enchEls.aurasValue.textContent = enchState.auras;
         }
 
-        function enchFlashElement(el) {
-            el.classList.add('ench-flash-red');
-            setTimeout(() => el.classList.remove('ench-flash-red'), 300);
-        }
-
-        function enchShakeElement(el) {
-            el.classList.add('ench-shake');
-            el.classList.add('ench-flash-red');
-            setTimeout(() => {
-                el.classList.remove('ench-shake');
-                el.classList.remove('ench-flash-red');
-            }, 400);
-        }
+        function enchFlashElement(el, shake = false) {
+    if (shake) {
+        addTemporaryClass(el, 'ench-shake', 400);
+        addTemporaryClass(el, 'ench-flash-red', 400);
+    } else {
+        addTemporaryClass(el, 'ench-flash-red', 300);
+    }
+}
 
         // Enchantment Commander Tax handlers
         enchEls.commanderTaxUp.addEventListener('click', () => {
@@ -5299,7 +5294,7 @@ const state = {
                 if (isNaN(newValue) || newValue < 0) {
                     enchState[stateKey] = previousValue;
                     el.textContent = previousValue;
-                    enchShakeElement(el);
+                    enchFlashElement(el, true);
                     return;
                 }
 
@@ -5308,7 +5303,7 @@ const state = {
                 if (newValue < minValue) {
                     enchState[stateKey] = previousValue;
                     el.textContent = previousValue;
-                    enchShakeElement(el);
+                    enchFlashElement(el, true)
                     return;
                 }
 
@@ -5628,7 +5623,7 @@ const state = {
 
                 if (isNaN(newValue) || newValue < 0) {
                     el.textContent = voltronState[stateKey];
-                    enchShakeElement(el);
+                    enchFlashElement(el, true)
                     return;
                 }
 
